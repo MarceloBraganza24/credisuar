@@ -1,4 +1,5 @@
 import {useState,useRef,useEffect} from 'react'
+import { Link } from 'react-router-dom';
 
 const Home = () => {
     const [showFAQ, setShowFAQ] = useState(false);
@@ -58,6 +59,13 @@ const Home = () => {
     return (
 
         <>
+
+            <div className='loginLinkContainer'>
+                <Link to={"/login"} className='loginLinkContainer__labelLogin'>
+                    Log In
+                </Link>
+                {/* <div className='loginLinkContainer__labelLogin'>Log In</div> */}
+            </div>
 
             <div class="homeContainer">
 
