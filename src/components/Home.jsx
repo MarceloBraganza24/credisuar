@@ -64,7 +64,6 @@ const Home = () => {
                 <Link to={"/login"} className='loginLinkContainer__labelLogin'>
                     Log In
                 </Link>
-                {/* <div className='loginLinkContainer__labelLogin'>Log In</div> */}
             </div>
 
             <div class="homeContainer">

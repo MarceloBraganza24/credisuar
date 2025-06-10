@@ -198,6 +198,37 @@ $site-color: linear-gradient(
     }
 }
 
+.contractsContainer{
+    background-image: url('/src/assets/fondo_home.webp');
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    &__title {
+        @include disfc();
+        margin-top: 10vh;
+        &__prop {
+            font-size: 60px;
+        }
+    }
+    &__headerTable {
+        background-color: #b8860b;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        margin-top: 25vh;
+        &__item {
+            text-align: center;
+            color: white;
+        }
+    }
+    &__contractsTable {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+}
+
 .homeContainer{
     background-image: url('/src/assets/fondo_home.webp');
     background-position: center;
