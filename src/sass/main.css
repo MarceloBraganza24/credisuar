@@ -5,7 +5,7 @@
 }
 
 .custom-toast .Toastify__progress-bar {
-  background-color: site-color !important;
+  background-color: #ffd700 !important;
 }
 
 .spinner {
@@ -263,6 +263,100 @@
 .contractsContainer__contractsTable__createContractContainer__btn__prop {
   width: 90%;
 }
+.contractsContainer__contractsTable__itemContractContainer {
+  width: 90%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  align-self: center;
+}
+.contractsContainer__contractsTable__itemContractContainer__input {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1vh 0vh;
+}
+.contractsContainer__contractsTable__itemContractContainer__input__prop {
+  width: 90%;
+  height: 30px;
+  border-radius: 0.5vh;
+  text-align: center;
+}
+.contractsContainer__contractsTable__itemContractContainer__input__propFile {
+  width: 50%;
+  height: 30px;
+  border-radius: 0.5vh;
+  text-align: center;
+}
+.contractsContainer__contractsTable__itemContractContainer__inputFile {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1vh 0vh;
+}
+.contractsContainer__contractsTable__itemContractContainer__inputFile__prop {
+  width: 90%;
+  height: 30px;
+  border-radius: 0.5vh;
+  text-align: center;
+  color: white;
+}
+.contractsContainer__contractsTable__itemContractContainer__btn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1vh 0vh;
+}
+.contractsContainer__contractsTable__itemContractContainer__btn__prop {
+  width: 90%;
+}
+
+.menuContainer {
+  position: absolute;
+  top: 10vh;
+  left: 10vh;
+}
+.menuContainer__arrow {
+  width: 30px;
+  background-color: black;
+  border-radius: 30vh;
+  font-size: 20px;
+  padding: 1vh 2vh;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  font-family: "Anton", sans-serif;
+  transition: transform 0.3s ease-in-out;
+}
+.menuContainer__arrow:hover {
+  transform: scale(1.1);
+}
+.menuContainer__menu {
+  width: 200px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  border-radius: 1vh;
+  padding-top: 2vh;
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.menuContainer__menu--active {
+  transform: translateX(0);
+  opacity: 1;
+}
+.menuContainer__menu__item {
+  color: white;
+  padding-left: 2vh;
+  font-size: 20px;
+  text-decoration: none;
+}
 
 .homeContainer {
   background-image: url("/src/assets/fondo_home.webp");
@@ -286,10 +380,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 6vh;
 }
 .homeContainer__titleImg__prop {
   width: 40%;
-  margin-top: 6vh;
 }
 .homeContainer__label {
   display: flex;

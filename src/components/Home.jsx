@@ -2,6 +2,7 @@ import {useState,useRef,useEffect} from 'react'
 import { Link } from 'react-router-dom';
 
 const Home = () => {
+    const [menuOptions, setMenuOptions] = useState(false);
     const [showFAQ, setShowFAQ] = useState(false);
     const [activeIndex, setActiveIndex] = useState(null);
     const faqRef = useRef(null);
@@ -56,6 +57,14 @@ const Home = () => {
         setShowSocialNetworks(prev => !prev);
     };
 
+    const btnShowMenuOptions = () => {
+        if(menuOptions) {
+            setMenuOptions(false)
+        } else {
+            setMenuOptions(true)
+        }
+    };
+
     return (
 
         <>
@@ -64,6 +73,18 @@ const Home = () => {
                 <Link to={"/login"} className='loginLinkContainer__labelLogin'>
                     Log In
                 </Link>
+            </div>
+
+            <div className='menuContainer'>
+                <div onClick={btnShowMenuOptions} className='menuContainer__arrow'>v</div>
+                <div className={`menuContainer__menu ${menuOptions ? 'menuContainer__menu--active' : ''}`}>
+                    <Link to={"/contracts"} className='menuContainer__menu__item'>
+                       - Home
+                    </Link>
+                    <Link to={"/contracts"} className='menuContainer__menu__item'>
+                       - Contratos
+                    </Link>
+                </div>
             </div>
 
             <div class="homeContainer">

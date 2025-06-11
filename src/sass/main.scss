@@ -21,7 +21,7 @@ $site-color: linear-gradient(
         );
 
 .custom-toast .Toastify__progress-bar {
-    background-color: site-color !important; 
+    background-color: #ffd700 !important; 
 }
 
 .spinner {
@@ -240,7 +240,6 @@ $site-color: linear-gradient(
         display: flex;
         flex-direction: column;
         &__createContractContainer {
-            //background-color: #ffd700;
             width: 90%;
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -265,6 +264,96 @@ $site-color: linear-gradient(
                 }
             }
         }
+        &__itemContractContainer {
+            width: 90%;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            align-self: center;
+            &__input {
+                width: 100%;
+                @include disfc();
+                padding: 1vh 0vh;
+                &__prop {
+                    width: 90%;
+                    height: 30px;
+                    border-radius: 0.5vh;
+                    text-align: center;
+                }
+                &__propFile {
+                    width: 50%;
+                    height: 30px;
+                    border-radius: 0.5vh;
+                    text-align: center;
+                }
+            }
+            &__inputFile {
+                width: 100%;
+                @include disfc();
+                //flex-direction: column;
+                padding: 1vh 0vh;
+                &__prop {
+                    width: 90%;
+                    height: 30px;
+                    border-radius: 0.5vh;
+                    text-align: center;
+                    color: white;
+                }
+            }
+            &__btn {
+                width: 100%;
+                @include disfc();
+                padding: 1vh 0vh;
+                &__prop {
+                    width: 90%;
+                }
+            }
+        }
+    }
+}
+
+.menuContainer {
+    position: absolute;
+    top: 10vh;
+    left: 10vh;
+    &__arrow {
+        width: 30px;
+        background-color: black;
+        border-radius: 30vh;
+        font-size: 20px;
+        padding: 1vh 2vh;
+        text-decoration: none;
+        cursor: pointer;
+        font-weight: bold;
+        color: white;
+        text-align: center;
+        font-family: 'Anton', sans-serif;
+        transition: transform 0.3s ease-in-out;
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+    &__menu {
+        width: 200px;
+        height: 100px;
+        display: flex;
+        flex-direction: column;
+        background-color: black;
+        border-radius: 1vh;
+        padding-top: 2vh;
+
+        transform: translateX(-100%);
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        &--active {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        &__item {
+            color: white;
+            padding-left: 2vh;
+            font-size: 20px;
+            text-decoration: none;
+        }
     }
 }
 
@@ -285,9 +374,9 @@ $site-color: linear-gradient(
     }
     &__titleImg {
         @include disfc();
+        margin-top: 6vh;
         &__prop {
             width: 40%;
-            margin-top: 6vh;
         }
     }
     &__label {
