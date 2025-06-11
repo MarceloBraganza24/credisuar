@@ -3,17 +3,29 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const Contracts = () => {
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedPdf, setSelectedPdf] = useState(null);
     const [menuOptions, setMenuOptions] = useState(false);
     const [contracts, setContracts] = useState([]);
     const [isLoadingContracts, setIsLoadingContracts] = useState(true);
-    console.log(contracts)
-    const [contractformData, setContractformData] = useState({
+    //console.log(contracts)
+    /* const [contractformData, setContractformData] = useState({
         first_name: '',
         last_name: '',
         dni: '',
         phoneNumber: '',
         contract_file: null,
         image_dni: null,
+    }); */
+    const [contractformData, setContractformData] = useState({
+        first_name: '',
+        last_name: '',
+        dni: '',
+        phoneNumber: '',
+        contract_file: null,
+        contract_file_preview: '',
+        image_dni: null,
+        image_dni_preview: ''
     });
 
     const handleInputChange = (e) => {
@@ -24,12 +36,31 @@ const Contracts = () => {
         });
     };
 
-    const handleFileChange = (e) => {
+    /* const handleFileChange = (e) => {
         const { name, files } = e.target;
         setContractformData({
             ...contractformData,
             [name]: files[0] // Suponiendo que solo se sube un archivo
         });
+    }; */
+    const handleFileChange = (e) => {
+        const { name, files } = e.target;
+        const file = files[0];
+
+        if (!file) return;
+
+        const updatedForm = {
+            ...contractformData,
+            [name]: file,
+        };
+
+        if (name === 'contract_file') {
+            updatedForm.contract_file_preview = file.name;
+        } else if (name === 'image_dni') {
+            updatedForm.image_dni_preview = URL.createObjectURL(file);
+        }
+
+        setContractformData(updatedForm);
     };
 
     const fetchContracts = async () => {
@@ -150,11 +181,6 @@ const Contracts = () => {
         setContracts(updatedContracts);
     };
 
-    /* const handleContractFileChange = (index, field, file) => {
-        const updatedContracts = [...contracts];
-        updatedContracts[index][field] = file; // archivo directamente
-        setContracts(updatedContracts);
-    }; */
     const handleContractFileChange = (index, field, file) => {
         const updatedContracts = [...contracts];
         updatedContracts[index][field] = file;
@@ -175,10 +201,14 @@ const Contracts = () => {
         const formData = new FormData();
 
         for (const key in updatedContract) {
-            if (updatedContract[key] instanceof File) {
-                formData.append(key, updatedContract[key]);
+            if (key.endsWith('_preview')) continue; // saltar previews
+
+            const value = updatedContract[key];
+
+            if (value instanceof File) {
+                formData.append(key, value);
             } else {
-                formData.append(key, updatedContract[key] ?? ''); // null-safe
+                formData.append(key, value ?? '');
             }
         }
 
@@ -189,14 +219,44 @@ const Contracts = () => {
             });
 
             if (response.ok) {
-                toast('Contrato actualizado con éxito!', { theme: "dark" });
+                toast(`Contrato actualizado con éxito!`, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    className: "custom-toast",
+                });
                 fetchContracts();
             } else {
-                toast('Error al actualizar contrato', { theme: "dark" });
+                toast(`Error al actualizar contrato!`, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    className: "custom-toast",
+                });
             }
         } catch (error) {
             console.error(error);
-            toast('Error de conexión al actualizar', { theme: "dark" });
+            toast(`Error de conexión al actualizar!`, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                className: "custom-toast",
+            });
         }
     };
     
@@ -270,9 +330,25 @@ const Contracts = () => {
                         </div>
                         <div className='contractsContainer__contractsTable__createContractContainer__input'>
                             <input onChange={handleFileChange} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="file" name="contract_file" accept=".pdf" required/>
+                            {contractformData.contract_file && (
+                            <p
+                                style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
+                                onClick={() => setSelectedPdf(URL.createObjectURL(contractformData.contract_file))}
+                            >
+                                Ver archivo
+                            </p>
+                            )}
                         </div>
                         <div className='contractsContainer__contractsTable__createContractContainer__input'>
                             <input onChange={handleFileChange} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="file" name="image_dni" accept="image/*" required/>
+                            {contractformData.image_dni && (
+                            <p
+                                style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
+                                onClick={() => setSelectedImage(contractformData.image_dni_preview)}
+                            >
+                                Ver imagen
+                            </p>
+                            )}
                         </div>
                         <div className='contractsContainer__contractsTable__createContractContainer__btn'>
                             <button className='contractsContainer__contractsTable__createContractContainer__btn__prop' onClick={handleBtnSubmitContract}>Crear Contrato</button>
@@ -321,21 +397,21 @@ const Contracts = () => {
                                     accept=".pdf"
                                     onChange={(e) => handleContractFileChange(index, 'contract_file', e.target.files[0])}
                                 />
-                                {contract.contract_file_preview ? (
-                                    // Si ya seleccionaste uno nuevo, mostramos su nombre
-                                    contract.contract_file instanceof File ? (
-                                        <p style={{color:'white'}}>Archivo seleccionado: {contract.contract_file_preview}</p>
-                                    ) : (
-                                        // Si viene del backend, mostramos el link
-                                        <a
-                                            href={`http://localhost:8081/${contract.contract_file}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Ver contrato
-                                        </a>
-                                    )
-                                ) : null}
+                                {contract.contract_file && (
+                                <p
+                                    style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
+                                    onClick={() => {
+                                    const isFile = contract.contract_file instanceof File;
+                                    const url = isFile
+                                        ? URL.createObjectURL(contract.contract_file)
+                                        : `http://localhost:8081/${contract.contract_file}`;
+                                    setSelectedPdf(url);
+                                    }}
+                                >
+                                    Ver contrato
+                                </p>
+                                )}
+
                             </div>
                             <div className="contractsContainer__contractsTable__itemContractContainer__inputFile">
                                 <input
@@ -345,21 +421,24 @@ const Contracts = () => {
                                     onChange={(e) => handleContractFileChange(index, 'dni_image', e.target.files[0])}
                                 />
                                 {contract.dni_image_preview ? (
-                                    <img
-                                        src={contract.dni_image_preview}
-                                        alt="Vista previa DNI"
-                                        style={{ width: '40px' }}
-                                    />
+                                <p
+                                    style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
+                                    onClick={() => setSelectedImage(contract.dni_image_preview)}
+                                >
+                                    Ver imagen
+                                </p>
                                 ) : contract.dni_image ? (
-                                    <a
-                                        href={`http://localhost:8081/${contract.dni_image}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        Ver DNI
-                                    </a>
+                                <p
+                                    style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
+                                    onClick={() => setSelectedImage(`http://localhost:8081/${contract.dni_image}`)}
+                                >
+                                    Ver imagen
+                                </p>
                                 ) : null}
-                            </div>
+
+                            </div>  
+
+
                             <div className="contractsContainer__contractsTable__itemContractContainer__btn">
                                 <button className='contractsContainer__contractsTable__itemContractContainer__btn__prop' onClick={() => handleSaveContract(contract._id, contract)}>Guardar</button>
                             </div>
@@ -368,7 +447,60 @@ const Contracts = () => {
 
                 </div>
 
+                <div className='contractsContainer__contractsTableBottom'></div>
+
             </div>
+
+            {selectedImage && (
+                <div
+                    onClick={() => setSelectedImage(null)}
+                    style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100vw',
+                    height: '100vh',
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    zIndex: 9999,
+                    cursor: 'pointer'
+                    }}
+                >
+                    <img
+                    src={selectedImage}
+                    alt="Imagen en grande"
+                    style={{ maxWidth: '90%', maxHeight: '90%', borderRadius: '10px' }}
+                    />
+                </div>
+            )}
+
+            {selectedPdf && (
+                <div
+                    onClick={() => setSelectedPdf(null)}
+                    style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100vw',
+                    height: '100vh',
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    zIndex: 9999
+                    }}
+                >
+                    <iframe
+                    src={selectedPdf}
+                    title="Contrato PDF"
+                    style={{ width: '80%', height: '90%', border: 'none', borderRadius: '10px' }}
+                    />
+                </div>
+            )}
+
+
 
         </>
     )

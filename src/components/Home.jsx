@@ -78,7 +78,7 @@ const Home = () => {
             <div className='menuContainer'>
                 <div onClick={btnShowMenuOptions} className='menuContainer__arrow'>v</div>
                 <div className={`menuContainer__menu ${menuOptions ? 'menuContainer__menu--active' : ''}`}>
-                    <Link to={"/contracts"} className='menuContainer__menu__item'>
+                    <Link to={"/"} className='menuContainer__menu__item'>
                        - Home
                     </Link>
                     <Link to={"/contracts"} className='menuContainer__menu__item'>
