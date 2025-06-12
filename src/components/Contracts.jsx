@@ -54,7 +54,7 @@ const Contracts = () => {
             [name]: files[0] // Suponiendo que solo se sube un archivo
         });
     }; */
-    const handleFileChange = (e) => {
+    /* const handleFileChange = (e) => {
         const { name, files } = e.target;
         const file = files[0];
 
@@ -72,7 +72,55 @@ const Contracts = () => {
         }
 
         setContractformData(updatedForm);
+    }; */
+    
+    const handleFileChange = (e) => {
+        const { name, files } = e.target;
+        const file = files[0];
+
+        if (!file) return;
+
+        // Validaciones por tipo de archivo
+        if (name === 'contract_file') {
+            const validContractTypes = [
+                'application/pdf',
+                'application/msword', // .doc
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document' // .docx
+            ];
+            if (!validContractTypes.includes(file.type)) {
+                toast('El archivo de contrato debe ser PDF o DOC/DOCX.', {
+                    position: 'top-right',
+                    autoClose: 3000,
+                });
+                return;
+            }
+        }
+
+        if (name === 'image_dni') {
+            const validImageTypes = ['image/jpeg', 'image/png'];
+            if (!validImageTypes.includes(file.type)) {
+                toast('La imagen del DNI debe ser JPG o PNG.', {
+                    position: 'top-right',
+                    autoClose: 3000,
+                });
+                return;
+            }
+        }
+
+        const updatedForm = {
+            ...contractformData,
+            [name]: file,
+        };
+
+        if (name === 'contract_file') {
+            updatedForm.contract_file_preview = file.name;
+        } else if (name === 'image_dni') {
+            updatedForm.image_dni_preview = URL.createObjectURL(file);
+        }
+
+        setContractformData(updatedForm);
     };
+
 
     const fetchContracts = async (page = 1, search = "",field = "") => {
         try {
@@ -125,6 +173,58 @@ const Contracts = () => {
     }, [pageInfo.page]);
 
     const handleBtnSubmitContract = async () => {
+        // Validación de campos vacíos
+        if (
+            !contractformData.first_name.trim() ||
+            !contractformData.last_name.trim() ||
+            !contractformData.dni.trim() ||
+            !contractformData.phoneNumber.trim() ||
+            !contractformData.contract_file ||
+            !contractformData.image_dni
+        ) {
+            toast('Por favor, completá todos los campos y cargá los archivos requeridos.', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: "dark",
+                className: "custom-toast",
+            });
+            return;
+        }
+
+         // Validar tipo de contrato (solo .pdf, .doc, .docx)
+        const validContractTypes = [
+            'application/pdf',
+            'application/msword', // .doc
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' // .docx
+        ];
+
+        if (!validContractTypes.includes(contractformData.contract_file.type)) {
+            toast('El archivo de contrato debe ser PDF, DOC o DOCX.', {
+                position: "top-right",
+                autoClose: 3000,
+                theme: "dark",
+                className: "custom-toast",
+            });
+            return;
+        }
+
+        // Validar imagen del DNI (solo .jpg, .jpeg, .png)
+        const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+
+        if (!validImageTypes.includes(contractformData.image_dni.type)) {
+            toast('La imagen del DNI debe ser JPG, JPEG o PNG.', {
+                position: "top-right",
+                autoClose: 3000,
+                theme: "dark",
+                className: "custom-toast",
+            });
+            return;
+        }
+        
         const formDataToSend = new FormData();
         formDataToSend.append('first_name', contractformData.first_name);
         formDataToSend.append('last_name', contractformData.last_name);
@@ -448,7 +548,7 @@ const Contracts = () => {
                             <input onChange={handleInputChange} value={contractformData.phoneNumber} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="text" name="phoneNumber" placeholder="Teléfono" required/>
                         </div>
                         <div className='contractsContainer__contractsTable__createContractContainer__input'>
-                            <input onChange={handleFileChange} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="file" name="contract_file" accept=".pdf" required/>
+                            <input onChange={handleFileChange} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="file" name="contract_file" accept=".pdf,.doc,.docx" required/>
                             {contractformData.contract_file && (
                             <p
                                 style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
@@ -459,7 +559,7 @@ const Contracts = () => {
                             )}
                         </div>
                         <div className='contractsContainer__contractsTable__createContractContainer__input'>
-                            <input onChange={handleFileChange} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="file" name="image_dni" accept="image/*" required/>
+                            <input onChange={handleFileChange} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="file" name="image_dni" accept=".jpg,.jpeg,.png"  required/>
                             {contractformData.image_dni && (
                             <p
                                 style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
