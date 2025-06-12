@@ -43,7 +43,7 @@ const SignIn = () => {
         return true;
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async () => {
         const date = new Date();
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -52,10 +52,11 @@ const SignIn = () => {
         const minutes = String(date.getMinutes()).padStart(2, '0');
         const currentDate = `${year}-${month}-${day} ${hours}:${minutes}`;
         const user_datetime = currentDate;
-        e.preventDefault();
+        
         if (!validateForm()) return;
+
         try {
-            const response = await fetch(`http://localhost:8081/api/sessions/singIn`, {
+            const response = await fetch(`http://localhost:8081/api/sessions/signIn`, {
                 method: 'POST',         
                 headers: {
                     'Content-Type': 'application/json',

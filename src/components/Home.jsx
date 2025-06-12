@@ -7,6 +7,7 @@ const Home = () => {
     const [activeIndex, setActiveIndex] = useState(null);
     const faqRef = useRef(null);
     const whoWeAreRef = useRef(null);
+    const [user, setUser] = useState('');
 
     const [showSocialNetworks, setShowSocialNetworks] = useState(false);
     const socialRef = useRef(null);
@@ -44,7 +45,7 @@ const Home = () => {
             }, 100); // Delay de 100ms, ajustable
         }
     }, [showFAQ, activeIndex]);
-
+    
     const toggleQuestion = (index) => {
         setActiveIndex(prev => (prev === index ? null : index));
     };
@@ -65,6 +66,30 @@ const Home = () => {
         }
     };
 
+    const fetchCurrentUser = async () => {
+        try {
+            const response = await fetch('http://localhost:8081/api/sessions/current', {
+                method: 'GET',
+                credentials: 'include', // MUY IMPORTANTE para enviar cookies
+            });
+            const data = await response.json();
+            if(data.error === 'jwt must be provided') { 
+                console.log('jwt must be provided')
+            } else {
+                const user = data.data;
+                if(user) {
+                    setUser(user)
+                }
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchCurrentUser();
+    }, []);
+
     return (
 
         <>
@@ -75,17 +100,20 @@ const Home = () => {
                 </Link>
             </div>
 
-            <div className='menuContainer'>
-                <div onClick={btnShowMenuOptions} className='menuContainer__arrow'>v</div>
-                <div className={`menuContainer__menu ${menuOptions ? 'menuContainer__menu--active' : ''}`}>
-                    <Link to={"/"} className='menuContainer__menu__item'>
-                       - Home
-                    </Link>
-                    <Link to={"/contracts"} className='menuContainer__menu__item'>
-                       - Contratos
-                    </Link>
+            {
+                user.role == 'admin' &&
+                <div className='menuContainer'>
+                    <div onClick={btnShowMenuOptions} className='menuContainer__arrow'>v</div>
+                    <div className={`menuContainer__menu ${menuOptions ? 'menuContainer__menu--active' : ''}`}>
+                        <Link to={"/"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
+                        - Home
+                        </Link>
+                        <Link to={"/contracts"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
+                        - Contratos
+                        </Link>
+                    </div>
                 </div>
-            </div>
+            }
 
             <div class="homeContainer">
 
