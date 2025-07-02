@@ -1,7 +1,7 @@
 import {useState,useRef,useEffect} from 'react'
 import { Link } from 'react-router-dom';
 
-const Home = () => {
+const Home = ({ openChatbot }) => {
     const [menuOptions, setMenuOptions] = useState(false);
     const [showFAQ, setShowFAQ] = useState(false);
     const [activeIndex, setActiveIndex] = useState(null);
@@ -132,11 +132,11 @@ const Home = () => {
                 <div class="homeContainer__btnLogoWhap">
 
                     <div class="homeContainer__btnLogoWhap__btn">
-                        <button class="homeContainer__btnLogoWhap__btn__prop">Solicitar ahora</button>
+                        <button onClick={openChatbot} class="homeContainer__btnLogoWhap__btn__prop">Solicitar ahora</button>
                     </div>
 
                     <div class="homeContainer__btnLogoWhap__logoWhap">
-                        <img class="homeContainer__btnLogoWhap__logoWhap__prop" src="/src/assets/logo_whap.webp" alt="logo_whatsapp"/>
+                        <img onClick={openChatbot} class="homeContainer__btnLogoWhap__logoWhap__prop" src="/src/assets/logo_whap.webp" alt="logo_whatsapp"/>
                     </div>
 
                 </div>
@@ -216,39 +216,37 @@ const Home = () => {
 
                     <div
                         ref={socialRef}
-                        className={`linksContainer__items__socialNetworksContainer ${
-                            showSocialNetworks ? 'open' : ''
-                        }`}
+                        className='linksContainer__items__socialNetworksContainer'
                     >
                         <div className="linksContainer__items__socialNetworksContainer__socialNetworks">
-                            <div className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork">
+                            <a href='https://wa.me/5492926507044' target="_blank" className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork">
                                 <img
                                 className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork__prop"
                                 src="/src/assets/logo_whap_network.webp"
                                 alt="logo_whap_network"
                                 />
-                            </div>
-                            <div className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork">
+                            </a>
+                            <a href='https://www.instagram.com/credisuar?igsh=MTNveWZoaHM0aDJ6Nw==' target="_blank" className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork">
                                 <img
                                 className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork__prop"
                                 src="/src/assets/logo_insta_network.webp"
                                 alt="logo_insta_network"
                                 />
-                            </div>
-                            <div className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork">
+                            </a>
+                            <a href='https://www.facebook.com/share/16pA7LVa3n/?mibextid=wwXIfr' target="_blank" className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork">
                                 <img
                                 className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork__prop"
                                 src="/src/assets/logo_face_network.webp"
                                 alt="logo_face_network"
                                 />
-                            </div>
-                            <div className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork">
+                            </a>
+                            <a href='https://www.tiktok.com/' target="_blank" className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork">
                                 <img
                                 className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork__prop"
                                 src="/src/assets/logo_tiktok_network.webp"
                                 alt="logo_tiktok_network"
                                 />
-                            </div>
+                            </a>
                         </div>
                     </div>
 

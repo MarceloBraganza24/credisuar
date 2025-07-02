@@ -125,9 +125,9 @@ const Login = () => {
 
                         <div className='loginContainer__formContainer__form__btn'>
                             <button onClick={handleSubmit} className='loginContainer__formContainer__form__btn__prop'>Iniciar sesión</button>
-                            <Link to={"/signIn"} className='loginContainer__formContainer__form__btn__prop'>
+                            {/* <Link to={"/signIn"} className='loginContainer__formContainer__form__btn__prop'>
                                 Registrarse
-                            </Link>
+                            </Link> */}
                         </div>
 
                     </div>

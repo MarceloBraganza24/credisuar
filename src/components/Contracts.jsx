@@ -46,33 +46,6 @@ const Contracts = () => {
             [name]: value
         });
     };
-
-    /* const handleFileChange = (e) => {
-        const { name, files } = e.target;
-        setContractformData({
-            ...contractformData,
-            [name]: files[0] // Suponiendo que solo se sube un archivo
-        });
-    }; */
-    /* const handleFileChange = (e) => {
-        const { name, files } = e.target;
-        const file = files[0];
-
-        if (!file) return;
-
-        const updatedForm = {
-            ...contractformData,
-            [name]: file,
-        };
-
-        if (name === 'contract_file') {
-            updatedForm.contract_file_preview = file.name;
-        } else if (name === 'image_dni') {
-            updatedForm.image_dni_preview = URL.createObjectURL(file);
-        }
-
-        setContractformData(updatedForm);
-    }; */
     
     const handleFileChange = (e) => {
         const { name, files } = e.target;
@@ -464,11 +437,11 @@ const Contracts = () => {
 
     useEffect(() => {
         const delay = setTimeout(() => {
-            fetchContracts(1, inputFilteredContracts, selectedField);
+            fetchContracts(1, inputFilteredContracts, 'all');
         }, 300); // debounce
 
         return () => clearTimeout(delay);
-    }, [inputFilteredContracts, selectedField]);
+    }, [inputFilteredContracts]);
 
     const handleInputFilteredContracts = (e) => {
         const value = e.target.value;
@@ -504,7 +477,7 @@ const Contracts = () => {
                 <div className='contractsContainer__subTitle'>Buscar contratos</div>
 
                 <div className='contractsContainer__inputSearchProduct'>
-                    <div className='contractsContainer__inputSearchProduct__selectContainer'>
+                    {/* <div className='contractsContainer__inputSearchProduct__selectContainer'>
                         <div>Buscar por:</div>
                         <select
                             className='contractsContainer__inputSearchProduct__selectContainer__select'
@@ -515,9 +488,9 @@ const Contracts = () => {
                                 <option key={key} value={key}>{label}</option>
                             ))}
                         </select>
-                    </div>
+                    </div> */}
                     <div className='contractsContainer__inputSearchProduct__inputContainer'>
-                        <input type="text" onChange={handleInputFilteredContracts} value={inputFilteredContracts} placeholder={`Buscar por ${fieldLabels[selectedField]}`} className='contractsContainer__inputSearchProduct__inputContainer__input' name="" id="" />
+                        <input type="text" onChange={handleInputFilteredContracts} value={inputFilteredContracts} placeholder={`Buscar contrato`} className='contractsContainer__inputSearchProduct__inputContainer__input' name="" id="" />
                     </div>
                 </div>
 
