@@ -99,6 +99,14 @@ const Home = ({ openChatbot }) => {
                     Log In
                 </Link>
             </div>
+            {/* {
+                user.role == 'admin' &&
+                <div className='loginLinkContainer'>
+                    <Link to={"/login"} className='loginLinkContainer__labelLogin'>
+                        Log In
+                    </Link>
+                </div>
+            } */}
 
             {
                 user.role == 'admin' &&
@@ -110,6 +118,9 @@ const Home = ({ openChatbot }) => {
                         </Link>
                         <Link to={"/contracts"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
                         - Contratos
+                        </Link>
+                        <Link to={"/bin"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
+                            - Papelera
                         </Link>
                     </div>
                 </div>

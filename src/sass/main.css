@@ -190,6 +190,279 @@
   color: white;
 }
 
+.binContainer {
+  background-image: url("/src/assets/fondo_home.webp");
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.binContainer__title {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 35vh 0vh 2vh 0vh;
+}
+.binContainer__title__prop {
+  font-size: 40px;
+  color: white;
+}
+.binContainer__subTitle {
+  width: 100%;
+  display: flex;
+  padding: 2vh 0vh;
+}
+.binContainer__subTitle__prop {
+  font-size: 25px;
+  color: white;
+  padding-left: 6vh;
+}
+.binContainer__quantityContracts {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr;
+  padding: 0vh 0vh 2vh 0vh;
+}
+.binContainer__quantityContracts__prop {
+  font-size: 18px;
+  text-align: center;
+}
+.binContainer__quantityContracts__massDeleteBtnContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1vh;
+}
+.binContainer__massDeleteBtnContainer {
+  display: flex;
+  gap: 4vh;
+  padding: 0vh 0vh 2vh 4vh;
+}
+.binContainer__massDeleteBtnContainer__btn {
+  padding: 0.5vh 1vh;
+  border-radius: 0.5vh;
+  text-align: center;
+  cursor: pointer;
+}
+.binContainer__headerTableContainer {
+  background-color: whitesmoke;
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  border-top-left-radius: 0.5vh;
+  border-top-right-radius: 0.5vh;
+}
+.binContainer__headerTableContainer__headerTable {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 0.5fr 1fr 1.5fr;
+  border-bottom: 0.3vh solid #d6d5d5;
+  padding: 2vh 0vh;
+}
+.binContainer__headerTableContainer__headerTable__item {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+.binContainer__contractsTable {
+  background-color: whitesmoke;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  margin-bottom: 4vh;
+  border-bottom-left-radius: 0.5vh;
+  border-bottom-right-radius: 0.5vh;
+  padding: 2vh 4vh;
+}
+.binContainer__contractsTable__itemContainer {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 0.5fr 1fr 1.5fr;
+  border-bottom: 0.3vh solid #d6d5d5;
+  padding: 1vh 0vh;
+}
+.binContainer__contractsTable__itemContainer__item {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.binContainer__contractsTable__itemContainer__item__img {
+  width: 60px;
+  height: 50px;
+}
+.binContainer__contractsTable__itemContainer__item__label {
+  text-align: center;
+  font-size: 16px;
+}
+.binContainer__contractsTable__itemContainer__item__labelLong {
+  text-align: center;
+  font-size: 14px;
+}
+.binContainer__contractsTable__itemContainer__item__description {
+  text-align: center;
+  font-size: 12px;
+}
+.binContainer__contractsTable__itemContainer__btnsContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.binContainer__contractsTable__itemContainer__btnsContainer__btn {
+  padding: 0.5vh 1vh;
+  border-radius: 0.5vh;
+  text-align: center;
+  cursor: pointer;
+}
+.binContainer__headerSalesTableContainer {
+  background-color: whitesmoke;
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  border-top-left-radius: 0.5vh;
+  border-top-right-radius: 0.5vh;
+}
+.binContainer__headerSalesTableContainer__headerTable {
+  width: 95%;
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 1fr 1.5fr 1fr 1fr 1fr 1.5fr;
+  border-bottom: 0.3vh solid #d6d5d5;
+  padding: 2vh 0vh;
+}
+.binContainer__headerSalesTableContainer__headerTable__item {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+.binContainer__salesTable {
+  background-color: whitesmoke;
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  gap: 0.5vh;
+}
+.binContainer__salesTable__dayContainer {
+  background-color: rgb(214, 213, 213);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2vh 0vh;
+}
+.binContainer__salesTable__itemContainer {
+  width: 95%;
+  display: grid;
+  align-self: center;
+  grid-template-columns: 0.5fr 1fr 1fr 1.5fr 1fr 1fr 1fr 1.5fr;
+  padding: 1vh 0vh;
+  border-radius: 1vh;
+}
+.binContainer__salesTable__itemContainer__item {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.binContainer__salesTable__itemContainer__item__img {
+  width: 60px;
+  height: 50px;
+}
+.binContainer__salesTable__itemContainer__item__label {
+  text-align: center;
+  font-size: 16px;
+}
+.binContainer__salesTable__itemContainer__item__labelLong {
+  text-align: center;
+  font-size: 14px;
+}
+.binContainer__salesTable__itemContainer__itemEllipsis {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.binContainer__salesTable__itemContainer__itemEllipsis::-webkit-scrollbar {
+  display: none; /* Oculta la barra de desplazamiento */
+}
+.binContainer__salesTable__itemContainer__itemEllipsis__item {
+  display: inline-block;
+  font-size: 16px;
+}
+.binContainer__salesTable__itemContainer__itemProduct {
+  width: 100%;
+}
+.binContainer__salesTable__itemContainer__itemProduct__products {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.5vh;
+}
+.binContainer__salesTable__itemContainer__itemProduct__products__productLine {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 3fr 1fr 2fr;
+  cursor: pointer;
+}
+.binContainer__salesTable__itemContainer__itemProduct__products__productLine__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.binContainer__salesTable__itemContainer__itemProduct__products__productLine__title::-webkit-scrollbar {
+  display: none; /* Oculta la barra de desplazamiento */
+}
+.binContainer__salesTable__itemContainer__itemProduct__products__productLine__title__prop {
+  display: inline-block;
+  font-size: 16px;
+}
+.binContainer__salesTable__itemContainer__itemProduct__products__productLine__img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.binContainer__salesTable__itemContainer__itemProduct__products__productLine__img__prop {
+  width: 50%;
+}
+.binContainer__salesTable__itemContainer__itemProduct__products__productLine__quantity {
+  justify-self: end;
+}
+.binContainer__salesTable__itemContainer__btnsContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.binContainer__salesTable__itemContainer__btnsContainer__btn {
+  padding: 0.5vh 1vh;
+  border-radius: 0.5vh;
+  text-align: center;
+  cursor: pointer;
+}
+.binContainer__salesTable__isLoadingLabel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2vh;
+}
+.binContainer__salesTable__isLoadingLabel__label {
+  font-size: 22px;
+  color: black;
+  padding-top: 1vh;
+}
+
 .contractsContainer {
   background-color: black;
   width: 100%;
@@ -265,7 +538,7 @@
   background-color: whitesmoke;
   width: 90%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   margin-top: 5vh;
   align-self: center;
   padding: 1vh 0vh;
@@ -291,7 +564,7 @@
   background-color: rgba(183, 183, 183, 0.85);
   width: 90%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   align-self: center;
   padding: 2vh 0vh;
   border-bottom-left-radius: 1vh;
@@ -353,7 +626,7 @@
   background-color: whitesmoke;
   width: 90%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   align-self: center;
   margin-top: 1vh;
   border-radius: 1vh;

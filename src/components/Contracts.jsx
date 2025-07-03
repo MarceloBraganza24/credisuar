@@ -13,6 +13,7 @@ const Contracts = () => {
     const [totalContracts, setTotalContracts] = useState("");
     const [user, setUser] = useState('');
     const [isLoadingContracts, setIsLoadingContracts] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [pageInfo, setPageInfo] = useState({
         page: 1,
         totalPages: 1,
@@ -29,6 +30,7 @@ const Contracts = () => {
         all: 'Todos'
     };
     const [contractformData, setContractformData] = useState({
+        transaction_number: '',
         first_name: '',
         last_name: '',
         dni: '',
@@ -148,6 +150,7 @@ const Contracts = () => {
     const handleBtnSubmitContract = async () => {
         // Validación de campos vacíos
         if (
+            !contractformData.transaction_number.trim() ||
             !contractformData.first_name.trim() ||
             !contractformData.last_name.trim() ||
             !contractformData.dni.trim() ||
@@ -199,6 +202,7 @@ const Contracts = () => {
         }
         
         const formDataToSend = new FormData();
+        formDataToSend.append('transaction_number', contractformData.transaction_number);
         formDataToSend.append('first_name', contractformData.first_name);
         formDataToSend.append('last_name', contractformData.last_name);
         formDataToSend.append('dni', contractformData.dni);
@@ -224,6 +228,7 @@ const Contracts = () => {
                     className: "custom-toast",
                 });
                 setContractformData({
+                    transaction_number: '',
                     first_name: '',
                     last_name: '',
                     dni: '',
@@ -231,7 +236,7 @@ const Contracts = () => {
                     contract_file: null,
                     image_dni: null,
                 });
-                fetchContracts(1, inputFilteredContracts, selectedField)
+                fetchContracts(1, inputFilteredContracts, 'all')
             } else {
                 toast('Error al crear el contrato!', {
                     position: "top-right",
@@ -316,7 +321,7 @@ const Contracts = () => {
                     theme: "dark",
                     className: "custom-toast",
                 });
-                fetchContracts(1, inputFilteredContracts, selectedField);
+                fetchContracts(1, inputFilteredContracts, 'all');
             } else {
                 toast(`Error al actualizar contrato!`, {
                     position: "top-right",
@@ -346,8 +351,38 @@ const Contracts = () => {
         }
     };
     
+    const handleBtnDeleteContract = async (contractId) => {
+        setLoading(true);
+        try {
+            const res = await fetch(`http://localhost:8081/api/contracts/${contractId}/soft-delete`, {
+                method: 'PUT',  // Usamos PUT o PATCH para actualizar, no DELETE
+            });
+
+            if (res.ok) {
+                toast('Has eliminado el contrato con éxito (soft delete)', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    theme: "dark",
+                    className: "custom-toast",
+                });
+                fetchContracts(); // recarga los productos visibles
+                //setSelectedContracts([])
+            } else {
+                toast('No se ha podido borrar el contrato, intente nuevamente', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    theme: "dark",
+                    className: "custom-toast",
+                });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
     
-    const handleDeleteContract = async (id) => {
+    /* const handleDeleteContract = async (id) => {
         try {
             const response = await fetch(`http://localhost:8081/api/contracts/${id}`, {
                 method: 'DELETE',
@@ -365,7 +400,7 @@ const Contracts = () => {
                     theme: "dark",
                     className: "custom-toast",
                 });
-                fetchContracts(1, inputFilteredContracts, selectedField);
+                fetchContracts(1, inputFilteredContracts, 'all');
             } else {
                 toast(`Error al eliminar contrato!`, {
                     position: "top-right",
@@ -393,7 +428,7 @@ const Contracts = () => {
                 className: "custom-toast",
             });
         }
-    };
+    }; */
 
     const btnShowMenuOptions = () => {
         if(menuOptions) {
@@ -424,7 +459,7 @@ const Contracts = () => {
     };
 
     useEffect(() => {
-        fetchContracts(1, inputFilteredContracts, selectedField);
+        fetchContracts(1, inputFilteredContracts, 'all');
         fetchCurrentUser()
         return () => {
             contracts.forEach(contract => {
@@ -464,6 +499,9 @@ const Contracts = () => {
                         <Link to={"/contracts"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
                             - Contratos
                         </Link>
+                        <Link to={"/bin"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
+                            - Papelera
+                        </Link>
                     </div>
                 </div>
             }
@@ -495,6 +533,7 @@ const Contracts = () => {
                 </div>
 
                 <div className='contractsContainer__headerTable'>
+                    <div className='contractsContainer__headerTable__item'>N° transacción</div>
                     <div className='contractsContainer__headerTable__item'>Nombre</div>
                     <div className='contractsContainer__headerTable__item'>Apellido</div>
                     <div className='contractsContainer__headerTable__item'>DNI</div>
@@ -508,6 +547,9 @@ const Contracts = () => {
 
                     <div className='contractsContainer__contractsTable__createContractContainer'>
 
+                        <div className='contractsContainer__contractsTable__createContractContainer__input'>
+                            <input onChange={handleInputChange} value={contractformData.transaction_number} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="text" name="transaction_number" placeholder="N° transacción" required/>
+                        </div>
                         <div className='contractsContainer__contractsTable__createContractContainer__input'>
                             <input onChange={handleInputChange} value={contractformData.first_name} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="text" name="first_name" placeholder="Nombre" required/>
                         </div>
@@ -565,6 +607,14 @@ const Contracts = () => {
                         :
                         contracts.map((contract, index) => (
                             <div className="contractsContainer__contractsTable__itemContractContainer" key={contract._id}>
+                                <div className="contractsContainer__contractsTable__itemContractContainer__input">
+                                    <input
+                                        className='contractsContainer__contractsTable__itemContractContainer__input__prop'
+                                        type="text"
+                                        value={contract.transaction_number}
+                                        onChange={(e) => handleContractFieldChange(index, 'transaction_number', e.target.value)}
+                                    />
+                                </div>
                                 <div className="contractsContainer__contractsTable__itemContractContainer__input">
                                     <input
                                         className='contractsContainer__contractsTable__itemContractContainer__input__prop'
@@ -648,7 +698,21 @@ const Contracts = () => {
 
                                 <div className="contractsContainer__contractsTable__itemContractContainer__btn">
                                     <button className='contractsContainer__contractsTable__itemContractContainer__btn__prop' onClick={() => handleSaveContract(contract._id, contract)}>Guardar</button>
-                                    <button className='contractsContainer__contractsTable__itemContractContainer__btn__prop' onClick={() => handleDeleteContract(contract._id)}>Borrar</button>
+                                    {loading ? (
+                                        <button
+                                        disabled
+                                        className='cPanelProductsContainer__productsTable__itemContainer__btnsContainer__btn'
+                                        >
+                                        <Spinner/>
+                                        </button>
+                                    ) : (
+                                        <button
+                                        onClick={() => handleBtnDeleteContract(contract._id)}
+                                        className='contractsContainer__contractsTable__itemContractContainer__btn__prop'
+                                        >
+                                        Borrar
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         ))
@@ -661,7 +725,7 @@ const Contracts = () => {
                     <div className='contractsContainer__btnsPagesContainer'>
                         <button className='contractsContainer__btnsPagesContainer__btn'
                             disabled={!pageInfo.hasPrevPage}
-                            onClick={() => fetchContracts(pageInfo.prevPage, inputFilteredContracts, selectedField)}
+                            onClick={() => fetchContracts(pageInfo.prevPage, inputFilteredContracts, 'all')}
                             >
                             Anterior
                         </button>
@@ -670,7 +734,7 @@ const Contracts = () => {
 
                         <button className='contractsContainer__btnsPagesContainer__btn'
                             disabled={!pageInfo.hasNextPage}
-                            onClick={() => fetchContracts(pageInfo.nextPage, inputFilteredContracts, selectedField)}
+                            onClick={() => fetchContracts(pageInfo.nextPage, inputFilteredContracts, 'all')}
                             >
                             Siguiente
                         </button>

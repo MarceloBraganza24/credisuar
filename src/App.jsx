@@ -10,16 +10,14 @@ import Login from './components/Login.jsx';
 import SignIn from './components/SignIn.jsx';
 import Contracts from './components/Contracts.jsx';
 import ChatBot from './components/ChatBot.jsx';
+import Bin from './components/Bin.jsx';
 
 function App() {
     const [isChatOpen, setIsChatOpen] = useState(false);
 
     function ChatbotWrapper({ isOpen, setIsOpen }) {
         const location = useLocation();
-
-        // Ocultar en /contracts
-        if (location.pathname === "/contracts" || location.pathname === "/logIn") return null;
-
+        if (location.pathname === "/contracts" || location.pathname === "/login") return null;
         return <ChatBot isOpen={isOpen} setIsOpen={setIsOpen} />;
     }
 
@@ -27,28 +25,27 @@ function App() {
 
         <>
 
-        {/* <ChatBot isOpen={isChatOpen} setIsOpen={setIsChatOpen} /> */}
-        
-        <BrowserRouter>
+            <BrowserRouter>
 
-                <IsLoggedInContext>
+                    <IsLoggedInContext>
 
-                    <ChatbotWrapper isOpen={isChatOpen} setIsOpen={setIsChatOpen} />
+                        <ChatbotWrapper isOpen={isChatOpen} setIsOpen={setIsChatOpen} />
 
-                    <Routes>
+                        <Routes>
 
-                        <Route exact path="/" element={<Home openChatbot={() => setIsChatOpen(true)} />} />
-                        <Route exact path="/login" element={<Login/>}/>
-                        <Route exact path="/signIn" element={<SignIn/>}/>
-                        <Route exact path="/contracts" element={<Contracts/>}/>
+                            <Route exact path="/" element={<Home openChatbot={() => setIsChatOpen(true)} />} />
+                            <Route exact path="/login" element={<Login/>}/>
+                            <Route exact path="/signIn" element={<SignIn/>}/>
+                            <Route exact path="/contracts" element={<Contracts/>}/>
+                            <Route exact path="/bin" element={<Bin/>}/>
 
-                    </Routes>
+                        </Routes>
 
-                    <ToastContainer />
-                    
-                </IsLoggedInContext>
+                        <ToastContainer />
+                        
+                    </IsLoggedInContext>
 
-        </BrowserRouter>
+            </BrowserRouter>
         
         </>
     )

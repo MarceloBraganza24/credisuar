@@ -200,7 +200,260 @@ $site-color: linear-gradient(
         }
     }
 }
-
+.binContainer {
+    background-image: url('/src/assets/fondo_home.webp');
+    background-position: center;
+    background-size: cover;
+    //background-color: rgba(183, 183, 183, 0.85); // blanco translúcido
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    //padding: 30vh 0vh 15vh 0vh;
+    &__title {
+        width: 100%;
+        @include disfc();
+        padding: 35vh 0vh 2vh 0vh;
+        &__prop {
+            font-size: 40px;
+            color: white;
+        }
+    }
+    &__subTitle {
+        width: 100%;
+        display: flex;
+        padding: 2vh 0vh;
+        &__prop {
+            font-size: 25px;
+            color: white;
+            padding-left: 6vh;
+        }
+    }
+    &__quantityContracts {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 2fr 1fr 2fr;
+        padding: 0vh 0vh 2vh 0vh;
+        &__prop {
+            font-size: 18px;
+            text-align: center;
+        }
+        &__massDeleteBtnContainer {
+            @include disfc();
+            gap: 1vh;
+        }
+    }
+    &__massDeleteBtnContainer {
+        display: flex;
+        gap: 4vh;
+        padding: 0vh 0vh 2vh 4vh;
+        &__btn {
+            padding: 0.5vh 1vh;
+            border-radius: 0.5vh;
+            text-align: center;
+            cursor: pointer;
+        }
+    }
+    &__headerTableContainer {
+        background-color: whitesmoke;
+        width: 95%;
+        @include disfc();
+        align-self: center;
+        border-top-left-radius: 0.5vh;
+        border-top-right-radius: 0.5vh;
+        &__headerTable {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 0.5fr 1fr 1.5fr;
+            border-bottom: 0.3vh solid #d6d5d5;
+            padding: 2vh 0vh;
+            &__item {
+                font-size: 18px;
+                font-weight: bold;
+                text-align: center;
+            }
+        }
+    }
+    &__contractsTable {
+        background-color: whitesmoke;
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        margin-bottom: 4vh;
+        border-bottom-left-radius: 0.5vh;
+        border-bottom-right-radius: 0.5vh;
+        padding: 2vh 4vh;
+        &__itemContainer {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 0.5fr 1fr 1.5fr;
+            border-bottom: 0.3vh solid #d6d5d5;
+            padding: 1vh 0vh;
+            &__item {
+                width: 100%;
+                @include disfc();
+                &__img {
+                    width: 60px;
+                    height: 50px;
+                }
+                &__label {
+                    text-align: center;
+                    font-size: 16px;
+                }
+                &__labelLong {
+                    text-align: center;
+                    font-size: 14px;
+                }
+                &__description {
+                    text-align: center;
+                    font-size: 12px;
+                }
+            }
+            &__btnsContainer {
+                width: 100%;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                &__btn {
+                    padding: 0.5vh 1vh;
+                    border-radius: 0.5vh;
+                    text-align: center;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    &__headerSalesTableContainer {
+        background-color: whitesmoke;
+        width: 95%;
+        @include disfc();
+        align-self: center;
+        border-top-left-radius: 0.5vh;
+        border-top-right-radius: 0.5vh;
+        &__headerTable {
+            width: 95%;
+            display: grid;
+            grid-template-columns: 0.5fr 1fr 1fr 1.5fr 1fr 1fr 1fr 1.5fr;
+            border-bottom: 0.3vh solid #d6d5d5;
+            padding: 2vh 0vh;
+            &__item {
+                font-size: 18px;
+                font-weight: bold;
+                text-align: center;
+            }
+        }
+    }
+    &__salesTable {
+        background-color: whitesmoke;
+        width: 95%;
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        gap: 0.5vh;
+        &__dayContainer {
+            background-color: rgb(214, 213, 213);
+            @include disfc();
+            padding: 2vh 0vh;
+        }
+        &__itemContainer {
+            width: 95%;
+            display: grid;
+            align-self: center;
+            grid-template-columns: 0.5fr 1fr 1fr 1.5fr 1fr 1fr 1fr 1.5fr;
+            padding: 1vh 0vh;
+            border-radius: 1vh;
+            &__item {
+                width: 100%;
+                @include disfc();
+                &__img {
+                    width: 60px;
+                    height: 50px;
+                }
+                &__label {
+                    text-align: center;
+                    font-size: 16px;
+                }
+                &__labelLong {
+                    text-align: center;
+                    font-size: 14px;
+                }
+            }
+            &__itemEllipsis {  
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                overflow-x: auto;
+                white-space: nowrap;
+                &::-webkit-scrollbar {
+                    display: none; /* Oculta la barra de desplazamiento */
+                }
+                &__item {
+                    display: inline-block; // Permite scroll horizontal sin salto de línea
+                    font-size: 16px;
+                }
+            }
+            &__itemProduct {
+                width: 100%;
+                &__products {
+                    @include disfc();
+                    flex-direction: column;
+                    gap: 0.5vh;
+                    &__productLine {
+                        display: grid;
+                        align-items: center;
+                        grid-template-columns: 1fr 3fr 1fr 2fr;
+                        cursor: pointer;
+                        &__title {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-around;
+                            overflow-x: auto;
+                            white-space: nowrap;
+                            &::-webkit-scrollbar {
+                                display: none; /* Oculta la barra de desplazamiento */
+                            }
+                            &__prop {
+                                display: inline-block;
+                                font-size: 16px;
+                            }
+                        }
+                        &__img {
+                            @include disfc();
+                            &__prop {
+                                width: 50%;
+                            }
+                        }
+                        &__quantity {
+                            justify-self: end;
+                        }
+                    }
+                }
+            }
+            &__btnsContainer {
+                width: 100%;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                &__btn {
+                    padding: 0.5vh 1vh;
+                    border-radius: 0.5vh;
+                    text-align: center;
+                    cursor: pointer;
+                }
+            }
+        }
+        &__isLoadingLabel {
+            @include disfc();
+            padding-top: 2vh;
+            &__label {
+                font-size: 22px;
+                color: black;
+                padding-top: 1vh;
+            }
+        }
+    }
+}
 .contractsContainer{
     background-color: black;
     width: 100%;
@@ -240,7 +493,6 @@ $site-color: linear-gradient(
                 border-radius: 0.5vh;
                 text-align: center;
                 font-size: 16px;
-                //@include btn();
                 &:hover {
                     cursor: pointer;
                 }
@@ -267,7 +519,7 @@ $site-color: linear-gradient(
         background-color: whitesmoke;
         width: 90%;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
         margin-top: 5vh;
         align-self: center;
         padding: 1vh 0vh;
@@ -290,7 +542,7 @@ $site-color: linear-gradient(
             background-color: rgba(183, 183, 183, 0.85); // blanco translúcido
             width: 90%;
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
             align-self: center;
             padding: 2vh 0vh;
             border-bottom-left-radius: 1vh;
@@ -354,7 +606,7 @@ $site-color: linear-gradient(
             background-color: whitesmoke;
             width: 90%;
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
             align-self: center;
             margin-top: 1vh;
             border-radius: 1vh;
@@ -434,7 +686,6 @@ $site-color: linear-gradient(
             border-radius: 0.5vh;
             text-align: center;
             cursor: pointer;
-            //@include btn();
             color: black;
             &:hover {
                 background: linear-gradient(
