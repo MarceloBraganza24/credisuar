@@ -10,6 +10,7 @@ const Bin = () => {
     const [user, setUser] = useState('');
     const [isLoadingContracts, setIsLoadingContracts] = useState(true);
     const [contracts, setContracts] = useState([]);
+    //console.log(contracts)
     const navigate = useNavigate();
     const [menuOptions, setMenuOptions] = useState(false);
 
@@ -260,14 +261,14 @@ const Bin = () => {
 
                         <div className="binContainer__headerTableContainer__headerTable">
 
-                            <div className="binContainer__headerTableContainer__headerTable__item" style={{borderRight:'0.3vh solid black'}}></div>
-                            <div className="binContainer__headerTableContainer__headerTable__item" style={{borderRight:'0.3vh solid black'}}>N° transacción</div>
-                            <div className="binContainer__headerTableContainer__headerTable__item" style={{borderRight:'0.3vh solid black'}}>Nombre</div>
-                            <div className="binContainer__headerTableContainer__headerTable__item" style={{borderRight:'0.3vh solid black'}}>Apellido</div>
-                            <div className="binContainer__headerTableContainer__headerTable__item" style={{borderRight:'0.3vh solid black'}}>DNI</div>
-                            <div className="binContainer__headerTableContainer__headerTable__item" style={{borderRight:'0.3vh solid black'}}>Teléfono</div>
-                            <div className="binContainer__headerTableContainer__headerTable__item" style={{borderRight:'0.3vh solid black'}}>Archivo de contrato</div>
-                            <div className="binContainer__headerTableContainer__headerTable__item" style={{borderRight:'0.3vh solid black'}}>Imagen DNI</div>
+                            <div className="binContainer__headerTableContainer__headerTable__item">&nbsp;</div>
+                            <div className="binContainer__headerTableContainer__headerTable__item">N° transacción</div>
+                            <div className="binContainer__headerTableContainer__headerTable__item">Nombre</div>
+                            <div className="binContainer__headerTableContainer__headerTable__item">Apellido</div>
+                            <div className="binContainer__headerTableContainer__headerTable__item">DNI</div>
+                            <div className="binContainer__headerTableContainer__headerTable__item">Teléfono</div>
+                            <div className="binContainer__headerTableContainer__headerTable__item">Archivo de contrato</div>
+                            <div className="binContainer__headerTableContainer__headerTable__item">Imagen DNI</div>
 
                         </div>
 
@@ -279,7 +280,7 @@ const Bin = () => {
                     {
                         isLoadingContracts ? 
                             <>
-                                <div className="catalogContainer__grid__catalog__isLoadingLabel">
+                                <div className="binContainer__contractsTable__isLoadingLabel">
                                     Cargando contratos&nbsp;&nbsp;<Spinner/>
                                 </div>
                             </>
@@ -297,7 +298,7 @@ const Bin = () => {
                             ))
                         :
                         <>
-                            <div className="catalogContainer__grid__catalog__isLoadingLabel">
+                            <div className="binContainer__contractsTable__isLoadingLabel">
                                 Aún no existen contratos eliminados
                             </div>
                         </>

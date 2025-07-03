@@ -1,10 +1,13 @@
 import {useEffect, useState} from 'react'
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Spinner from './Spinner';
 
 const Contracts = () => {
     const [selectedField, setSelectedField] = useState('first_name');
+    const [selectAllContracts, setSelectAll] = useState(false);
+    const [selectedContracts, setSelectedContracts] = useState([]);
+    const navigate = useNavigate();
     const [inputFilteredContracts, setInputFilteredContracts] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
     const [selectedPdf, setSelectedPdf] = useState(null);
@@ -365,7 +368,7 @@ const Contracts = () => {
                     theme: "dark",
                     className: "custom-toast",
                 });
-                fetchContracts(); // recarga los productos visibles
+                fetchContracts(1, inputFilteredContracts, 'all')
                 //setSelectedContracts([])
             } else {
                 toast('No se ha podido borrar el contrato, intente nuevamente', {
@@ -381,54 +384,6 @@ const Contracts = () => {
             setLoading(false);
         }
     };
-    
-    /* const handleDeleteContract = async (id) => {
-        try {
-            const response = await fetch(`http://localhost:8081/api/contracts/${id}`, {
-                method: 'DELETE',
-            });
-
-            if (response.ok) {
-                toast(`Contrato eliminado con éxito!`, {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                    className: "custom-toast",
-                });
-                fetchContracts(1, inputFilteredContracts, 'all');
-            } else {
-                toast(`Error al eliminar contrato!`, {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                    className: "custom-toast",
-                });
-            }
-        } catch (error) {
-            console.error(error);
-            toast(`Error de conexión!`, {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                className: "custom-toast",
-            });
-        }
-    }; */
 
     const btnShowMenuOptions = () => {
         if(menuOptions) {
@@ -446,7 +401,7 @@ const Contracts = () => {
             });
             const data = await response.json();
             if(data.error === 'jwt must be provided') { 
-                console.log('jwt must be provided')
+                navigate('/')
             } else {
                 const user = data.data;
                 if(user) {
@@ -484,6 +439,72 @@ const Contracts = () => {
         setInputFilteredContracts(soloLetrasYNumeros);
     }
 
+    const handleMassDeleteContracts = async () => {
+        const confirm = window.confirm('¿Estás seguro que querés eliminar los contratos seleccionados?');
+        if (!confirm) return;
+
+        try {
+            const res = await fetch('http://localhost:8081/api/contracts/mass-delete', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ids: selectedContracts })
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                setSelectedContracts([]);
+                fetchContracts(1, inputFilteredContracts, 'all')
+                toast('Contratos eliminados correctamente', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    className: "custom-toast",
+                });
+            } 
+        } catch (error) {
+            console.error(error);
+            toast('Error al eliminar contratos', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                className: "custom-toast",
+            });
+        }
+    };
+
+    const handleSelectAllContracts = (checked) => {
+        setSelectAll(checked);
+
+        if (checked) {
+            const allIds = contracts.map(contract => contract._id);
+            setSelectedContracts(allIds);
+        } else {
+            setSelectedContracts([]);
+        }
+    };
+
+    const toggleSelectContract = (id) => {
+        setSelectedContracts(prev =>
+            prev.includes(id)
+            ? prev.filter(pId => pId !== id)
+            : [...prev, id]
+        );
+    };
+
+    useEffect(() => {
+        setSelectAll(selectedContracts.length === contracts.length && contracts.length > 0);
+    }, [selectedContracts, contracts]);
+
 
     return (
 
@@ -512,25 +533,7 @@ const Contracts = () => {
                     <div className='contractsContainer__title__prop'>Contratos</div>
                 </div>
 
-                <div className='contractsContainer__subTitle'>Buscar contratos</div>
-
-                <div className='contractsContainer__inputSearchProduct'>
-                    {/* <div className='contractsContainer__inputSearchProduct__selectContainer'>
-                        <div>Buscar por:</div>
-                        <select
-                            className='contractsContainer__inputSearchProduct__selectContainer__select'
-                            value={selectedField}
-                            onChange={(e) => setSelectedField(e.target.value)}
-                            >
-                            {Object.entries(fieldLabels).map(([key, label]) => (
-                                <option key={key} value={key}>{label}</option>
-                            ))}
-                        </select>
-                    </div> */}
-                    <div className='contractsContainer__inputSearchProduct__inputContainer'>
-                        <input type="text" onChange={handleInputFilteredContracts} value={inputFilteredContracts} placeholder={`Buscar contrato`} className='contractsContainer__inputSearchProduct__inputContainer__input' name="" id="" />
-                    </div>
-                </div>
+                <div className='contractsContainer__subTitle'>Crear contrato</div>
 
                 <div className='contractsContainer__headerTable'>
                     <div className='contractsContainer__headerTable__item'>N° transacción</div>
@@ -590,12 +593,52 @@ const Contracts = () => {
 
                     </div>
 
-                    <div className='contractsContainer__contractsTable__titleTable'>Lista de contratos</div>
+                    <div className='contractsContainer__contractsTable__subTitleTable'>Buscar contratos</div>
 
-                    {
-                        !isLoadingContracts &&
-                        <div className='contractsContainer__contractsTable__subTitleTable'>Cantidad de contratos: {totalContracts}</div>
-                    }
+                    <div className='contractsContainer__inputSearchProduct'>
+                        <div className='contractsContainer__inputSearchProduct__inputContainer'>
+                            <input type="text" onChange={handleInputFilteredContracts} value={inputFilteredContracts} placeholder={`Buscar contrato`} className='contractsContainer__inputSearchProduct__inputContainer__input' name="" id="" />
+                        </div>
+                    </div>
+
+                    {/* <div className='contractsContainer__contractsTable__titleTable'>Lista de contratos</div> */}
+
+                    <div className='contractsContainer__quantityContracts'>
+                        <div className='contractsContainer__quantityContracts__massDeleteBtnContainer'>
+                            <input
+                            type="checkbox"
+                            checked={selectAllContracts}
+                            onChange={(e) => handleSelectAllContracts(e.target.checked)}
+                            />
+                            <span>Seleccionar todos</span>
+                            {selectedContracts.length > 0 ? (
+                            <div className='contractsContainer__quantityContracts__massDeleteBtnContainer'>
+                                <button
+                                onClick={handleMassDeleteContracts}
+                                className='contractsContainer__quantityContracts__massDeleteBtnContainer__btn'
+                                >
+                                Eliminar seleccionados ({selectedContracts.length})
+                                </button>
+                            </div>
+                            )
+                            :
+                            <><div></div></>
+                            }
+                        </div>
+                        <div className='contractsContainer__quantityContracts__prop'>Cantidad de productos: {totalContracts}</div>        
+                    </div>
+
+                    <div className='contractsContainer__contractsTable__header'>
+                        <div className='contractsContainer__contractsTable__header__item'></div>
+                        <div className='contractsContainer__contractsTable__header__item'>N° transacción</div>
+                        <div className='contractsContainer__contractsTable__header__item'>Nombre</div>
+                        <div className='contractsContainer__contractsTable__header__item'>Apellido</div>
+                        <div className='contractsContainer__contractsTable__header__item'>DNI</div>
+                        <div className='contractsContainer__contractsTable__header__item'>Teléfono</div>
+                        <div className='contractsContainer__contractsTable__header__item'>Archivo de contrato</div>
+                        <div className='contractsContainer__contractsTable__header__item'>Imagen DNI</div>
+                        <div className='contractsContainer__contractsTable__header__item'></div>
+                    </div>
 
                     {
                         isLoadingContracts ? 
@@ -607,6 +650,14 @@ const Contracts = () => {
                         :
                         contracts.map((contract, index) => (
                             <div className="contractsContainer__contractsTable__itemContractContainer" key={contract._id}>
+                                <div className="contractsContainer__contractsTable__itemContractContainer__checkBox">
+                                    <input
+                                        className='contractsContainer__contractsTable__itemContractContainer__checkBox__prop'
+                                        type="checkbox"
+                                        checked={selectedContracts.includes(contract._id)}
+                                        onChange={() => toggleSelectContract(contract._id)}
+                                    />
+                                </div>
                                 <div className="contractsContainer__contractsTable__itemContractContainer__input">
                                     <input
                                         className='contractsContainer__contractsTable__itemContractContainer__input__prop'

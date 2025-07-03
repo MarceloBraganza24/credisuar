@@ -42,7 +42,7 @@ const ItemBinContract = ({contract,fetchDeletedContracts,selectedContracts,setSe
         }
     };
 
-    const handleBtnRestoreProduct = async () => {
+    const handleBtnRestoreContract = async () => {
         try {
             setLoadingBtnRestore(true);
             const res = await fetch(`http://localhost:8081/api/contracts/${contract._id}/restore`, {
@@ -76,9 +76,9 @@ const ItemBinContract = ({contract,fetchDeletedContracts,selectedContracts,setSe
 
     return (
         <>
-            <div className="binContainer__productsTable__itemContainer">
+            <div className="binContainer__contractsTable__itemContainer">
 
-                <div className="binContainer__productsTable__itemContainer__item">
+                <div className="binContainer__contractsTable__itemContainer__item">
                     <input
                         type="checkbox"
                         checked={selectedContracts.includes(contract._id)}
@@ -92,28 +92,24 @@ const ItemBinContract = ({contract,fetchDeletedContracts,selectedContracts,setSe
                     />
                 </div>
 
-                <div className="binContainer__productsTable__itemContainer__item">
-                    <div className="binContainer__productsTable__itemContainer__item__label">{contract.transaction_number}</div>
+                <div className="binContainer__contractsTable__itemContainer__item">
+                    <div className="binContainer__contractsTable__itemContainer__item__label">{contract.transaction_number}</div>
                 </div>
 
-                <div className="binContainer__productsTable__itemContainer__item">
-                    <div className="binContainer__productsTable__itemContainer__item__label">{capitalizeFirstLetter(contract.first_name)}</div>
+                <div className="binContainer__contractsTable__itemContainer__item">
+                    <div className="binContainer__contractsTable__itemContainer__item__label">{capitalizeFirstLetter(contract.first_name)}</div>
                 </div>
 
-                <div className="binContainer__productsTable__itemContainer__item">
-                    <div className="binContainer__productsTable__itemContainer__item__description">{capitalizeFirstLetter(contract.last_name)}</div>
+                <div className="binContainer__contractsTable__itemContainer__item">
+                    <div className="binContainer__contractsTable__itemContainer__item__description">{capitalizeFirstLetter(contract.last_name)}</div>
                 </div>
 
-                <div className="binContainer__productsTable__itemContainer__item">
-                    <div className="binContainer__productsTable__itemContainer__item__label">{capitalizeFirstLetter(contract.category)}</div>
+                <div className="binContainer__contractsTable__itemContainer__item">
+                    <div className="binContainer__contractsTable__itemContainer__item__label">{contract.dni}</div>
                 </div>
 
-                <div className="binContainer__productsTable__itemContainer__item">
-                    <div className="binContainer__productsTable__itemContainer__item__label">{contract.dni}</div>
-                </div>
-
-                <div className="binContainer__productsTable__itemContainer__item">
-                    <div className="binContainer__productsTable__itemContainer__item__label">{contract.phoneNumber}</div>
+                <div className="binContainer__contractsTable__itemContainer__item">
+                    <div className="binContainer__contractsTable__itemContainer__item__label">{contract.phoneNumber}</div>
                 </div>
 
                 <div className="contractsContainer__contractsTable__itemContractContainer__inputFile">
@@ -164,18 +160,18 @@ const ItemBinContract = ({contract,fetchDeletedContracts,selectedContracts,setSe
 
                 </div>  
 
-                <div className='binContainer__productsTable__itemContainer__btnsContainer'>
+                <div className='binContainer__contractsTable__itemContainer__btnsContainer'>
                     {loadingBtnRestore ? (
                         <button
                         disabled
-                        className='binContainer__productsTable__itemContainer__btnsContainer__btn'
+                        className='binContainer__contractsTable__itemContainer__btnsContainer__btn'
                         >
                         <Spinner/>
                         </button>
                     ) : (
                         <button
-                        onClick={handleBtnRestoreProduct}
-                        className='binContainer__productsTable__itemContainer__btnsContainer__btn'
+                        onClick={handleBtnRestoreContract}
+                        className='binContainer__contractsTable__itemContainer__btnsContainer__btn'
                         >
                         Restaurar
                         </button>
@@ -184,14 +180,14 @@ const ItemBinContract = ({contract,fetchDeletedContracts,selectedContracts,setSe
                     {loading ? (
                         <button
                         disabled
-                        className='binContainer__productsTable__itemContainer__btnsContainer__btn'
+                        className='binContainer__contractsTable__itemContainer__btnsContainer__btn'
                         >
                         <Spinner/>
                         </button>
                     ) : (
                         <button
                         onClick={handleBtnDeleteContract}
-                        className='binContainer__productsTable__itemContainer__btnsContainer__btn'
+                        className='binContainer__contractsTable__itemContainer__btnsContainer__btn'
                         >
                         Borrar <br /> permanentemente
                         </button>

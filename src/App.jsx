@@ -17,7 +17,10 @@ function App() {
 
     function ChatbotWrapper({ isOpen, setIsOpen }) {
         const location = useLocation();
-        if (location.pathname === "/contracts" || location.pathname === "/login") return null;
+        if (location.pathname === "/contracts"
+            || location.pathname === "/login"
+            || location.pathname === "/bin")
+            return null;
         return <ChatBot isOpen={isOpen} setIsOpen={setIsOpen} />;
     }
 
