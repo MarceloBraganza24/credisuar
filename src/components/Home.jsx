@@ -1,13 +1,17 @@
 import {useState,useRef,useEffect} from 'react'
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
+import Spinner from './Spinner';
+import { toast } from 'react-toastify';
 
 const Home = ({ openChatbot }) => {
     const [menuOptions, setMenuOptions] = useState(false);
     const [showFAQ, setShowFAQ] = useState(false);
+    const [loadingCurrentUser, setLoadingCurrentUser] = useState(true);
     const [activeIndex, setActiveIndex] = useState(null);
     const faqRef = useRef(null);
     const whoWeAreRef = useRef(null);
     const [user, setUser] = useState('');
+    const navigate = useNavigate();
 
     const [showSocialNetworks, setShowSocialNetworks] = useState(false);
     const socialRef = useRef(null);
@@ -83,6 +87,8 @@ const Home = ({ openChatbot }) => {
             }
         } catch (error) {
             console.error('Error:', error);
+        } finally {
+            setLoadingCurrentUser(false);
         }
     };
 
@@ -90,26 +96,61 @@ const Home = ({ openChatbot }) => {
         fetchCurrentUser();
     }, []);
 
+    const handleBtnLogOut = async () => {
+        const response = await fetch(`http://localhost:8081/api/sessions/logout`, {
+            method: 'POST',         
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include', // 👈 Esto es clave
+        })
+        const data = await response.json();
+        if(response.ok) {
+            toast('Gracias por visitar nuestra página', {
+                position: "top-right",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                className: "custom-toast",
+            });
+            setTimeout(() => {
+                navigate('/')
+                window.location.reload()
+            }, 2000);
+        }
+    }
+
     return (
 
         <>
 
-            <div className='loginLinkContainer'>
-                <Link to={"/login"} className='loginLinkContainer__labelLogin'>
-                    Log In
-                </Link>
-            </div>
-            {/* {
-                user.role == 'admin' &&
+            
+            {
+                loadingCurrentUser ?
+                <div className='logoutLinkContainer'>
+                    <div className='logoutLinkContainer__labelLogout'>
+                        <Spinner/>
+                    </div>
+                </div>
+                :
+                !user ?
                 <div className='loginLinkContainer'>
                     <Link to={"/login"} className='loginLinkContainer__labelLogin'>
-                        Log In
+                        Iniciar sesión
                     </Link>
                 </div>
-            } */}
+                :
+                <div className='logoutLinkContainer'>
+                    <div onClick={handleBtnLogOut} className='logoutLinkContainer__labelLogout'>SALIR</div>
+                </div>
+            }
 
             {
-                user.role == 'admin' &&
+                user?.role == 'admin' &&
                 <div className='menuContainer'>
                     <div onClick={btnShowMenuOptions} className='menuContainer__arrow'>v</div>
                     <div className={`menuContainer__menu ${menuOptions ? 'menuContainer__menu--active' : ''}`}>
@@ -121,6 +162,9 @@ const Home = ({ openChatbot }) => {
                         </Link>
                         <Link to={"/bin"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
                             - Papelera
+                        </Link>
+                        <Link to={"/cPanel"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
+                            - Panel de control
                         </Link>
                     </div>
                 </div>

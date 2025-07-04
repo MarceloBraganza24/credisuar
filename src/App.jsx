@@ -11,6 +11,7 @@ import SignIn from './components/SignIn.jsx';
 import Contracts from './components/Contracts.jsx';
 import ChatBot from './components/ChatBot.jsx';
 import Bin from './components/Bin.jsx';
+import CPanel from './components/CPanel.jsx';
 
 function App() {
     const [isChatOpen, setIsChatOpen] = useState(false);
@@ -19,7 +20,9 @@ function App() {
         const location = useLocation();
         if (location.pathname === "/contracts"
             || location.pathname === "/login"
-            || location.pathname === "/bin")
+            || location.pathname === "/bin"
+            || location.pathname === "/signIn"
+            || location.pathname === "/cPanel")
             return null;
         return <ChatBot isOpen={isOpen} setIsOpen={setIsOpen} />;
     }
@@ -41,6 +44,7 @@ function App() {
                             <Route exact path="/signIn" element={<SignIn/>}/>
                             <Route exact path="/contracts" element={<Contracts/>}/>
                             <Route exact path="/bin" element={<Bin/>}/>
+                            <Route exact path="/cPanel" element={<CPanel/>}/>
 
                         </Routes>
 

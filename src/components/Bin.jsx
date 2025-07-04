@@ -196,7 +196,7 @@ const Bin = () => {
         <>
 
             {
-                user.role == 'admin' &&
+                user?.role == 'admin' &&
                 <div className='menuContainer'>
                     <div onClick={btnShowMenuOptions} className='menuContainer__arrow'>v</div>
                     <div className={`menuContainer__menu ${menuOptions ? 'menuContainer__menu--active' : ''}`}>
@@ -208,6 +208,9 @@ const Bin = () => {
                         </Link>
                         <Link to={"/bin"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
                             - Papelera
+                        </Link>
+                        <Link to={"/cPanel"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
+                            - Panel de control
                         </Link>
                     </div>
                 </div>

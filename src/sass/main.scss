@@ -57,7 +57,7 @@ $site-color: linear-gradient(
 
 .loginLinkContainer {
     position: fixed;
-    bottom: 5vh;
+    bottom: 7vh;
     right: 6vh;
     &__labelLogin {
         width: 100%;
@@ -83,9 +83,72 @@ $site-color: linear-gradient(
     }
     transition: transform 0.3s ease-in-out;
     &:hover {
-        transform: scale(1.3);
+        transform: scale(1.1);
     }
 }
+.logoutLinkContainer {
+    position: fixed;
+    bottom: 7vh;
+    right: 8vh;
+    &__labelLogout {
+        width: 100%;
+        background-color: yellow;
+        border-radius: 30vh;
+        font-size: 20px;
+        @include disfc();
+        padding: 1vh 2vh;
+        text-decoration: none;
+        cursor: pointer;
+        font-weight: bold;
+        background: linear-gradient(
+        to bottom,
+        #b8860b 0%,
+        #ffd700 20%,
+        #fff8dc 40%,
+        #ffd700 60%,
+        #b8860b 80%,
+        #ffd700 100%
+        );
+        color: black;
+        text-align: center;
+        font-family: 'Anton', sans-serif;
+    }
+    transition: transform 0.3s ease-in-out;
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+/* .signInLinkContainer {
+    position: fixed;
+    bottom: 5vh;
+    right: 6vh;
+    &__labelSignIn {
+        width: 100%;
+        background-color: yellow;
+        border-radius: 30vh;
+        font-size: 20px;
+        padding: 1vh 2vh;
+        text-decoration: none;
+        cursor: pointer;
+        font-weight: bold;
+        background: linear-gradient(
+        to bottom,
+        #b8860b 0%,
+        #ffd700 20%,
+        #fff8dc 40%,
+        #ffd700 60%,
+        #b8860b 80%,
+        #ffd700 100%
+        );
+        color: black;
+        text-align: center;
+        font-family: 'Anton', sans-serif;
+    }
+    transition: transform 0.3s ease-in-out;
+    &:hover {
+        transform: scale(1.1);
+    }
+} */
 
 .loginContainer {
     width: 100%;
@@ -289,7 +352,7 @@ $site-color: linear-gradient(
         padding: 1vh 0vh 2vh 0vh;
         &__isLoadingLabel {
             @include disfc();
-            color: black;
+            color: white;
             padding: 1vh 0vh;
             font-size: 20px;
         }
@@ -542,6 +605,310 @@ $site-color: linear-gradient(
             width: 90%;
             display: grid;
             grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            align-self: center;
+            margin-top: 1vh;
+            border-radius: 1vh;
+            &__checkBox {
+                width: 100%;
+                @include disfc();
+                &__prop {
+                    width: 15px;
+                    height: 15px;
+                    //border-radius: 0.5vh;
+                    //text-align: center;
+                }
+            }
+            &__input {
+                width: 100%;
+                @include disfc();
+                //padding: 1vh 0vh;
+                &__prop {
+                    width: 90%;
+                    height: 30px;
+                    border-radius: 0.5vh;
+                    text-align: center;
+                }
+                &__propFile {
+                    width: 50%;
+                    height: 30px;
+                    border-radius: 0.5vh;
+                    text-align: center;
+                    color: black;   
+                }
+            }
+            &__inputFile {
+                width: 100%;
+                @include disfc();
+                flex-direction: column;
+                padding: 1vh 0vh;
+                &__prop {
+                    width: 90%;
+                    height: 30px;
+                    border-radius: 0.5vh;
+                    text-align: center;
+                    color: black;
+                }
+            }
+            &__btn {
+                width: 100%;
+                @include disfc();
+                flex-direction: column;
+                padding: 1vh 0vh;
+                gap: 0.5vh;
+                &__prop {
+                    width: 70%;
+                    background-color: black;
+                    color: white;
+                    padding: 0.5vh 2vh;
+                    font-size: 16px;
+                    border-radius: 0.5vh;
+                    cursor: pointer;
+                    &:hover {
+                        background: linear-gradient(
+                        to bottom,
+                        #b8860b 0%,
+                        #ffd700 20%,
+                        #fff8dc 40%,
+                        #ffd700 60%,
+                        #b8860b 80%,
+                        #ffd700 100%
+                        );
+                        color: black;
+                    }
+                }
+            }
+        }
+    }
+    &__btnsPagesContainer {
+        background-color: black;
+        width: 100%;
+        display: flex;
+        gap: 2vh;
+        align-items: center;
+        justify-content: center;
+        padding: 4vh 0vh 2vh 0vh;
+        color: white;
+        &__btn {
+            background-color: whitesmoke;
+            padding: 1vh 3vh;
+            border-radius: 0.5vh;
+            text-align: center;
+            cursor: pointer;
+            color: black;
+            &:hover {
+                background: linear-gradient(
+                to bottom,
+                #b8860b 0%,
+                #ffd700 20%,
+                #fff8dc 40%,
+                #ffd700 60%,
+                #b8860b 80%,
+                #ffd700 100%
+                );
+                color: black;
+            }
+        }
+    }
+    &__contractsTableBottom {
+        background-color: black;
+        width: 100%;
+        display: flex;
+        align-self: center;
+        padding: 4vh 0vh;
+    }
+}
+.cPanelContainer{
+    background-color: black;
+    width: 100%;
+    height: 100vh;
+    background-image: url('/src/assets/fondo_home.webp');
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    //padding-bottom: 10vh;
+    flex-direction: column;
+    &__title {
+        @include disfc();
+        margin-top: 10vh;
+        &__prop {
+            font-size: 60px;
+        }
+    }
+    &__subTitle {
+        color: white;
+        padding: 2vh 0vh;
+        text-align: center;
+        font-size: 40px;
+        margin-top: 15vh;
+    }
+    &__inputSearchProduct {
+        width: 100%;
+        // display: grid;
+        // grid-template-columns: 1fr 2fr 1fr;
+        @include disfc();
+        padding-bottom: 2vh;
+        //margin-top: 2vh;
+        &__selectContainer {
+            @include disfc();
+            gap: 2vh;
+            &__select { 
+                width: 70%;
+                height: 30px;
+                border-radius: 0.5vh;
+                text-align: center;
+                font-size: 16px;
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+        &__inputContainer {
+            width: 80%;
+            @include disfc();
+            &__input {
+                width: 50%;
+                height: 35px;
+                border-radius: 0.5vh;
+                text-align: center;
+                font-size: 22px;
+                &::placeholder {
+                    text-align: center;
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+    &__quantityContracts {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 2fr 1fr 2fr;
+        //padding: 2vh 0vh;
+        &__prop {
+            @include disfc();
+            font-size: 18px;
+            color: white;
+            padding-top: 2vh;
+        }
+        &__massDeleteBtnContainer {
+            @include disfc();
+            color: white;
+            gap: 2vh;
+            &__btn {
+                width: 100%;
+                padding: 0.5vh 1vh;
+                border-radius: 0.5vh;
+            }
+        }
+    }
+    &__headerTable {
+        background-color: rgba(183, 183, 183, 0.85); // blanco translúcido
+        background-color: whitesmoke;
+        width: 90%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        margin-top: 2vh;
+        align-self: center;
+        padding: 1vh 0vh;
+        border-top-left-radius: 1vh;
+        border-top-right-radius: 1vh;
+        &__item {
+            width: 100%;
+            @include disfc();
+            text-align: center;
+            color: black;
+            font-size: 25px;
+        }
+    }
+    &__contractsTable {
+        background-color: black;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 15vh;
+        &__createContractContainer {
+            background-color: rgba(183, 183, 183, 0.85); // blanco translúcido
+            width: 90%;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+            align-self: center;
+            padding: 2vh 0vh;
+            border-bottom-left-radius: 1vh;
+            border-bottom-right-radius: 1vh;
+            &__input {
+                width: 100%;
+                @include disfc();
+                flex-direction: column;
+                padding: 1vh 0vh;
+                &__prop {
+                    width: 90%;
+                    height: 30px;
+                    border-radius: 0.5vh;
+                    text-align: center;
+                }
+            }
+            &__btn {
+                width: 100%;
+                @include disfc();
+                padding: 1vh 0vh;
+                &__prop {
+                    background-color: black;
+                    color: white;
+                    padding: 0.5vh 2vh;
+                    border-radius: 0.5vh;
+                    font-size: 16px;
+                    cursor: pointer;
+                    &:hover {
+                        background: linear-gradient(
+                        to bottom,
+                        #b8860b 0%,
+                        #ffd700 20%,
+                        #fff8dc 40%,
+                        #ffd700 60%,
+                        #b8860b 80%,
+                        #ffd700 100%
+                        );
+                        color: black;
+                    }
+                }
+            }
+        }
+        &__titleTable {
+            color: white;
+            padding: 4vh 0vh 2vh 0vh;
+            text-align: center;
+            font-size: 35px;
+        }
+        &__subTitleTable {
+            color: white;
+            text-align: center;
+            font-size: 35px;
+            padding: 6vh 0vh 0vh 0vh;
+        }
+        &__isLoadingLabel {
+            @include disfc();
+            color: white;
+            padding: 1vh 0vh;
+            font-size: 20px;
+        }
+        &__header {
+            width: 90%;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+            align-self: center;
+            //padding-top: 2vh;
+            &__item {
+                width: 100%;
+                @include disfc();
+                text-align: center;
+                color: white;
+                font-size: 20px;
+            }
+        }
+        &__itemContractContainer {
+            background-color: whitesmoke;
+            width: 90%;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
             align-self: center;
             margin-top: 1vh;
             border-radius: 1vh;
@@ -994,7 +1361,7 @@ $site-color: linear-gradient(
 
 .chatbot-toggle {
   position: fixed;
-  bottom: 80px;
+  bottom: 13vh;
   right: 60px;
   background: linear-gradient(
     to bottom,
