@@ -1,113 +1,144 @@
-// ChatBot.jsx
 import React, { useState } from "react";
-import { FaTimes,FaCommentDots } from "react-icons/fa"; // ícono de burbuja de chat
-
-const rootOptions = ["Préstamos personales", "Requisitos", "Contacto"];
+import { FaTimes, FaCommentDots } from "react-icons/fa";
 
 const chatbotFlow = {
+    inicio: {
+        question: "Completá tus datos para empezar:",
+        options: [] // se maneja con inputs
+    },
     start: {
-        question: "¿En qué podemos ayudarte?",
+        question: "", // personalizado dinámicamente
         options: [
-        { text: "Préstamos personales", next: "prestamos" },
-        { text: "Requisitos", next: "requisitos" },
-        { text: "Contacto", next: "contacto" }
+        { text: "Continuar", next: "tarjeta_de_crédito_activa" },
+        { text: "Volver al inicio", next: "inicio" },
         ]
     },
-    prestamos: {
-        question: "¿Qué tipo de préstamo te interesa?",
+    tarjeta_de_crédito_activa: {
+        question: "¿Tenés tarjeta de crédito activa?",
         options: [
-        { text: "Con recibo de sueldo", next: "prestamo_sueldo" },
-        { text: "Sin recibo de sueldo", next: "prestamo_sin_sueldo" }
+        { text: "Sí", next: "que_tarjeta_tenes" },
+        { text: "No", next: "imposible_solicitar_prestamo" },
         ]
     },
-    prestamo_sueldo: {
-        question: "Ofrecemos préstamos con tasa preferencial. ¿Querés que te llamemos?",
+    que_tarjeta_tenes: {
+        question: "¿Qué tarjeta tenés?",
         options: [
-        { text: "Sí, quiero que me llamen", next: "final_contacto" },
-        { text: "Volver al inicio", next: "start" }
+        { text: "Visa", next: "sos_titular_de_la_tarjeta" },
+        { text: "Mastercard", next: "sos_titular_de_la_tarjeta" },
+        { text: "Naranja", next: "sos_titular_de_la_tarjeta" },
+        { text: "Otra", next: "sos_titular_de_la_tarjeta" }
         ]
     },
-    prestamo_sin_sueldo: {
-        question: "Podemos ayudarte con un préstamo adaptado. ¿Querés más info?",
+    sos_titular_de_la_tarjeta: {
+        question: "¿Sos titular de la tarjeta?",
         options: [
-        { text: "Sí, por favor", next: "final_contacto" },
+        { text: "Sí", next: "final_contacto" },
+        { text: "No", next: "imposible_solicitar_prestamo" },
+        ]
+    },
+    imposible_solicitar_prestamo: {
+        question: "No es posible solicitar el préstamo.",
+        options: [
         { text: "Volver al inicio", next: "start" }
         ]
     },
     final_contacto: {
-        question: "Perfecto. Completá el formulario y te contactamos.",
-        options: [] // se maneja desde el código con un formulario
+        question: "¿Cuál es tu DNI?",
+        options: [] // se maneja con input
     },
-    requisitos: {
-        question: "Los requisitos son: DNI, servicio y recibo de sueldo.",
-        options: [
-        { text: "Volver al inicio", next: "start" }
-        ]
-    },
-    contacto: {
-        question: "Podés escribirnos a WhatsApp o visitar nuestras oficinas.",
-        options: [
-            { text: "Ir a WhatsApp", next: "final_contacto" },
-            { text: "Volver al inicio", next: "start" }
-        ]
-    },
-    link_whatsapp: {
-        question: "Abrí este enlace para contactarnos: https://wa.me/5492926459172",
-        options: [
-            { text: "Volver al inicio", next: "start" }
-        ]
+    final_confirmacion: {
+        question: "¡Gracias! Ya tenemos todo.\nA partir de ahora te contactamos con nuestro asesor para finalizar tu solicitud.",
+        options: [] // botón se maneja desde código
     }
 };
 
 export default function ChatBot({ isOpen, setIsOpen }) {
-    const [currentStep, setCurrentStep] = useState("start");
+    const [currentStep, setCurrentStep] = useState("inicio");
     const [history, setHistory] = useState([]);
-
-  // Form state
     const [formData, setFormData] = useState({
         nombre: "",
-        apellido: "",
-        phone: "",
-        email: ""
+        monto: "",
+        cuotas: "",
+        dni: "",
     });
 
     const step = chatbotFlow[currentStep];
 
     const handleOptionClick = (nextStep) => {
-        const selectedOption = chatbotFlow[currentStep].options.find(opt => opt.next === nextStep);
+        const selectedOption = chatbotFlow[currentStep].options.find(
+            (opt) => opt.next === nextStep
+        );
 
         if (selectedOption) {
-            const isRoot = rootOptions.includes(selectedOption.text);
-            
-            setHistory(prev =>
-                isRoot ? [selectedOption.text] : [...prev, selectedOption.text]
-                );
+            const currentQuestion = chatbotFlow[currentStep].question;
+            const currentAnswer = selectedOption.text;
+
+            // Evitamos duplicados exactos en el historial
+            const isDuplicate = history.some(
+                (item) => item.question === currentQuestion && item.answer === currentAnswer
+            );
+
+            if (currentQuestion && !isDuplicate) {
+                setHistory((prev) => [
+                    ...prev,
+                    {
+                        question: currentQuestion,
+                        answer: currentAnswer,
+                    },
+                ]);
+            }
         }
 
         setCurrentStep(nextStep);
     };
 
-
-
     const handleInputChange = (e) => {
-        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+        setFormData((prev) => ({
+        ...prev,
+        [e.target.name]: e.target.value,
+        }));
     };
 
     const handleSubmit = () => {
-        const { nombre, apellido, phone, email } = formData;
-        const whatsappNumber = "5492926459172"; // reemplazar por el número de la financiera
+        const { nombre, monto, cuotas, dni } = formData;
+        const whatsappNumber = "5492926459172";
 
-        const seleccion = history.map((item, i) => `• ${item}`).join("\n");
+        const now = new Date();
 
-        const message = `Hola, soy ${nombre} ${apellido} y me gustaría recibir información. \nEmail: ${email} \nTeléfono: ${phone} \nSeleccioné:\n${seleccion}`;
+        const fechaId = now.toISOString().slice(0, 10).replace(/-/g, ""); // para el ID: 20250710
+        const id = `PRE-${fechaId}`;
 
-        const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+        // Formatear fecha con hora
+        const dia = now.getDate().toString().padStart(2, "0");
+        const mes = (now.getMonth() + 1).toString().padStart(2, "0");
+        const anio = now.getFullYear();
+        const horas = now.getHours().toString().padStart(2, "0");
+        const minutos = now.getMinutes().toString().padStart(2, "0");
+
+        const fecha = `${dia}/${mes}/${anio} ${horas}:${minutos}`; // 10/07/2025 16:08
+
+        const seleccion = history
+        .map((item) => `• ${item.question}\n→ ${item.answer}`)
+        .join("\n\n");
+
+        const message = `✅ Solicitud de préstamo
+
+        🆔 ID: ${id}
+        📅 Fecha: ${fecha} hs.
+        🙋‍♂️ Nombre: ${nombre}
+        🪪 DNI: ${dni}
+        💰 Monto solicitado: $${monto}
+        📆 Cuotas: ${cuotas}
+
+        📋 Respuestas:
+        ${seleccion}`;
+
+        const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+        message
+        )}`;
+
         window.open(whatsappURL, "_blank");
     };
-
-    /* if (!isOpen) {
-        return null;
-    } */
 
     return (
         <>
@@ -117,76 +148,92 @@ export default function ChatBot({ isOpen, setIsOpen }) {
 
         {isOpen && (
             <div className="chatbot-window">
-
                 <button className="chatbot-close" onClick={() => setIsOpen(false)}>
                     <FaTimes color="black" size={25} />
                 </button>
 
                 <div className="chatbot-messages">
-                        {step.question.includes("https://") ? (
-                            <p>
-                            {step.question.split("https://")[0]}
-                            <a
-                                href={`https://${step.question.split("https://")[1]}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                https://{step.question.split("https://")[1]}
-                            </a>
-                            </p>
-                        ) : (
-                            <p>{step.question}</p>
-                        )}
-                    </div>
-
+                    <p>
+                    {currentStep === "start"
+                        ? `¡Hola ${formData.nombre}! Recibimos tu solicitud de $${formData.monto} en ${formData.cuotas} cuotas. Antes de conectarte con un asesor, respondé estas breves preguntas:`
+                        : step.question}
+                    </p>
+                </div>
 
                 <div className="chatbot-options">
-                    {currentStep === "final_contacto" ? (
+                {currentStep === "inicio" ? (
                     <>
-                        <input
+                    <input
                         type="text"
                         name="nombre"
-                        placeholder="Nombre"
+                        placeholder="Nombre completo"
                         value={formData.nombre}
                         onChange={handleInputChange}
-                        />
-                        <input
-                        type="text"
-                        name="apellido"
-                        placeholder="Apellido"
-                        value={formData.apellido}
+                    />
+                    <input
+                        type="number"
+                        name="monto"
+                        placeholder="Monto a solicitar"
+                        value={formData.monto}
                         onChange={handleInputChange}
-                        />
-                        <input
-                        type="text"
-                        name="phone"
-                        placeholder="Teléfono"
-                        value={formData.phone}
+                    />
+                    <input
+                        type="number"
+                        name="cuotas"
+                        placeholder="Cantidad de cuotas"
+                        value={formData.cuotas}
                         onChange={handleInputChange}
-                        />
-                        <input
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        />
-                        <button onClick={handleSubmit}>Enviar mensaje</button>
-                        <button onClick={() => {
+                    />
+                    <button
+                        onClick={() => {
+                        if (formData.nombre && formData.monto && formData.cuotas) {
                             setCurrentStep("start");
-                            setHistory([]);
-                            }}>
-                            Volver al inicio
-                        </button>
+                        }
+                        }}
+                    >
+                        Continuar
+                    </button>
                     </>
-                    ) : (
+                ) : currentStep === "final_contacto" ? (
+                    <>
+                    <input
+                        type="number"
+                        name="dni"
+                        placeholder="DNI"
+                        value={formData.dni}
+                        onChange={handleInputChange}
+                    />
+                    <button
+                        onClick={() => {
+                        if (formData.dni) {
+                            setCurrentStep("final_confirmacion");
+                        }
+                        }}
+                    >
+                        Continuar
+                    </button>
+                    <button
+                        onClick={() => {
+                        setCurrentStep("start");
+                        setHistory([]);
+                        }}
+                    >
+                        Volver al inicio
+                    </button>
+                    </>
+                ) : currentStep === "final_confirmacion" ? (
+                    <>
+                    <button onClick={handleSubmit}>Contactar asesor</button>
+                    </>
+                ) : (
                     step.options.map((option, index) => (
-                        <button key={index} onClick={() => handleOptionClick(option.next)}>
+                    <button key={index} onClick={() => handleOptionClick(option.next)}>
                         {option.text}
-                        </button>
+                    </button>
                     ))
-                    )}
+                )}
                 </div>
+
             </div>
         )}
         </>

@@ -398,7 +398,7 @@ const CPanel = () => {
                         <Link to={"/bin"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
                             - Papelera
                         </Link>
-                        <Link to={"/bin"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
+                        <Link to={"/cPanel"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
                             - Panel de control
                         </Link>
                     </div>
