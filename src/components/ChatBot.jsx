@@ -64,33 +64,40 @@ export default function ChatBot({ isOpen, setIsOpen }) {
 
     const step = chatbotFlow[currentStep];
 
-    const handleOptionClick = (nextStep) => {
-        const selectedOption = chatbotFlow[currentStep].options.find(
-            (opt) => opt.next === nextStep
-        );
+    const handleOptionClick = (option) => {
+        const { text, next } = option;
 
-        if (selectedOption) {
-            const currentQuestion = chatbotFlow[currentStep].question;
-            const currentAnswer = selectedOption.text;
-
-            // Evitamos duplicados exactos en el historial
-            const isDuplicate = history.some(
-                (item) => item.question === currentQuestion && item.answer === currentAnswer
-            );
-
-            if (currentQuestion && !isDuplicate) {
-                setHistory((prev) => [
-                    ...prev,
-                    {
-                        question: currentQuestion,
-                        answer: currentAnswer,
-                    },
-                ]);
-            }
+        // Si volvés al inicio, reseteás todo
+        if (next === "inicio") {
+            setCurrentStep("inicio");
+            setHistory([]);
+            return;
         }
 
-        setCurrentStep(nextStep);
+        // Guardar tarjeta correctamente
+        if (currentStep === "que_tarjeta_tenes") {
+            setFormData((prev) => ({
+            ...prev,
+            tarjeta: text
+            }));
+        }
+
+        const currentQuestion = chatbotFlow[currentStep].question;
+
+        const isDuplicate = history.some(
+            (item) => item.question === currentQuestion && item.answer === text
+        );
+
+        if (currentQuestion && !isDuplicate) {
+            setHistory((prev) => [
+            ...prev,
+            { question: currentQuestion, answer: text }
+            ]);
+        }
+
+        setCurrentStep(next);
     };
+
 
     const handleInputChange = (e) => {
         setFormData((prev) => ({
@@ -123,15 +130,15 @@ export default function ChatBot({ isOpen, setIsOpen }) {
 
         const message = `✅ Solicitud de préstamo
 
-        🆔 ID: ${id}
-        📅 Fecha: ${fecha} hs.
-        🙋‍♂️ Nombre: ${nombre}
-        🪪 DNI: ${dni}
-        💰 Monto solicitado: $${monto}
-        📆 Cuotas: ${cuotas}
+🆔 ID: ${id}
+📅 Fecha: ${fecha} hs.
+🙋‍♂️ Nombre: ${nombre}
+🪪 DNI: ${dni}
+💰 Monto solicitado: $${monto}
+📆 Cuotas: ${cuotas}
 
-        📋 Respuestas:
-        ${seleccion}`;
+📋 Respuestas:
+${seleccion}`;
 
         const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
         message
@@ -226,11 +233,17 @@ export default function ChatBot({ isOpen, setIsOpen }) {
                     <button onClick={handleSubmit}>Contactar asesor</button>
                     </>
                 ) : (
-                    step.options.map((option, index) => (
+                    /* step.options.map((option, index) => (
                     <button key={index} onClick={() => handleOptionClick(option.next)}>
                         {option.text}
                     </button>
+                    )) */
+                   step.options.map((option, index) => (
+                        <button key={index} onClick={() => handleOptionClick(option)}>
+                            {option.text}
+                        </button>
                     ))
+
                 )}
                 </div>
 

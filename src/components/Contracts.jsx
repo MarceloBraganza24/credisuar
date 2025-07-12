@@ -11,12 +11,15 @@ const Contracts = () => {
     const [loadingCurrentUser, setLoadingCurrentUser] = useState(true);
     const [inputFilteredContracts, setInputFilteredContracts] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedPreview, setSelectedPreview] = useState(null); // { type: 'image' | 'pdf' | 'doc', url: string }
     const [selectedPdf, setSelectedPdf] = useState(null);
     const [menuOptions, setMenuOptions] = useState(false);
     const [contracts, setContracts] = useState([]);
+    console.log(contracts)
+    const [isLoadingContracts, setIsLoadingContracts] = useState(true);
+    //console.log(contracts)
     const [totalContracts, setTotalContracts] = useState("");
     const [user, setUser] = useState('');
-    const [isLoadingContracts, setIsLoadingContracts] = useState(true);
     const [loading, setLoading] = useState(false);
     const [pageInfo, setPageInfo] = useState({
         page: 1,
@@ -33,8 +36,9 @@ const Contracts = () => {
         phoneNumber: 'Teléfono',
         all: 'Todos'
     };
-    const [contractformData, setContractformData] = useState({
+    const [contractFormData, setContractFormData] = useState({
         transaction_number: '',
+        transaction_date: '',
         first_name: '',
         last_name: '',
         dni: '',
@@ -45,10 +49,12 @@ const Contracts = () => {
         image_dni_preview: ''
     });
 
+    const contractsSorted = contracts.sort((a, b) => a.createdAt - b.createdAt);
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setContractformData({
-            ...contractformData,
+        setContractFormData({
+            ...contractFormData,
             [name]: value
         });
     };
@@ -74,20 +80,31 @@ const Contracts = () => {
                 return;
             }
         }
-
+        
         if (name === 'image_dni') {
-            const validImageTypes = ['image/jpeg', 'image/png'];
-            if (!validImageTypes.includes(file.type)) {
-                toast('La imagen del DNI debe ser JPG o PNG.', {
-                    position: 'top-right',
-                    autoClose: 3000,
-                });
-                return;
-            }
+            const fileType = file.type;
+
+            const updatedForm = {
+                ...contractFormData,
+                image_dni: file,
+                image_dni_preview: file.type.startsWith('image/') ? URL.createObjectURL(file) : file.name,
+            };
+
+            // Vista previa para distintos tipos
+            /* if (fileType.startsWith('image/')) {
+                setSelectedPreview({ type: 'image', url: URL.createObjectURL(file) });
+            } else if (fileType === 'application/pdf') {
+                setSelectedPreview({ type: 'pdf', url: URL.createObjectURL(file) });
+            } else {
+                setSelectedPreview({ type: 'doc', url: file.name });
+            } */
+
+            setContractFormData(updatedForm);
         }
 
+
         const updatedForm = {
-            ...contractformData,
+            ...contractFormData,
             [name]: file,
         };
 
@@ -97,7 +114,7 @@ const Contracts = () => {
             updatedForm.image_dni_preview = URL.createObjectURL(file);
         }
 
-        setContractformData(updatedForm);
+        setContractFormData(updatedForm);
     };
 
     const handleBtnLogOut = async () => {
@@ -128,13 +145,24 @@ const Contracts = () => {
         }
     }
 
+    const formatToDatetimeLocal = (isoString) => {
+        const date = new Date(isoString);
+        const offset = date.getTimezoneOffset();
+        const localDate = new Date(date.getTime() - offset * 60000);
+        return localDate.toISOString().slice(0, 16); // "YYYY-MM-DDTHH:mm"
+    };
+
     const fetchContracts = async (page = 1, search = "",field = "") => {
         try {
             const response = await fetch(`http://localhost:8081/api/contracts/byPage?page=${page}&search=${search}&field=${field}`)
             const contractsAll = await response.json();
             if(response.ok) {
+                const formattedContracts = contractsAll.data.docs.map(contract => ({
+                    ...contract,
+                    transaction_date: formatToDatetimeLocal(contract.transaction_date)
+                }));
+                setContracts(formattedContracts);
                 setTotalContracts(contractsAll.data.totalDocs)
-                setContracts(contractsAll.data.docs)
                 setPageInfo({
                     page: contractsAll.data.page,
                     totalPages: contractsAll.data.totalPages,
@@ -181,13 +209,14 @@ const Contracts = () => {
     const handleBtnSubmitContract = async () => {
         // Validación de campos vacíos
         if (
-            !contractformData.transaction_number.trim() ||
-            !contractformData.first_name.trim() ||
-            !contractformData.last_name.trim() ||
-            !contractformData.dni.trim() ||
-            !contractformData.phoneNumber.trim() ||
-            !contractformData.contract_file ||
-            !contractformData.image_dni
+            !contractFormData.transaction_number.trim() ||
+            !contractFormData.transaction_date ||
+            !contractFormData.first_name.trim() ||
+            !contractFormData.last_name.trim() ||
+            !contractFormData.dni.trim() ||
+            !contractFormData.phoneNumber.trim() ||
+            !contractFormData.contract_file ||
+            !contractFormData.image_dni
         ) {
             toast('Por favor, completá todos los campos y cargá los archivos requeridos.', {
                 position: "top-right",
@@ -209,7 +238,7 @@ const Contracts = () => {
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document' // .docx
         ];
 
-        if (!validContractTypes.includes(contractformData.contract_file.type)) {
+        if (!validContractTypes.includes(contractFormData.contract_file.type)) {
             toast('El archivo de contrato debe ser PDF, DOC o DOCX.', {
                 position: "top-right",
                 autoClose: 3000,
@@ -220,9 +249,9 @@ const Contracts = () => {
         }
 
         // Validar imagen del DNI (solo .jpg, .jpeg, .png)
-        const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+        const validImageTypes = ['image/jpeg', 'image/png'];
 
-        if (!validImageTypes.includes(contractformData.image_dni.type)) {
+        if (!validImageTypes.includes(contractFormData.image_dni.type)) {
             toast('La imagen del DNI debe ser JPG, JPEG o PNG.', {
                 position: "top-right",
                 autoClose: 3000,
@@ -233,13 +262,14 @@ const Contracts = () => {
         }
         
         const formDataToSend = new FormData();
-        formDataToSend.append('transaction_number', contractformData.transaction_number);
-        formDataToSend.append('first_name', contractformData.first_name);
-        formDataToSend.append('last_name', contractformData.last_name);
-        formDataToSend.append('dni', contractformData.dni);
-        formDataToSend.append('phoneNumber', contractformData.phoneNumber);
-        formDataToSend.append('contract_file', contractformData.contract_file);
-        formDataToSend.append('image_dni', contractformData.image_dni);
+        formDataToSend.append('transaction_number', contractFormData.transaction_number);
+        formDataToSend.append('transaction_date', contractFormData.transaction_date);
+        formDataToSend.append('first_name', contractFormData.first_name);
+        formDataToSend.append('last_name', contractFormData.last_name);
+        formDataToSend.append('dni', contractFormData.dni);
+        formDataToSend.append('phoneNumber', contractFormData.phoneNumber);
+        formDataToSend.append('contract_file', contractFormData.contract_file);
+        formDataToSend.append('image_dni', contractFormData.image_dni);
 
         try {
             const response = await fetch('http://localhost:8081/api/contracts', {
@@ -258,14 +288,17 @@ const Contracts = () => {
                     theme: "dark",
                     className: "custom-toast",
                 });
-                setContractformData({
+                setContractFormData({
                     transaction_number: '',
+                    transaction_date: '',
                     first_name: '',
                     last_name: '',
                     dni: '',
                     phoneNumber: '',
                     contract_file: null,
+                    contract_file_preview: '',
                     image_dni: null,
+                    image_dni_preview: ''
                 });
                 fetchContracts(1, inputFilteredContracts, 'all')
             } else {
@@ -590,6 +623,7 @@ const Contracts = () => {
 
                 <div className='contractsContainer__headerTable'>
                     <div className='contractsContainer__headerTable__item'>N° transacción</div>
+                    <div className='contractsContainer__headerTable__item'>Fecha y hora transacción</div>
                     <div className='contractsContainer__headerTable__item'>Nombre</div>
                     <div className='contractsContainer__headerTable__item'>Apellido</div>
                     <div className='contractsContainer__headerTable__item'>DNI</div>
@@ -604,40 +638,66 @@ const Contracts = () => {
                     <div className='contractsContainer__contractsTable__createContractContainer'>
 
                         <div className='contractsContainer__contractsTable__createContractContainer__input'>
-                            <input onChange={handleInputChange} value={contractformData.transaction_number} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="text" name="transaction_number" placeholder="N° transacción" required/>
+                            <input onChange={handleInputChange} value={contractFormData.transaction_number} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="text" name="transaction_number" placeholder="N° transacción" required/>
                         </div>
                         <div className='contractsContainer__contractsTable__createContractContainer__input'>
-                            <input onChange={handleInputChange} value={contractformData.first_name} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="text" name="first_name" placeholder="Nombre" required/>
+                            <input onChange={handleInputChange} value={contractFormData.transaction_date} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="datetime-local" name="transaction_date" placeholder="Fecha transacción" required/>
                         </div>
                         <div className='contractsContainer__contractsTable__createContractContainer__input'>
-                            <input onChange={handleInputChange} value={contractformData.last_name} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="text" name="last_name" placeholder="Apellido" required/>
+                            <input onChange={handleInputChange} value={contractFormData.first_name} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="text" name="first_name" placeholder="Nombre" required/>
                         </div>
                         <div className='contractsContainer__contractsTable__createContractContainer__input'>
-                            <input onChange={handleInputChange} value={contractformData.dni} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="text" name="dni" placeholder="DNI" required/>
+                            <input onChange={handleInputChange} value={contractFormData.last_name} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="text" name="last_name" placeholder="Apellido" required/>
                         </div>
                         <div className='contractsContainer__contractsTable__createContractContainer__input'>
-                            <input onChange={handleInputChange} value={contractformData.phoneNumber} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="text" name="phoneNumber" placeholder="Teléfono" required/>
+                            <input onChange={handleInputChange} value={contractFormData.dni} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="text" name="dni" placeholder="DNI" required/>
                         </div>
                         <div className='contractsContainer__contractsTable__createContractContainer__input'>
-                            <input onChange={handleFileChange} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="file" name="contract_file" accept=".pdf,.doc,.docx" required/>
-                            {contractformData.contract_file && (
-                            <p
-                                style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
-                                onClick={() => setSelectedPdf(URL.createObjectURL(contractformData.contract_file))}
-                            >
-                                Ver archivo
-                            </p>
+                            <input onChange={handleInputChange} value={contractFormData.phoneNumber} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="text" name="phoneNumber" placeholder="Teléfono" required/>
+                        </div>
+                        <div className='contractsContainer__contractsTable__createContractContainer__input'>
+                            <label htmlFor="contractFileInput" className="contractsContainer__contractsTable__createContractContainer__input__fileInputButton">
+                                Seleccionar archivo
+                            </label>
+                            <input
+                                id="contractFileInput"
+                                type="file"
+                                name="contract_file"
+                                accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                onChange={handleFileChange}
+                                className="contractsContainer__contractsTable__createContractContainer__input__propFile"
+                                required
+                            />
+                            {contractFormData.contract_file && (
+                                <div className='contractsContainer__contractsTable__createContractContainer__input__nameContract'>
+                                    <p className="contractsContainer__contractsTable__createContractContainer__input__nameContract__item">{contractFormData.contract_file.name}</p>
+                                </div>
                             )}
                         </div>
                         <div className='contractsContainer__contractsTable__createContractContainer__input'>
-                            <input onChange={handleFileChange} className='contractsContainer__contractsTable__createContractContainer__input__prop' type="file" name="image_dni" accept=".jpg,.jpeg,.png"  required/>
-                            {contractformData.image_dni && (
-                            <p
-                                style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
-                                onClick={() => setSelectedImage(contractformData.image_dni_preview)}
-                            >
-                                Ver imagen
-                            </p>
+                            <label htmlFor="contractFileImageInput" className="contractsContainer__contractsTable__createContractContainer__input__fileInputButton">
+                                Seleccionar archivo
+                            </label>
+                            <input id="contractFileImageInput" onChange={handleFileChange} className='contractsContainer__contractsTable__createContractContainer__input__propFile' type="file" name="image_dni" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"  required/>
+                            {contractFormData.image_dni && (
+                                <div className='contractsContainer__contractsTable__createContractContainer__input__nameContract'>
+                                    <p 
+                                    onClick={() => {
+                                        const file = contractFormData.image_dni;
+                                        const fileType = file.type;
+
+                                        if (fileType.startsWith('image/')) {
+                                            setSelectedPreview({ type: 'image', url: URL.createObjectURL(file) });
+                                        } else if (fileType === 'application/pdf') {
+                                            setSelectedPreview({ type: 'pdf', url: URL.createObjectURL(file) });
+                                        } else {
+                                            setSelectedPreview({ type: 'doc', url: file.name });
+                                        }
+                                    }}
+                                    className="contractsContainer__contractsTable__createContractContainer__input__nameContract__item">
+                                        {contractFormData.image_dni.name}
+                                    </p>
+                                </div>
                             )}
                         </div>
                         <div className='contractsContainer__contractsTable__createContractContainer__btn'>
@@ -653,8 +713,6 @@ const Contracts = () => {
                             <input type="text" onChange={handleInputFilteredContracts} value={inputFilteredContracts} placeholder={`Buscar contrato`} className='contractsContainer__inputSearchProduct__inputContainer__input' name="" id="" />
                         </div>
                     </div>
-
-                    {/* <div className='contractsContainer__contractsTable__titleTable'>Lista de contratos</div> */}
 
                     <div className='contractsContainer__quantityContracts'>
                         <div className='contractsContainer__quantityContracts__massDeleteBtnContainer'>
@@ -684,6 +742,7 @@ const Contracts = () => {
                     <div className='contractsContainer__contractsTable__header'>
                         <div className='contractsContainer__contractsTable__header__item'></div>
                         <div className='contractsContainer__contractsTable__header__item'>N° transacción</div>
+                        <div className='contractsContainer__contractsTable__header__item'>Fecha y hora transacción</div>
                         <div className='contractsContainer__contractsTable__header__item'>Nombre</div>
                         <div className='contractsContainer__contractsTable__header__item'>Apellido</div>
                         <div className='contractsContainer__contractsTable__header__item'>DNI</div>
@@ -701,125 +760,149 @@ const Contracts = () => {
                                 </div>
                             </>
                         :
-                        contracts.map((contract, index) => (
-                            <div className="contractsContainer__contractsTable__itemContractContainer" key={contract._id}>
-                                <div className="contractsContainer__contractsTable__itemContractContainer__checkBox">
-                                    <input
-                                        className='contractsContainer__contractsTable__itemContractContainer__checkBox__prop'
-                                        type="checkbox"
-                                        checked={selectedContracts.includes(contract._id)}
-                                        onChange={() => toggleSelectContract(contract._id)}
-                                    />
-                                </div>
-                                <div className="contractsContainer__contractsTable__itemContractContainer__input">
-                                    <input
+                        contractsSorted.map((contract, index) => {
+                            return (
+                                <div className="contractsContainer__contractsTable__itemContractContainer" key={contract._id}>
+                                    {console.log(contract)}
+                                    <div className="contractsContainer__contractsTable__itemContractContainer__checkBox">
+                                        <input
+                                            className='contractsContainer__contractsTable__itemContractContainer__checkBox__prop'
+                                            type="checkbox"
+                                            checked={selectedContracts.includes(contract._id)}
+                                            onChange={() => toggleSelectContract(contract._id)}
+                                        />
+                                    </div>
+                                    <div className="contractsContainer__contractsTable__itemContractContainer__input">
+                                        <input
+                                            className='contractsContainer__contractsTable__itemContractContainer__input__prop'
+                                            type="text"
+                                            value={contract.transaction_number}
+                                            onChange={(e) => handleContractFieldChange(index, 'transaction_number', e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="contractsContainer__contractsTable__itemContractContainer__input">
+                                        <input
                                         className='contractsContainer__contractsTable__itemContractContainer__input__prop'
-                                        type="text"
-                                        value={contract.transaction_number}
-                                        onChange={(e) => handleContractFieldChange(index, 'transaction_number', e.target.value)}
-                                    />
-                                </div>
-                                <div className="contractsContainer__contractsTable__itemContractContainer__input">
-                                    <input
-                                        className='contractsContainer__contractsTable__itemContractContainer__input__prop'
-                                        type="text"
-                                        value={contract.first_name}
-                                        onChange={(e) => handleContractFieldChange(index, 'first_name', e.target.value)}
-                                    />
-                                </div>
-                                <div className="contractsContainer__contractsTable__itemContractContainer__input">
-                                    <input
-                                        className='contractsContainer__contractsTable__itemContractContainer__input__prop'
-                                        type="text"
-                                        value={contract.last_name}
-                                        onChange={(e) => handleContractFieldChange(index, 'last_name', e.target.value)}
-                                    />
-                                </div>
-                                <div className="contractsContainer__contractsTable__itemContractContainer__input">
-                                    <input
-                                        className='contractsContainer__contractsTable__itemContractContainer__input__prop'
-                                        type="text"
-                                        value={contract.dni}
-                                        onChange={(e) => handleContractFieldChange(index, 'dni', e.target.value)}
-                                    />
-                                </div>
-                                <div className="contractsContainer__contractsTable__itemContractContainer__input">
-                                    <input
-                                        className='contractsContainer__contractsTable__itemContractContainer__input__prop'
-                                        type="text"
-                                        value={contract.phoneNumber}
-                                        onChange={(e) => handleContractFieldChange(index, 'phoneNumber', e.target.value)}
-                                    />
-                                </div>
-                                <div className="contractsContainer__contractsTable__itemContractContainer__inputFile">
-                                    <input
-                                        className='contractsContainer__contractsTable__itemContractContainer__inputFile__prop'
-                                        type="file"
-                                        accept=".pdf"
-                                        onChange={(e) => handleContractFileChange(index, 'contract_file', e.target.files[0])}
-                                    />
-                                    {contract.contract_file && (
-                                    <p
-                                        style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
-                                        onClick={() => {
-                                        const isFile = contract.contract_file instanceof File;
-                                        const url = isFile
-                                            ? URL.createObjectURL(contract.contract_file)
-                                            : `http://localhost:8081/${contract.contract_file}`;
-                                        setSelectedPdf(url);
-                                        }}
-                                    >
-                                        Ver contrato
-                                    </p>
-                                    )}
+                                        type="datetime-local"
+                                        value={contract.transaction_date}
+                                        onChange={(e) => handleContractFieldChange(index, 'transaction_date', e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="contractsContainer__contractsTable__itemContractContainer__input">
+                                        <input
+                                            className='contractsContainer__contractsTable__itemContractContainer__input__prop'
+                                            type="text"
+                                            value={contract.first_name}
+                                            onChange={(e) => handleContractFieldChange(index, 'first_name', e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="contractsContainer__contractsTable__itemContractContainer__input">
+                                        <input
+                                            className='contractsContainer__contractsTable__itemContractContainer__input__prop'
+                                            type="text"
+                                            value={contract.last_name}
+                                            onChange={(e) => handleContractFieldChange(index, 'last_name', e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="contractsContainer__contractsTable__itemContractContainer__input">
+                                        <input
+                                            className='contractsContainer__contractsTable__itemContractContainer__input__prop'
+                                            type="text"
+                                            value={contract.dni}
+                                            onChange={(e) => handleContractFieldChange(index, 'dni', e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="contractsContainer__contractsTable__itemContractContainer__input">
+                                        <input
+                                            className='contractsContainer__contractsTable__itemContractContainer__input__prop'
+                                            type="text"
+                                            value={contract.phoneNumber}
+                                            onChange={(e) => handleContractFieldChange(index, 'phoneNumber', e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="contractsContainer__contractsTable__itemContractContainer__inputFile">
+                                        <label htmlFor="itemContractListFileInput" className="contractsContainer__contractsTable__itemContractContainer__inputFile__fileInputButton">
+                                            Seleccionar archivo
+                                        </label>
+                                        <input
+                                            id='itemContractListFileInput'
+                                            type="file"
+                                            className='contractsContainer__contractsTable__itemContractContainer__inputFile__propFile'
+                                            accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                            onChange={(e) => handleContractFileChange(index, 'contract_file', e.target.files[0])}
+                                        />
+                                        {contract.contract_file && (
+                                            <>
+                                            <p
+                                            style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
+                                            onClick={() => {
+                                                const isFile = contract.contract_file instanceof File;
+                                                const url = isFile
+                                                ? URL.createObjectURL(contract.contract_file)
+                                                : `http://localhost:8081/${contract.contract_file}`;
 
-                                </div>
-                                <div className="contractsContainer__contractsTable__itemContractContainer__inputFile">
-                                    <input
-                                        className='contractsContainer__contractsTable__itemContractContainer__inputFile__prop'
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={(e) => handleContractFileChange(index, 'image_dni', e.target.files[0])}
-                                    />
-                                    {contract.dni_image_preview ? (
-                                    <p
-                                        style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
-                                        onClick={() => setSelectedImage(contract.dni_image_preview)}
-                                    >
-                                        Ver imagen
-                                    </p>
-                                    ) : contract.image_dni ? (
-                                    <p
-                                        style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
-                                        onClick={() => setSelectedImage(`http://localhost:8081/${contract.dni_image}`)}
-                                    >
-                                        Ver imagen
-                                    </p>
-                                    ) : null}
+                                                const extension = url.split('.').pop().toLowerCase();
 
-                                </div>  
+                                                if (extension !== 'pdf') {
+                                                // Si no es PDF, abrir en nueva pestaña y no mostrar modal
+                                                window.open(url, '_blank');
+                                                } else {
+                                                // Si es PDF, mostrarlo en el modal
+                                                setSelectedPdf(url);
+                                                }
+                                            }}
+                                            >
+                                            Ver contrato
+                                            </p>
 
+                                            </>
+                                        )}
 
-                                <div className="contractsContainer__contractsTable__itemContractContainer__btn">
-                                    <button className='contractsContainer__contractsTable__itemContractContainer__btn__prop' onClick={() => handleSaveContract(contract._id, contract)}>Guardar</button>
-                                    {loading ? (
-                                        <button
-                                        disabled
-                                        className='cPanelProductsContainer__productsTable__itemContainer__btnsContainer__btn'
+                                    </div>
+                                    <div className="contractsContainer__contractsTable__itemContractContainer__inputFile">
+                                        <label htmlFor="itemContractListImageFileInput" className="contractsContainer__contractsTable__itemContractContainer__inputFile__fileInputButton">
+                                            Seleccionar archivo
+                                        </label>
+                                        <input
+                                            id='itemContractListImageFileInput'
+                                            className='contractsContainer__contractsTable__itemContractContainer__inputFile__propFile'
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={(e) => handleContractFileChange(index, 'image_dni', e.target.files[0])}
+                                        />
+                                        {contract.image_dni ? (
+                                        <p
+                                            style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
+                                            onClick={() => setSelectedImage(contract.image_dni)}
                                         >
-                                        <Spinner/>
-                                        </button>
-                                    ) : (
-                                        <button
-                                        onClick={() => handleBtnDeleteContract(contract._id)}
-                                        className='contractsContainer__contractsTable__itemContractContainer__btn__prop'
-                                        >
-                                        Borrar
-                                        </button>
-                                    )}
+                                            Ver imagen
+                                        </p>
+                                        ) :  null}
+
+                                    </div>  
+
+
+                                    <div className="contractsContainer__contractsTable__itemContractContainer__btn">
+                                        <button className='contractsContainer__contractsTable__itemContractContainer__btn__prop' onClick={() => handleSaveContract(contract._id, contract)}>Guardar</button>
+                                        {loading ? (
+                                            <button
+                                            disabled
+                                            className='cPanelProductsContainer__productsTable__itemContainer__btnsContainer__btn'
+                                            >
+                                            <Spinner/>
+                                            </button>
+                                        ) : (
+                                            <button
+                                            onClick={() => handleBtnDeleteContract(contract._id)}
+                                            className='contractsContainer__contractsTable__itemContractContainer__btn__prop'
+                                            >
+                                            Borrar
+                                            </button>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        ))
+                            )
+                        })
                     }
 
                 </div>
@@ -850,6 +933,49 @@ const Contracts = () => {
 
             </div>
 
+            {selectedPreview && (
+            <div
+                onClick={() => setSelectedPreview(null)}
+                style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100vw',
+                    height: '100vh',
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    zIndex: 9999,
+                    cursor: 'pointer'
+                }}
+            >
+                {selectedPreview.type === 'image' && (
+                    <img
+                        src={selectedPreview.url}
+                        alt="Vista previa"
+                        style={{ maxWidth: '90%', maxHeight: '90%', borderRadius: '10px' }}
+                    />
+                )}
+                {selectedPreview.type === 'pdf' && (
+                    <iframe
+                        src={selectedPreview.url}
+                        title="Vista previa PDF"
+                        style={{ width: '80%', height: '90%', border: 'none', borderRadius: '10px' }}
+                    />
+                )}
+                {selectedPreview.type === 'doc' && (
+                    <div style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '10px' }}>
+                        <p style={{ color: 'black' }}>
+                            Archivo cargado: <strong>{selectedPreview.url}</strong>
+                        </p>
+                        <p style={{ color: 'gray' }}>(No se puede previsualizar este tipo de archivo)</p>
+                    </div>
+                )}
+            </div>
+        )}
+
+
             {selectedImage && (
                 <div
                     onClick={() => setSelectedImage(null)}
@@ -868,7 +994,7 @@ const Contracts = () => {
                     }}
                 >
                     <img
-                    src={selectedImage}
+                    src={`http://localhost:8081/${selectedImage}`}
                     alt="Imagen en grande"
                     style={{ maxWidth: '90%', maxHeight: '90%', borderRadius: '10px' }}
                     />

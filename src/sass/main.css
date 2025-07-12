@@ -502,14 +502,15 @@
 .contractsContainer__headerTable {
   background-color: rgba(183, 183, 183, 0.85);
   background-color: whitesmoke;
-  width: 90%;
+  width: 95%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   margin-top: 2vh;
   align-self: center;
   padding: 1vh 0vh;
   border-top-left-radius: 1vh;
   border-top-right-radius: 1vh;
+  gap: 2vh;
 }
 .contractsContainer__headerTable__item {
   width: 100%;
@@ -518,7 +519,7 @@
   align-items: center;
   text-align: center;
   color: black;
-  font-size: 25px;
+  font-size: 22px;
 }
 .contractsContainer__contractsTable {
   background-color: black;
@@ -528,16 +529,18 @@
 }
 .contractsContainer__contractsTable__createContractContainer {
   background-color: rgba(183, 183, 183, 0.85);
-  width: 90%;
+  width: 95%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   align-self: center;
   padding: 2vh 0vh;
+  gap: 2vh;
   border-bottom-left-radius: 1vh;
   border-bottom-right-radius: 1vh;
 }
 .contractsContainer__contractsTable__createContractContainer__input {
   width: 100%;
+  min-width: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -549,6 +552,37 @@
   height: 30px;
   border-radius: 0.5vh;
   text-align: center;
+}
+.contractsContainer__contractsTable__createContractContainer__input__fileInputButton {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  padding-bottom: 0.5vh;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.contractsContainer__contractsTable__createContractContainer__input__propFile {
+  display: none;
+}
+.contractsContainer__contractsTable__createContractContainer__input__nameContract {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow: hidden;
+}
+.contractsContainer__contractsTable__createContractContainer__input__nameContract__item {
+  max-width: 200px; /* o lo que necesites */
+  overflow-x: auto;
+  white-space: nowrap;
+  display: block;
+  cursor: pointer;
+  scrollbar-width: thin; /* para Firefox */
+}
+.contractsContainer__contractsTable__createContractContainer__input__nameContract__item::-webkit-scrollbar {
+  display: none;
 }
 .contractsContainer__contractsTable__createContractContainer__btn {
   width: 100%;
@@ -590,9 +624,9 @@
   font-size: 20px;
 }
 .contractsContainer__contractsTable__header {
-  width: 90%;
+  width: 95%;
   display: grid;
-  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   align-self: center;
   padding-top: 2vh;
 }
@@ -607,9 +641,9 @@
 }
 .contractsContainer__contractsTable__itemContractContainer {
   background-color: whitesmoke;
-  width: 90%;
+  width: 95%;
   display: grid;
-  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   align-self: center;
   margin-top: 1vh;
   border-radius: 1vh;
@@ -657,6 +691,18 @@
   border-radius: 0.5vh;
   text-align: center;
   color: black;
+}
+.contractsContainer__contractsTable__itemContractContainer__inputFile__fileInputButton {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.contractsContainer__contractsTable__itemContractContainer__inputFile__propFile {
+  display: none;
 }
 .contractsContainer__contractsTable__itemContractContainer__btn {
   width: 100%;

@@ -441,11 +441,8 @@ $site-color: linear-gradient(
     }
     &__inputSearchProduct {
         width: 100%;
-        // display: grid;
-        // grid-template-columns: 1fr 2fr 1fr;
         @include disfc();
         padding-bottom: 2vh;
-        //margin-top: 2vh;
         &__selectContainer {
             @include disfc();
             gap: 2vh;
@@ -500,20 +497,21 @@ $site-color: linear-gradient(
     &__headerTable {
         background-color: rgba(183, 183, 183, 0.85); // blanco translúcido
         background-color: whitesmoke;
-        width: 90%;
+        width: 95%;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
         margin-top: 2vh;
         align-self: center;
         padding: 1vh 0vh;
         border-top-left-radius: 1vh;
         border-top-right-radius: 1vh;
+        gap: 2vh;
         &__item {
             width: 100%;
             @include disfc();
             text-align: center;
             color: black;
-            font-size: 25px;
+            font-size: 22px;
         }
     }
     &__contractsTable {
@@ -523,15 +521,17 @@ $site-color: linear-gradient(
         flex-direction: column;
         &__createContractContainer {
             background-color: rgba(183, 183, 183, 0.85); // blanco translúcido
-            width: 90%;
+            width: 95%;
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
             align-self: center;
             padding: 2vh 0vh;
+            gap: 2vh;
             border-bottom-left-radius: 1vh;
             border-bottom-right-radius: 1vh;
             &__input {
                 width: 100%;
+                min-width: 0;
                 @include disfc();
                 flex-direction: column;
                 padding: 1vh 0vh;
@@ -540,6 +540,36 @@ $site-color: linear-gradient(
                     height: 30px;
                     border-radius: 0.5vh;
                     text-align: center;
+                }
+                &__fileInputButton {
+                    display: inline-block;
+                    font-weight: bold;
+                    font-size: 14px;
+                    cursor: pointer;
+                    padding-bottom: 0.5vh;
+                    user-select: none;
+                }
+                &__propFile {
+                    display: none;
+                }
+                &__nameContract {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 100%;
+                    overflow: hidden;
+                    &__item {
+                        max-width: 200px; /* o lo que necesites */
+                        overflow-x: auto;
+                        white-space: nowrap;
+                        //text-overflow: ellipsis; /* opcional si querés cortar con "..." */
+                        display: block;
+                        cursor: pointer;
+                        scrollbar-width: thin; /* para Firefox */
+                        &::-webkit-scrollbar {
+                            display: none;             // Chrome, Safari
+                        }
+                    }
                 }
             }
             &__btn {
@@ -587,9 +617,9 @@ $site-color: linear-gradient(
             font-size: 20px;
         }
         &__header {
-            width: 90%;
+            width: 95%;
             display: grid;
-            grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
             align-self: center;
             padding-top: 2vh;
             &__item {
@@ -602,9 +632,9 @@ $site-color: linear-gradient(
         }
         &__itemContractContainer {
             background-color: whitesmoke;
-            width: 90%;
+            width: 95%;
             display: grid;
-            grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
             align-self: center;
             margin-top: 1vh;
             border-radius: 1vh;
@@ -647,6 +677,16 @@ $site-color: linear-gradient(
                     border-radius: 0.5vh;
                     text-align: center;
                     color: black;
+                }
+                &__fileInputButton {
+                    display: inline-block;
+                    font-weight: bold;
+                    font-size: 14px;
+                    cursor: pointer;
+                    user-select: none;
+                }
+                &__propFile {
+                    display: none;
                 }
             }
             &__btn {
