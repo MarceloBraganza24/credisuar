@@ -14,6 +14,10 @@ const Bin = () => {
     const navigate = useNavigate();
     const [menuOptions, setMenuOptions] = useState(false);
 
+    
+    // console.log(contracts)
+    // const contractsSorted = contracts.sort((a, b) => b.createdAt - a.createdAt);
+
     const fetchDeletedContracts = async () => {
         try {
             const response = await fetch('http://localhost:8081/api/contracts/deleted');
@@ -266,6 +270,7 @@ const Bin = () => {
 
                             <div className="binContainer__headerTableContainer__headerTable__item">&nbsp;</div>
                             <div className="binContainer__headerTableContainer__headerTable__item">N° transacción</div>
+                            <div className="binContainer__headerTableContainer__headerTable__item">Fecha y hora transacción</div>
                             <div className="binContainer__headerTableContainer__headerTable__item">Nombre</div>
                             <div className="binContainer__headerTableContainer__headerTable__item">Apellido</div>
                             <div className="binContainer__headerTableContainer__headerTable__item">DNI</div>

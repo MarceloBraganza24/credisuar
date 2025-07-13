@@ -73,6 +73,19 @@ const ItemBinContract = ({contract,fetchDeletedContracts,selectedContracts,setSe
         }
     };
 
+    const formatToReadableDatetime = (isoString) => {
+        const date = new Date(isoString);
+
+        const pad = (n) => n.toString().padStart(2, '0');
+
+        const day = pad(date.getDate());
+        const month = pad(date.getMonth() + 1); // Los meses en JS van de 0 a 11
+        const year = date.getFullYear();
+        const hours = pad(date.getHours());
+        const minutes = pad(date.getMinutes());
+
+        return `${day}/${month}/${year} ${hours}:${minutes}`;
+    };
 
     return (
         <>
@@ -97,6 +110,10 @@ const ItemBinContract = ({contract,fetchDeletedContracts,selectedContracts,setSe
                 </div>
 
                 <div className="binContainer__contractsTable__itemContainer__item">
+                    <div className="binContainer__contractsTable__itemContainer__item__label">{formatToReadableDatetime(contract.transaction_date)}</div>
+                </div>
+
+                <div className="binContainer__contractsTable__itemContainer__item">
                     <div className="binContainer__contractsTable__itemContainer__item__label">{capitalizeFirstLetter(contract.first_name)}</div>
                 </div>
 
@@ -117,6 +134,7 @@ const ItemBinContract = ({contract,fetchDeletedContracts,selectedContracts,setSe
                         className='contractsContainer__contractsTable__itemContractContainer__inputFile__prop'
                         type="file"
                         accept=".pdf"
+                        disabled
                         onChange={(e) => handleContractFileChange(index, 'contract_file', e.target.files[0])}
                     />
                     {contract.contract_file && (
@@ -140,6 +158,7 @@ const ItemBinContract = ({contract,fetchDeletedContracts,selectedContracts,setSe
                         className='contractsContainer__contractsTable__itemContractContainer__inputFile__prop'
                         type="file"
                         accept="image/*"
+                        disabled
                         onChange={(e) => handleContractFileChange(index, 'image_dni', e.target.files[0])}
                     />
                     {contract.dni_image_preview ? (

@@ -15,12 +15,13 @@ const Contracts = () => {
     const [selectedPdf, setSelectedPdf] = useState(null);
     const [menuOptions, setMenuOptions] = useState(false);
     const [contracts, setContracts] = useState([]);
-    console.log(contracts)
+    //console.log(contracts)
     const [isLoadingContracts, setIsLoadingContracts] = useState(true);
     //console.log(contracts)
     const [totalContracts, setTotalContracts] = useState("");
     const [user, setUser] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [loadingContractId, setLoadingContractId] = useState(null);
+
     const [pageInfo, setPageInfo] = useState({
         page: 1,
         totalPages: 1,
@@ -89,16 +90,6 @@ const Contracts = () => {
                 image_dni: file,
                 image_dni_preview: file.type.startsWith('image/') ? URL.createObjectURL(file) : file.name,
             };
-
-            // Vista previa para distintos tipos
-            /* if (fileType.startsWith('image/')) {
-                setSelectedPreview({ type: 'image', url: URL.createObjectURL(file) });
-            } else if (fileType === 'application/pdf') {
-                setSelectedPreview({ type: 'pdf', url: URL.createObjectURL(file) });
-            } else {
-                setSelectedPreview({ type: 'doc', url: file.name });
-            } */
-
             setContractFormData(updatedForm);
         }
 
@@ -353,6 +344,10 @@ const Contracts = () => {
 
 
     const handleSaveContract = async (id, updatedContract) => {
+        
+        console.log('Enviando archivo contract_file:', updatedContract.contract_file, updatedContract.contract_file instanceof File);
+        console.log('Enviando archivo image_dni:', updatedContract.image_dni, updatedContract.image_dni instanceof File);
+
         const formData = new FormData();
 
         for (const key in updatedContract) {
@@ -364,7 +359,16 @@ const Contracts = () => {
                 formData.append(key, value);
             } else {
                 formData.append(key, value ?? '');
+
+                // Si es uno de los campos de archivo y no fue reemplazado, mandamos la ruta existente como auxiliar
+                if ((key === 'contract_file' || key === 'image_dni') && value) {
+                    formData.append(`existing_${key}`, value); // Manda la ruta antigua
+                }
             }
+        }
+
+        for (const key of formData.keys()) {
+            console.log(`${key}:`, formData.get(key));
         }
 
         try {
@@ -416,7 +420,7 @@ const Contracts = () => {
     };
     
     const handleBtnDeleteContract = async (contractId) => {
-        setLoading(true);
+        setLoadingContractId(contractId);
         try {
             const res = await fetch(`http://localhost:8081/api/contracts/${contractId}/soft-delete`, {
                 method: 'PUT',  // Usamos PUT o PATCH para actualizar, no DELETE
@@ -442,7 +446,7 @@ const Contracts = () => {
         } catch (error) {
             console.error('Error:', error);
         } finally {
-            setLoading(false);
+            setLoadingContractId(null);
         }
     };
 
@@ -567,6 +571,25 @@ const Contracts = () => {
     useEffect(() => {
         setSelectAll(selectedContracts.length === contracts.length && contracts.length > 0);
     }, [selectedContracts, contracts]);
+
+    const handleDownloadImage = async () => {
+        try {
+            const response = await fetch(`http://localhost:8081/${selectedImage}`);
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'image_dni';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error al descargar la imagen:', error);
+        }
+    };
+
 
 
     return (
@@ -763,7 +786,6 @@ const Contracts = () => {
                         contractsSorted.map((contract, index) => {
                             return (
                                 <div className="contractsContainer__contractsTable__itemContractContainer" key={contract._id}>
-                                    {console.log(contract)}
                                     <div className="contractsContainer__contractsTable__itemContractContainer__checkBox">
                                         <input
                                             className='contractsContainer__contractsTable__itemContractContainer__checkBox__prop'
@@ -821,11 +843,11 @@ const Contracts = () => {
                                         />
                                     </div>
                                     <div className="contractsContainer__contractsTable__itemContractContainer__inputFile">
-                                        <label htmlFor="itemContractListFileInput" className="contractsContainer__contractsTable__itemContractContainer__inputFile__fileInputButton">
+                                        <label htmlFor={`itemContractListFileInput_${index}`} className="contractsContainer__contractsTable__itemContractContainer__inputFile__fileInputButton">
                                             Seleccionar archivo
                                         </label>
                                         <input
-                                            id='itemContractListFileInput'
+                                            id={`itemContractListFileInput_${index}`}
                                             type="file"
                                             className='contractsContainer__contractsTable__itemContractContainer__inputFile__propFile'
                                             accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -860,14 +882,14 @@ const Contracts = () => {
 
                                     </div>
                                     <div className="contractsContainer__contractsTable__itemContractContainer__inputFile">
-                                        <label htmlFor="itemContractListImageFileInput" className="contractsContainer__contractsTable__itemContractContainer__inputFile__fileInputButton">
+                                        <label htmlFor={`itemContractListImageFileInput_${index}`} className="contractsContainer__contractsTable__itemContractContainer__inputFile__fileInputButton">
                                             Seleccionar archivo
                                         </label>
                                         <input
-                                            id='itemContractListImageFileInput'
+                                            id={`itemContractListImageFileInput_${index}`}
                                             className='contractsContainer__contractsTable__itemContractContainer__inputFile__propFile'
                                             type="file"
-                                            accept="image/*"
+                                            accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                                             onChange={(e) => handleContractFileChange(index, 'image_dni', e.target.files[0])}
                                         />
                                         {contract.image_dni ? (
@@ -884,7 +906,7 @@ const Contracts = () => {
 
                                     <div className="contractsContainer__contractsTable__itemContractContainer__btn">
                                         <button className='contractsContainer__contractsTable__itemContractContainer__btn__prop' onClick={() => handleSaveContract(contract._id, contract)}>Guardar</button>
-                                        {loading ? (
+                                        {loadingContractId === contract._id ? (
                                             <button
                                             disabled
                                             className='cPanelProductsContainer__productsTable__itemContainer__btnsContainer__btn'
@@ -976,7 +998,7 @@ const Contracts = () => {
         )}
 
 
-            {selectedImage && (
+            {/* {selectedImage && (
                 <div
                     onClick={() => setSelectedImage(null)}
                     style={{
@@ -998,6 +1020,85 @@ const Contracts = () => {
                     alt="Imagen en grande"
                     style={{ maxWidth: '90%', maxHeight: '90%', borderRadius: '10px' }}
                     />
+                </div>
+            )} */}
+            {selectedImage && (
+                <div
+                    onClick={() => setSelectedImage(null)}
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100vw',
+                        height: '100vh',
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        zIndex: 9999,
+                        flexDirection: 'column',
+                    }}
+                >
+                    {/* Contenedor interno que no cierra el modal al hacer clic */}
+                    <div
+                        style={{
+                            position: 'relative',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            maxWidth: '90%',
+                            maxHeight: '90%',
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Botón de cerrar */}
+                        <button
+                            onClick={() => setSelectedImage(null)}
+                            style={{
+                                marginBottom: '10px',
+                                backgroundColor: '#ff4d4f',
+                                color: '#fff',
+                                border: 'none',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            Cerrar
+                        </button>
+                        <img
+                            src={`http://localhost:8081/${selectedImage}`}
+                            alt="Imagen en grande"
+                            style={{
+                                maxWidth: '100%',
+                                maxHeight: '80vh',
+                                borderRadius: '10px',
+                            }}
+                        />
+
+                        {/* Botón de descarga */}
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation(); // evita que se cierre el modal
+                                handleDownloadImage();
+                            }}
+                            style={{
+                                marginTop: '20px',
+                                backgroundColor: '#fff',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                color: '#000',
+                                fontWeight: 'bold',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            Descargar imagen
+                        </button>
+
+
+                        
+                    </div>
                 </div>
             )}
 

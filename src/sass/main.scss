@@ -327,7 +327,7 @@ $site-color: linear-gradient(
         &__headerTable {
             width: 100%;
             display: grid;
-            grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
             align-items: center;
             color: white;
             padding: 2vh 0vh 0vh 0vh;
@@ -360,7 +360,7 @@ $site-color: linear-gradient(
             background-color: whitesmoke;
             width: 95%;
             display: grid;
-            grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
             border-bottom: 0.3vh solid #d6d5d5;
             align-self: center;
             margin-top: 1vh;
@@ -383,7 +383,7 @@ $site-color: linear-gradient(
                 }
                 &__description {
                     text-align: center;
-                    font-size: 12px;
+                    font-size: 16px;
                 }
             }
             &__btnsContainer {
@@ -1433,7 +1433,7 @@ $site-color: linear-gradient(
 
 .chatbot-window {
   position: fixed;
-  bottom: 80px;
+  bottom: 90px;
   right: 20px;
   width: 300px;
   background: white;
