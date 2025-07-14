@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 import Spinner from './Spinner';
 
 const Contracts = () => {
-    const [selectedField, setSelectedField] = useState('first_name');
     const [selectAllContracts, setSelectAll] = useState(false);
     const [selectedContracts, setSelectedContracts] = useState([]);
     const navigate = useNavigate();
@@ -19,8 +18,10 @@ const Contracts = () => {
     const [isLoadingContracts, setIsLoadingContracts] = useState(true);
     //console.log(contracts)
     const [totalContracts, setTotalContracts] = useState("");
+    const [totalPerPageContracts, setTotalPerPageContracts] = useState("");
     const [user, setUser] = useState('');
     const [loadingContractId, setLoadingContractId] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
     const [pageInfo, setPageInfo] = useState({
         page: 1,
@@ -30,13 +31,7 @@ const Contracts = () => {
         nextPage: null,
         prevPage: null
     });   
-    const fieldLabels = {
-        first_name: 'Nombre',
-        last_name: 'Apellido',
-        dni: 'DNI',
-        phoneNumber: 'Teléfono',
-        all: 'Todos'
-    };
+
     const [contractFormData, setContractFormData] = useState({
         transaction_number: '',
         transaction_date: '',
@@ -50,7 +45,7 @@ const Contracts = () => {
         image_dni_preview: ''
     });
 
-    const contractsSorted = contracts.sort((a, b) => a.createdAt - b.createdAt);
+    //const contractsSorted = contracts.sort((a, b) => a.createdAt - b.createdAt);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -143,9 +138,9 @@ const Contracts = () => {
         return localDate.toISOString().slice(0, 16); // "YYYY-MM-DDTHH:mm"
     };
 
-    const fetchContracts = async (page = 1, search = "",field = "") => {
+    const fetchContracts = async (page = 1, search = "",field = "", selectedDate = null) => {
         try {
-            const response = await fetch(`http://localhost:8081/api/contracts/byPage?page=${page}&search=${search}&field=${field}`)
+            const response = await fetch(`http://localhost:8081/api/contracts/byPage?page=${page}&search=${search}&field=${field}&selectedDate=${selectedDate}`)
             const contractsAll = await response.json();
             if(response.ok) {
                 const formattedContracts = contractsAll.data.docs.map(contract => ({
@@ -153,7 +148,8 @@ const Contracts = () => {
                     transaction_date: formatToDatetimeLocal(contract.transaction_date)
                 }));
                 setContracts(formattedContracts);
-                setTotalContracts(contractsAll.data.totalDocs)
+                setTotalContracts(contractsAll.data.totalContracts)
+                setTotalPerPageContracts(contractsAll.data.totalDocs)
                 setPageInfo({
                     page: contractsAll.data.page,
                     totalPages: contractsAll.data.totalPages,
@@ -291,7 +287,7 @@ const Contracts = () => {
                     image_dni: null,
                     image_dni_preview: ''
                 });
-                fetchContracts(1, inputFilteredContracts, 'all')
+                fetchContracts(1, inputFilteredContracts, 'all', formatDateToString(selectedDate))
             } else {
                 toast('Error al crear el contrato!', {
                     position: "top-right",
@@ -345,8 +341,8 @@ const Contracts = () => {
 
     const handleSaveContract = async (id, updatedContract) => {
         
-        console.log('Enviando archivo contract_file:', updatedContract.contract_file, updatedContract.contract_file instanceof File);
-        console.log('Enviando archivo image_dni:', updatedContract.image_dni, updatedContract.image_dni instanceof File);
+        // console.log('Enviando archivo contract_file:', updatedContract.contract_file, updatedContract.contract_file instanceof File);
+        // console.log('Enviando archivo image_dni:', updatedContract.image_dni, updatedContract.image_dni instanceof File);
 
         const formData = new FormData();
 
@@ -367,9 +363,9 @@ const Contracts = () => {
             }
         }
 
-        for (const key of formData.keys()) {
+        /* for (const key of formData.keys()) {
             console.log(`${key}:`, formData.get(key));
-        }
+        } */
 
         try {
             const response = await fetch(`http://localhost:8081/api/contracts/${id}`, {
@@ -389,7 +385,7 @@ const Contracts = () => {
                     theme: "dark",
                     className: "custom-toast",
                 });
-                fetchContracts(1, inputFilteredContracts, 'all');
+                fetchContracts(1, inputFilteredContracts, 'all', formatDateToString(selectedDate));
             } else {
                 toast(`Error al actualizar contrato!`, {
                     position: "top-right",
@@ -433,7 +429,7 @@ const Contracts = () => {
                     theme: "dark",
                     className: "custom-toast",
                 });
-                fetchContracts(1, inputFilteredContracts, 'all')
+                fetchContracts(1, inputFilteredContracts, 'all', formatDateToString(selectedDate))
                 //setSelectedContracts([])
             } else {
                 toast('No se ha podido borrar el contrato, intente nuevamente', {
@@ -481,7 +477,7 @@ const Contracts = () => {
     };
 
     useEffect(() => {
-        fetchContracts(1, inputFilteredContracts, 'all');
+        fetchContracts(1, inputFilteredContracts, 'all', formatDateToString(selectedDate));
         fetchCurrentUser()
         return () => {
             contracts.forEach(contract => {
@@ -494,7 +490,7 @@ const Contracts = () => {
 
     useEffect(() => {
         const delay = setTimeout(() => {
-            fetchContracts(1, inputFilteredContracts, 'all');
+            fetchContracts(1, inputFilteredContracts, 'all', formatDateToString(selectedDate));
         }, 300); // debounce
 
         return () => clearTimeout(delay);
@@ -520,7 +516,7 @@ const Contracts = () => {
             const data = await res.json();
             if (res.ok) {
                 setSelectedContracts([]);
-                fetchContracts(1, inputFilteredContracts, 'all')
+                fetchContracts(1, inputFilteredContracts, 'all', formatDateToString(selectedDate))
                 toast('Contratos eliminados correctamente', {
                     position: "top-right",
                     autoClose: 2000,
@@ -590,7 +586,30 @@ const Contracts = () => {
         }
     };
 
+    const goToPreviousDay = () => {
+        setIsLoadingContracts(true);
+        const prevDate = new Date(selectedDate);
+        prevDate.setDate(prevDate.getDate() - 1);
+        setSelectedDate(prevDate);
+    };
 
+    const goToNextDay = () => {
+        setIsLoadingContracts(true);
+        const nextDate = new Date(selectedDate);
+        nextDate.setDate(nextDate.getDate() + 1);
+        setSelectedDate(nextDate);
+    };
+
+    const formatDateToString = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Enero = 0
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    useEffect(() => {
+        fetchContracts(1, inputFilteredContracts, 'all', formatDateToString(selectedDate))
+    }, [selectedDate]);
 
     return (
 
@@ -759,8 +778,28 @@ const Contracts = () => {
                             <><div></div></>
                             }
                         </div>
-                        <div className='contractsContainer__quantityContracts__prop'>Cantidad de productos: {totalContracts}</div>        
+                        <div className='contractsContainer__quantityContracts__prop'>Cantidad de contratos: {totalPerPageContracts} de {totalContracts}</div>        
                     </div>
+
+                    {
+                        !isLoadingContracts && !inputFilteredContracts &&
+                        <div className="contractsContainer__dateFilter">
+                            <button className='contractsContainer__dateFilter__btn' onClick={goToPreviousDay}>Anterior</button>
+                            {/* <span className='contractsContainer__dateFilter__date'>{formatDateToString(selectedDate)}</span> */}
+                            <input
+                                type="date"
+                                className='contractsContainer__dateFilter__date'
+                                value={formatDateToString(selectedDate)}
+                                onChange={(e) => {
+                                    setIsLoadingContracts(true);
+                                    const [year, month, day] = e.target.value.split('-').map(Number);
+                                    const localDate = new Date(year, month - 1, day);
+                                    setSelectedDate(localDate);
+                                }}
+                            />
+                            <button className='contractsContainer__dateFilter__btn' onClick={goToNextDay}>Siguiente</button>
+                        </div>
+                    }
 
                     <div className='contractsContainer__contractsTable__header'>
                         <div className='contractsContainer__contractsTable__header__item'></div>
@@ -783,7 +822,7 @@ const Contracts = () => {
                                 </div>
                             </>
                         :
-                        contractsSorted.map((contract, index) => {
+                        contracts.map((contract, index) => {
                             return (
                                 <div className="contractsContainer__contractsTable__itemContractContainer" key={contract._id}>
                                     <div className="contractsContainer__contractsTable__itemContractContainer__checkBox">
@@ -934,7 +973,7 @@ const Contracts = () => {
                     <div className='contractsContainer__btnsPagesContainer'>
                         <button className='contractsContainer__btnsPagesContainer__btn'
                             disabled={!pageInfo.hasPrevPage}
-                            onClick={() => fetchContracts(pageInfo.prevPage, inputFilteredContracts, 'all')}
+                            onClick={() => fetchContracts(pageInfo.prevPage, inputFilteredContracts, 'all', formatDateToString(selectedDate))}
                             >
                             Anterior
                         </button>
@@ -943,7 +982,7 @@ const Contracts = () => {
 
                         <button className='contractsContainer__btnsPagesContainer__btn'
                             disabled={!pageInfo.hasNextPage}
-                            onClick={() => fetchContracts(pageInfo.nextPage, inputFilteredContracts, 'all')}
+                            onClick={() => fetchContracts(pageInfo.nextPage, inputFilteredContracts, 'all', formatDateToString(selectedDate))}
                             >
                             Siguiente
                         </button>

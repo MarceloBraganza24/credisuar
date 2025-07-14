@@ -10,20 +10,61 @@ const Bin = () => {
     const [user, setUser] = useState('');
     const [isLoadingContracts, setIsLoadingContracts] = useState(true);
     const [contracts, setContracts] = useState([]);
+    const [totalContracts, setTotalContracts] = useState("");
     //console.log(contracts)
     const navigate = useNavigate();
     const [menuOptions, setMenuOptions] = useState(false);
+    const [inputFilteredContracts, setInputFilteredContracts] = useState('');
+    const [pageInfo, setPageInfo] = useState({
+        page: 1,
+        totalPages: 1,
+        hasNextPage: false,
+        hasPrevPage: false,
+        nextPage: null,
+        prevPage: null
+    });   
 
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }, [pageInfo.page]);
     
     // console.log(contracts)
     // const contractsSorted = contracts.sort((a, b) => b.createdAt - a.createdAt);
 
-    const fetchDeletedContracts = async () => {
+    useEffect(() => {
+        const delay = setTimeout(() => {
+            fetchDeletedContracts(1, inputFilteredContracts, 'all');
+        }, 300); // debounce
+
+        return () => clearTimeout(delay);
+    }, [inputFilteredContracts]);
+
+    const formatToDatetimeLocal = (isoString) => {
+        const date = new Date(isoString);
+        const offset = date.getTimezoneOffset();
+        const localDate = new Date(date.getTime() - offset * 60000);
+        return localDate.toISOString().slice(0, 16); // "YYYY-MM-DDTHH:mm"
+    };
+
+    const fetchDeletedContracts = async (page = 1, search = "",field = "") => {
         try {
-            const response = await fetch('http://localhost:8081/api/contracts/deleted');
-            const data = await response.json();
+            const response = await fetch(`http://localhost:8081/api/contracts/deleted?page=${page}&search=${search}&field=${field}`);
+            const contractsAll = await response.json();
             if (response.ok) {
-                setContracts(data.payload);
+                const formattedContracts = contractsAll.data.docs.map(contract => ({
+                    ...contract,
+                    transaction_date: formatToDatetimeLocal(contract.transaction_date)
+                }));
+                setContracts(formattedContracts);
+                setTotalContracts(contractsAll.data.totalDocs)
+                setPageInfo({
+                    page: contractsAll.data.page,
+                    totalPages: contractsAll.data.totalPages,
+                    hasNextPage: contractsAll.data.hasNextPage,
+                    hasPrevPage: contractsAll.data.hasPrevPage,
+                    nextPage: contractsAll.data.nextPage,
+                    prevPage: contractsAll.data.prevPage
+                });
             } else {
                 toast('Error al cargar contratos eliminados, intente nuevamente!', {
                     position: "top-right",
@@ -195,6 +236,12 @@ const Bin = () => {
         }
     };
 
+    const handleInputFilteredContracts = (e) => {
+        const value = e.target.value;
+        const soloLetrasYNumeros = value.replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]/g, '');
+        setInputFilteredContracts(soloLetrasYNumeros);
+    }
+
     return (
 
         <>
@@ -228,6 +275,14 @@ const Bin = () => {
 
                 <div className="binContainer__subTitle">
                     <div className="binContainer__subTitle__prop">Contratos eliminados:</div>
+                </div>
+
+                <div className='contractsContainer__contractsTable__subTitleTable'>Buscar contratos</div>
+
+                <div className='contractsContainer__inputSearchProduct'>
+                    <div className='contractsContainer__inputSearchProduct__inputContainer'>
+                        <input type="text" onChange={handleInputFilteredContracts} value={inputFilteredContracts} placeholder={`Buscar contrato`} className='contractsContainer__inputSearchProduct__inputContainer__input' name="" id="" />
+                    </div>
                 </div>
 
                 {
@@ -310,6 +365,27 @@ const Bin = () => {
                                 Aún no existen contratos eliminados
                             </div>
                         </>
+                    }
+                    {
+                    
+                        !isLoadingContracts && contracts.length > 0 &&
+                        <div className='contractsContainer__btnsPagesContainer'>
+                            <button className='contractsContainer__btnsPagesContainer__btn'
+                                disabled={!pageInfo.hasPrevPage}
+                                onClick={() => fetchDeletedContracts(pageInfo.prevPage, inputFilteredContracts, 'all')}
+                                >
+                                Anterior
+                            </button>
+                            
+                            <span>Página {pageInfo.page} de {pageInfo.totalPages}</span>
+
+                            <button className='contractsContainer__btnsPagesContainer__btn'
+                                disabled={!pageInfo.hasNextPage}
+                                onClick={() => fetchDeletedContracts(pageInfo.nextPage, inputFilteredContracts, 'all')}
+                                >
+                                Siguiente
+                            </button>
+                        </div>
                     }
 
                 </div>

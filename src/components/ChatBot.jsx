@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { FaTimes, FaCommentDots } from "react-icons/fa";
 
+const HISTORY_START_STEP = "tarjeta_de_crédito_activa";
+
 const chatbotFlow = {
     inicio: {
         question: "Completá tus datos para empezar:",
@@ -64,7 +66,7 @@ export default function ChatBot({ isOpen, setIsOpen }) {
 
     const step = chatbotFlow[currentStep];
 
-    const handleOptionClick = (option) => {
+    /* const handleOptionClick = (option) => {
         const { text, next } = option;
 
         // Si volvés al inicio, reseteás todo
@@ -96,7 +98,52 @@ export default function ChatBot({ isOpen, setIsOpen }) {
         }
 
         setCurrentStep(next);
+    }; */
+
+    const handleOptionClick = (option) => {
+        const { text, next } = option;
+
+        const currentQuestion = chatbotFlow[currentStep].question;
+
+        // 🧼 Si se vuelve al inicio o al paso previo al flujo (start), limpiamos historial
+        if (next === "inicio" || next === "start") {
+            setCurrentStep(next);
+            setHistory([]);
+            return;
+        }
+
+        // ❌ Si va a "imposible_solicitar_prestamo", también reseteamos el historial
+        if (next === "imposible_solicitar_prestamo") {
+            setHistory([]);
+        }
+
+        // 🪪 Guardar la tarjeta si estamos en ese paso
+        if (currentStep === "que_tarjeta_tenes") {
+            setFormData((prev) => ({
+                ...prev,
+                tarjeta: text
+            }));
+        }
+
+        // ✅ Guardamos la pregunta solo si estamos en o después de la pregunta clave
+        const shouldStoreHistory =
+            Object.keys(chatbotFlow).indexOf(currentStep) >=
+            Object.keys(chatbotFlow).indexOf(HISTORY_START_STEP);
+
+        const isDuplicate = history.some(
+            (item) => item.question === currentQuestion && item.answer === text
+        );
+
+        if (currentQuestion && !isDuplicate && shouldStoreHistory) {
+            setHistory((prev) => [
+                ...prev,
+                { question: currentQuestion, answer: text }
+            ]);
+        }
+
+        setCurrentStep(next);
     };
+
 
 
     const handleInputChange = (e) => {

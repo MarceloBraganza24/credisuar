@@ -106,13 +106,6 @@ const CPanel = () => {
             return;
         }
 
-        /* const formDataToSend = new FormData();
-        formDataToSend.append('first_name', userformData.first_name);
-        formDataToSend.append('last_name', userformData.last_name);
-        formDataToSend.append('email', userformData.email);
-        formDataToSend.append('password', userformData.password);
-        formDataToSend.append('role', userformData.role); */
-
         try {
             const response = await fetch('http://localhost:8081/api/sessions/signIn', {
                 method: 'POST',  
@@ -176,63 +169,6 @@ const CPanel = () => {
         }
     };
 
-    /* const handleSaveUser = async (id, updatedUser) => {
-        const formData = new FormData();
-
-        for (const key in updatedUser) {
-            if (key.endsWith('_preview')) continue; // saltar previews
-
-            const value = updatedUser[key];
-            formData.append(key, value ?? '');
-        }
-
-        try {
-            const response = await fetch(`http://localhost:8081/api/users/${id}`, {
-                method: 'PUT',
-                body: formData
-            });
-
-            if (response.ok) {
-                toast(`Usuario actualizado con éxito!`, {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                    className: "custom-toast",
-                });
-                fetchAdminUsers()
-            } else {
-                toast(`Error al actualizar usuario!`, {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                    className: "custom-toast",
-                });
-            }
-        } catch (error) {
-            console.error(error);
-            toast(`Error de conexión al actualizar!`, {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                className: "custom-toast",
-            });
-        }
-    }; */
     const handleSaveUser = async (index) => {
         const adminToSave = adminUsers[index];
         try {
@@ -260,14 +196,6 @@ const CPanel = () => {
                     theme: "dark",
                     className: "custom-toast",
                 });
-
-                /* const updatedAdmins = [...adminUsers];
-                updatedAdmins[index] = { ...adminToSave }; // actualizar admins
-                setAdminUsers(updatedAdmins);
-
-                const updatedAdminsEdited = [...adminsEdited];
-                updatedAdminsEdited[index] = { ...adminToSave }; // resetear adminsEdited
-                setAdminsEdited(updatedAdminsEdited); */
                 fetchAdminUsers()
 
             } else {
@@ -447,7 +375,6 @@ const CPanel = () => {
                         >
                             <option value="">Seleccionar rol</option>
                             <option value="admin">Administrador</option>
-                            <option value="user">User</option>
                         </select>
                         </div>
                         <div className='cPanelContainer__contractsTable__createContractContainer__btn'>
@@ -457,40 +384,6 @@ const CPanel = () => {
                     </div>
 
                     <div className='cPanelContainer__contractsTable__subTitleTable'>Usuarios administradores</div>
-                    {/* <div className='cPanelContainer__contractsTable__subTitleTable'>Buscar contratos</div>
-
-                    <div className='cPanelContainer__inputSearchProduct'>
-                        <div className='cPanelContainer__inputSearchProduct__inputContainer'>
-                            <input type="text" onChange={handleInputFilteredContracts} value={inputFilteredContracts} placeholder={`Buscar contrato`} className='cPanelContainer__inputSearchProduct__inputContainer__input' name="" id="" />
-                        </div>
-                    </div> */}
-
-                    {/* <div className='cPanelContainer__contractsTable__titleTable'>Lista de contratos</div> */}
-
-                    {/* <div className='cPanelContainer__quantityContracts'>
-                        <div className='cPanelContainer__quantityContracts__massDeleteBtnContainer'>
-                            <input
-                            type="checkbox"
-                            checked={selectAllContracts}
-                            onChange={(e) => handleSelectAllContracts(e.target.checked)}
-                            />
-                            <span>Seleccionar todos</span>
-                            {selectedContracts.length > 0 ? (
-                            <div className='cPanelContainer__quantityContracts__massDeleteBtnContainer'>
-                                <button
-                                onClick={handleMassDeleteContracts}
-                                className='cPanelContainer__quantityContracts__massDeleteBtnContainer__btn'
-                                >
-                                Eliminar seleccionados ({selectedContracts.length})
-                                </button>
-                            </div>
-                            )
-                            :
-                            <><div></div></>
-                            }
-                        </div>
-                        <div className='cPanelContainer__quantityContracts__prop'>Cantidad de productos: {totalContracts}</div>        
-                    </div> */}
 
                     <div className='cPanelContainer__quantityContracts__prop'>Cantidad de usuarios: {adminUsers.length}</div>        
 
@@ -569,30 +462,6 @@ const CPanel = () => {
                     }
 
                 </div>
-                {/* {
-                    
-                    !isLoadingContracts &&
-                    <div className='cPanelContainer__btnsPagesContainer'>
-                        <button className='cPanelContainer__btnsPagesContainer__btn'
-                            disabled={!pageInfo.hasPrevPage}
-                            onClick={() => fetchUsers(pageInfo.prevPage, inputFilteredContracts, 'all')}
-                            >
-                            Anterior
-                        </button>
-                        
-                        <span>Página {pageInfo.page} de {pageInfo.totalPages}</span>
-
-                        <button className='cPanelContainer__btnsPagesContainer__btn'
-                            disabled={!pageInfo.hasNextPage}
-                            onClick={() => fetchUsers(pageInfo.nextPage, inputFilteredContracts, 'all')}
-                            >
-                            Siguiente
-                        </button>
-                    </div>
-                } */}
-
-
-                {/* <div className='cPanelContainer__contractsTableBottom'></div> */}
 
             </div>
         

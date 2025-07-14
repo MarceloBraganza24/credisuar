@@ -12,6 +12,8 @@ import Contracts from './components/Contracts.jsx';
 import ChatBot from './components/ChatBot.jsx';
 import Bin from './components/Bin.jsx';
 import CPanel from './components/CPanel.jsx';
+import SendMailPass from './components/SendMailPass.jsx';
+import ResetPass from './components/ResetPass.jsx';
 
 function App() {
     const [isChatOpen, setIsChatOpen] = useState(false);
@@ -22,6 +24,8 @@ function App() {
             || location.pathname === "/login"
             || location.pathname === "/bin"
             || location.pathname === "/signIn"
+            || location.pathname === "/resetPass"
+            || location.pathname === "/sendMail"
             || location.pathname === "/cPanel")
             return null;
         return <ChatBot isOpen={isOpen} setIsOpen={setIsOpen} />;
@@ -45,6 +49,8 @@ function App() {
                             <Route exact path="/contracts" element={<Contracts/>}/>
                             <Route exact path="/bin" element={<Bin/>}/>
                             <Route exact path="/cPanel" element={<CPanel/>}/>
+                            <Route exact path="/sendMail" element={<SendMailPass/>}/>
+                            <Route exact path="/resetPass" element={<ResetPass/>}/>
 
                         </Routes>
 

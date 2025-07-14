@@ -1,4 +1,4 @@
-import {useState,useRef,useEffect} from 'react'
+import React, {useState,useRef,useEffect}  from 'react'
 import { Link,useNavigate } from 'react-router-dom';
 import Spinner from './Spinner';
 import { toast } from 'react-toastify';
@@ -22,22 +22,53 @@ const Home = ({ openChatbot }) => {
         {
             pregunta: '¿QUÉ ES UN ADELANTO CON TARJETA DE CRÉDITO?',
             respuesta:
-            'Un adelanto con tarjeta de crédito es una operación en la que podés retirar dinero en efectivo utilizando el límite disponible de tu tarjeta de crédito, en lugar de usarla para comprar productos o servicios.',
+            'Es una operación financiera en la que se utiliza el límite disponible de tu tarjeta de crédito para obtener dinero en efectivo. Ese dinero se transfiere a tu cuenta y lo devolvés en cuotas.',
+        },
+        {
+            pregunta: '¿QUIÉNES PUEDEN ACCEDER AL ADELANTO?',
+            respuesta:
+            'Cualquier persona mayor de 18 años que tenga una tarjeta de crédito vigente, con cupo disponible y buen historial crediticio. No hace falta ser cliente bancario.',
         },
         {
             pregunta: '¿QUÉ TARJETAS SE ACEPTAN?',
             respuesta:
-            'Aceptamos las principales tarjetas de crédito del mercado: Visa, Mastercard, Cabal, American Express, entre otras. Siempre podés consultar si tu tarjeta está habilitada para adelantos y en cuántas cuotas podés operar.',
+            'Se aceptan la mayoría de las tarjetas de crédito del mercado: Visa, Mastercard, American Express, Cabal, Naranja, Diners, entre otras.',
         },
         {
-            pregunta: '¿TIENE INTERESES UN ADELANTO CON TARJETA?',
-            respuesta:
-            'Sí, los adelantos tienen intereses más altos que una compra común. También puede haber comisiones por el servicio, dependiendo del banco.',
+            pregunta: '¿QUÉ DOCUMENTACIÓN NECESITO?',
+            respuesta: 'Solo necesitás foto del DNI(frente) y CBU o alias de tu cuenta.'
         },
         {
-            pregunta: '¿EN CUÁNTAS CUOTAS PUEDO PAGAR UN ADELANTO?',
-            respuesta:
-            'Depende del banco, pero suelen ofrecer opciones como 1, 3, 6, 9 o 12 cuotas. Podés elegir según tu conveniencia, sabiendo que se aplican intereses.',
+            pregunta: '¿CÓMO SE REALIZA EL ADELANTO?',
+            respuesta: 'Una vez verificada tu tarjeta, se procesa la transacción en cuotas, y el dinero se transfiere a tu cuenta bancaria(CBU/alias) en el momento.'
+        },
+        {
+            pregunta: '¿CUÁNTAS CUOTAS SE PUEDE FINANCIAR?',
+            respuesta: 'Generalmente se ofrece entre 6 a 12 cuotas fijas. El plan depende de tu tarjeta y la entidad que procese el adelanto.'
+        },
+        {
+            pregunta: '¿QUÉ COSTO TIENE?',
+            respuesta: 'Se cobra una comisión por gestión y uso de pasarela de pago, que ya está incluida en el valor de las coutas. No hay gastos ocultos. Se informa todo por adelantado.'
+        },
+        {
+            pregunta: '¿CÓMO SÉ CUÁNTO PUEDO PEDIR?',
+            respuesta: 'El monto disponible depende del cupo en cuotas que tengas en tu tarjeta. Por ejemplo, si tenés $600.000 en cupo, podés pedir un adelanto de hasta ese valor en cuotas.'
+        },
+        {
+            pregunta: '¿A QUÉ CUENTA SE TRANSFIERE EL DINERO?',
+            respuesta: 'El dinero se transfiere a tu cuenta bancaria personal, que puede ser de cualquier banco o billetera virtual(Mercado Pago,Ualá,Brubank, etc.). Solo necesitás tu CBU o alias.'
+        },
+        {
+            pregunta: '¿PUEDO CANCELAR EL ADELANTO DESPUÉS DE INICIADO?',
+            respuesta: 'No, una vez procesada la operación y transferido el dinero, no puede anularse, ya que se genera una obligación de pago con la tarjeta.'
+        },
+        {
+            pregunta: '¿PUEDO TENER MÁS DE UN ADELANTO A LAS VEZ?',
+            respuesta: 'Sí, podés gestionar múltiples adelantos mientras tengas cupo disponible y no tengas operaciones pendientes sin pagar.'
+        },
+        {
+            pregunta: '¿CÓMO SÉ QUE ES SEGURO?',
+            respuesta: 'Las operaciones se procesan a través de pasarelas de pago oficiales, con token de seguridad, y sin almacenar datos sensibles. Todo se informa paso a paso.'
         },
     ];
 
@@ -248,10 +279,10 @@ const Home = ({ openChatbot }) => {
                                 activeIndex === index ? 'active' : ''
                             }`}
                             >
-                            <div className="linksContainer__items__frequentAnswers__frequentAnswer">
-                                {item.respuesta}
-                            </div>
-                            </div>
+                                <div className="linksContainer__items__frequentAnswers__frequentAnswer">
+                                    {item.respuesta}
+                                </div>
+                            </div>  
                         </div>
                         ))}
                     </div>
@@ -274,7 +305,7 @@ const Home = ({ openChatbot }) => {
                         className='linksContainer__items__socialNetworksContainer'
                     >
                         <div className="linksContainer__items__socialNetworksContainer__socialNetworks">
-                            <a href='https://wa.me/5492926507044' target="_blank" className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork">
+                            <a onClick={openChatbot} className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork">
                                 <img
                                 className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork__prop"
                                 src="/src/assets/logo_whap_network.webp"
