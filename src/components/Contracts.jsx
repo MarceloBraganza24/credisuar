@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react'
 import { Link,useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Spinner from './Spinner';
+import CreateContractModal from './CreateContractModal';
 
 const Contracts = () => {
     const [selectAllContracts, setSelectAll] = useState(false);
@@ -14,9 +15,8 @@ const Contracts = () => {
     const [selectedPdf, setSelectedPdf] = useState(null);
     const [menuOptions, setMenuOptions] = useState(false);
     const [contracts, setContracts] = useState([]);
-    //console.log(contracts)
     const [isLoadingContracts, setIsLoadingContracts] = useState(true);
-    //console.log(contracts)
+    const [isOpenCreateContractModal, setIsOpenCreateContractModal] = useState(false);
     const [totalContracts, setTotalContracts] = useState("");
     const [totalPerPageContracts, setTotalPerPageContracts] = useState("");
     const [user, setUser] = useState('');
@@ -44,8 +44,6 @@ const Contracts = () => {
         image_dni: null,
         image_dni_preview: ''
     });
-
-    //const contractsSorted = contracts.sort((a, b) => a.createdAt - b.createdAt);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -663,6 +661,153 @@ const Contracts = () => {
 
                 <div className='contractsContainer__subTitle'>Crear contrato</div>
 
+                <div className='contractsContainer__btnCreateContract'>
+                    <button onClick={()=>setIsOpenCreateContractModal(true)} className='contractsContainer__btnCreateContract__prop'>Crear contrato</button>
+                </div>
+
+                <div className="contractsContainer__contractsTableMobile">
+
+                    <div className='contractsContainer__contractsTableMobile__subTitleTable'>Buscar contratos</div>
+
+                    <div className='contractsContainer__contractsTableMobile__inputSearchProduct'>
+                        <div className='contractsContainer__contractsTableMobile__inputSearchProduct__inputContainer'>
+                            <input type="text" onChange={handleInputFilteredContracts} value={inputFilteredContracts} placeholder={`Buscar contrato`} className='contractsContainer__contractsTableMobile__inputSearchProduct__inputContainer__input' name="" id="" />
+                        </div>
+                    </div>
+
+                    <div className='contractsContainer__contractsTableMobile__quantityContracts'>
+                        <div className='contractsContainer__contractsTableMobile__quantityContracts__prop'>Cantidad de contratos: {totalPerPageContracts} de {totalContracts}</div>        
+                    </div>
+
+                    <div className='contractsContainer__contractsTableMobile__quantityContracts'>
+                        <div className='contractsContainer__contractsTableMobile__quantityContracts__massDeleteBtnContainer'>
+                            <input
+                            type="checkbox"
+                            checked={selectAllContracts}
+                            onChange={(e) => handleSelectAllContracts(e.target.checked)}
+                            />
+                            <span>Seleccionar todos</span>
+                            {selectedContracts.length > 0 ? (
+                            <div className='contractsContainer__contractsTableMobile__quantityContracts__massDeleteBtnContainer'>
+                                <button
+                                onClick={handleMassDeleteContracts}
+                                className='contractsContainer__contractsTableMobile__quantityContracts__massDeleteBtnContainer__btn'
+                                >
+                                Eliminar seleccionados ({selectedContracts.length})
+                                </button>
+                            </div>
+                            )
+                            :
+                            <><div></div></>
+                            }
+                        </div>
+                    </div>
+
+                    {
+                        !isLoadingContracts && !inputFilteredContracts &&
+                        <div className="contractsContainer__contractsTableMobile__dateFilter">
+                            <button className='contractsContainer__contractsTableMobile__dateFilter__btn' onClick={goToPreviousDay}>Anterior</button>
+                            {/* <span className='contractsContainer__contractsTableMobile__dateFilter__date'>{formatDateToString(selectedDate)}</span> */}
+                            <input
+                                type="date"
+                                className='contractsContainer__contractsTableMobile__dateFilter__date'
+                                value={formatDateToString(selectedDate)}
+                                onChange={(e) => {
+                                    setIsLoadingContracts(true);
+                                    const [year, month, day] = e.target.value.split('-').map(Number);
+                                    const localDate = new Date(year, month - 1, day);
+                                    setSelectedDate(localDate);
+                                }}
+                            />
+                            <button className='contractsContainer__contractsTableMobile__dateFilter__btn' onClick={goToNextDay}>Siguiente</button>
+                        </div>
+                    }
+
+                    {
+                        contracts.length > 0 &&
+
+                        <div className='contractsContainer__contractsTableMobile__header'>
+                            <div className='contractsContainer__contractsTableMobile__header__item'></div>
+                            <div className='contractsContainer__contractsTableMobile__header__item'>N° transacción</div>
+                            <div className='contractsContainer__contractsTableMobile__header__item'>Fecha y hora transacción</div>
+                            <div className='contractsContainer__contractsTableMobile__header__item'>Nombre</div>
+                            <div className='contractsContainer__contractsTableMobile__header__item'></div>
+                        </div>
+                    }
+
+                    {
+                        isLoadingContracts ? 
+                            <>
+                                <div className="contractsContainer__contractsTableMobile__isLoadingLabel">
+                                    Cargando contratos&nbsp;&nbsp;<Spinner/>
+                                </div>
+                            </>
+                        : contracts.length > 0 ?
+                            contracts.map((contract, index) => {
+                                return (
+                                    <div className="contractsContainer__contractsTableMobile__itemContractContainer" key={contract._id}>
+                                        <div className="contractsContainer__contractsTableMobile__itemContractContainer__checkBox">
+                                            <input
+                                                className='contractsContainer__contractsTableMobile__itemContractContainer__checkBox__prop'
+                                                type="checkbox"
+                                                checked={selectedContracts.includes(contract._id)}
+                                                onChange={() => toggleSelectContract(contract._id)}
+                                            />
+                                        </div>
+                                        <div className="contractsContainer__contractsTableMobile__itemContractContainer__input">
+                                            {/* <input
+                                                className='contractsContainer__contractsTableMobile__itemContractContainer__input__prop'
+                                                type="text"
+                                                value={contract.transaction_number}
+                                                onChange={(e) => handleContractFieldChange(index, 'transaction_number', e.target.value)}
+                                            /> */}
+                                            <div>{contract.transaction_number}</div>
+                                        </div>
+                                        <div className="contractsContainer__contractsTableMobile__itemContractContainer__input">
+                                            {/* <input
+                                            className='contractsContainer__contractsTableMobile__itemContractContainer__input__prop'
+                                            type="datetime-local"
+                                            value={contract.transaction_date}
+                                            onChange={(e) => handleContractFieldChange(index, 'transaction_date', e.target.value)}
+                                            /> */}
+                                            <div>{contract.transaction_date}</div>
+                                        </div>
+                                        <div className="contractsContainer__contractsTableMobile__itemContractContainer__input">
+                                            {/* <input
+                                                className='contractsContainer__contractsTableMobile__itemContractContainer__input__prop'
+                                                type="text"
+                                                value={contract.first_name}
+                                                onChange={(e) => handleContractFieldChange(index, 'first_name', e.target.value)}
+                                            /> */}
+                                            <div>{contract.first_name}</div>
+                                        </div>
+                                        <div className="contractsContainer__contractsTableMobile__itemContractContainer__btn">
+                                            <button className='contractsContainer__contractsTableMobile__itemContractContainer__btn__prop' onClick={() => handleSaveContract(contract._id, contract)}>Guardar</button>
+                                            {loadingContractId === contract._id ? (
+                                                <button
+                                                disabled
+                                                className='cPanelProductsContainer__productsTable__itemContainer__btnsContainer__btn'
+                                                >
+                                                <Spinner/>
+                                                </button>
+                                            ) : (
+                                                <button
+                                                onClick={() => handleBtnDeleteContract(contract._id)}
+                                                className='contractsContainer__contractsTableMobile__itemContractContainer__btn__prop'
+                                                >
+                                                Borrar
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        :   
+                        <div className="contractsContainer__contractsTableMobile__isLoadingLabel">Aún no existen contratos en el día seleccionado</div>
+                    }
+
+                </div>
+
                 <div className='contractsContainer__headerTable'>
                     <div className='contractsContainer__headerTable__item'>N° transacción</div>
                     <div className='contractsContainer__headerTable__item'>Fecha y hora transacción</div>
@@ -718,7 +863,7 @@ const Contracts = () => {
                         </div>
                         <div className='contractsContainer__contractsTable__createContractContainer__input'>
                             <label htmlFor="contractFileImageInput" className="contractsContainer__contractsTable__createContractContainer__input__fileInputButton">
-                                Seleccionar archivo
+                                Seleccionar imagen
                             </label>
                             <input id="contractFileImageInput" onChange={handleFileChange} className='contractsContainer__contractsTable__createContractContainer__input__propFile' type="file" name="image_dni" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"  required/>
                             {contractFormData.image_dni && (
@@ -801,18 +946,22 @@ const Contracts = () => {
                         </div>
                     }
 
-                    <div className='contractsContainer__contractsTable__header'>
-                        <div className='contractsContainer__contractsTable__header__item'></div>
-                        <div className='contractsContainer__contractsTable__header__item'>N° transacción</div>
-                        <div className='contractsContainer__contractsTable__header__item'>Fecha y hora transacción</div>
-                        <div className='contractsContainer__contractsTable__header__item'>Nombre</div>
-                        <div className='contractsContainer__contractsTable__header__item'>Apellido</div>
-                        <div className='contractsContainer__contractsTable__header__item'>DNI</div>
-                        <div className='contractsContainer__contractsTable__header__item'>Teléfono</div>
-                        <div className='contractsContainer__contractsTable__header__item'>Archivo de contrato</div>
-                        <div className='contractsContainer__contractsTable__header__item'>Imagen DNI</div>
-                        <div className='contractsContainer__contractsTable__header__item'></div>
-                    </div>
+                    {
+                        contracts.length > 0 &&
+
+                        <div className='contractsContainer__contractsTable__header'>
+                            <div className='contractsContainer__contractsTable__header__item'></div>
+                            <div className='contractsContainer__contractsTable__header__item'>N° transacción</div>
+                            <div className='contractsContainer__contractsTable__header__item'>Fecha y hora transacción</div>
+                            <div className='contractsContainer__contractsTable__header__item'>Nombre</div>
+                            <div className='contractsContainer__contractsTable__header__item'>Apellido</div>
+                            <div className='contractsContainer__contractsTable__header__item'>DNI</div>
+                            <div className='contractsContainer__contractsTable__header__item'>Teléfono</div>
+                            <div className='contractsContainer__contractsTable__header__item'>Archivo de contrato</div>
+                            <div className='contractsContainer__contractsTable__header__item'>Imagen DNI</div>
+                            <div className='contractsContainer__contractsTable__header__item'></div>
+                        </div>
+                    }
 
                     {
                         isLoadingContracts ? 
@@ -821,155 +970,157 @@ const Contracts = () => {
                                     Cargando contratos&nbsp;&nbsp;<Spinner/>
                                 </div>
                             </>
-                        :
-                        contracts.map((contract, index) => {
-                            return (
-                                <div className="contractsContainer__contractsTable__itemContractContainer" key={contract._id}>
-                                    <div className="contractsContainer__contractsTable__itemContractContainer__checkBox">
-                                        <input
-                                            className='contractsContainer__contractsTable__itemContractContainer__checkBox__prop'
-                                            type="checkbox"
-                                            checked={selectedContracts.includes(contract._id)}
-                                            onChange={() => toggleSelectContract(contract._id)}
-                                        />
-                                    </div>
-                                    <div className="contractsContainer__contractsTable__itemContractContainer__input">
-                                        <input
+                        : contracts.length > 0 ?
+                            contracts.map((contract, index) => {
+                                return (
+                                    <div className="contractsContainer__contractsTable__itemContractContainer" key={contract._id}>
+                                        <div className="contractsContainer__contractsTable__itemContractContainer__checkBox">
+                                            <input
+                                                className='contractsContainer__contractsTable__itemContractContainer__checkBox__prop'
+                                                type="checkbox"
+                                                checked={selectedContracts.includes(contract._id)}
+                                                onChange={() => toggleSelectContract(contract._id)}
+                                            />
+                                        </div>
+                                        <div className="contractsContainer__contractsTable__itemContractContainer__input">
+                                            <input
+                                                className='contractsContainer__contractsTable__itemContractContainer__input__prop'
+                                                type="text"
+                                                value={contract.transaction_number}
+                                                onChange={(e) => handleContractFieldChange(index, 'transaction_number', e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="contractsContainer__contractsTable__itemContractContainer__input">
+                                            <input
                                             className='contractsContainer__contractsTable__itemContractContainer__input__prop'
-                                            type="text"
-                                            value={contract.transaction_number}
-                                            onChange={(e) => handleContractFieldChange(index, 'transaction_number', e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="contractsContainer__contractsTable__itemContractContainer__input">
-                                        <input
-                                        className='contractsContainer__contractsTable__itemContractContainer__input__prop'
-                                        type="datetime-local"
-                                        value={contract.transaction_date}
-                                        onChange={(e) => handleContractFieldChange(index, 'transaction_date', e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="contractsContainer__contractsTable__itemContractContainer__input">
-                                        <input
-                                            className='contractsContainer__contractsTable__itemContractContainer__input__prop'
-                                            type="text"
-                                            value={contract.first_name}
-                                            onChange={(e) => handleContractFieldChange(index, 'first_name', e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="contractsContainer__contractsTable__itemContractContainer__input">
-                                        <input
-                                            className='contractsContainer__contractsTable__itemContractContainer__input__prop'
-                                            type="text"
-                                            value={contract.last_name}
-                                            onChange={(e) => handleContractFieldChange(index, 'last_name', e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="contractsContainer__contractsTable__itemContractContainer__input">
-                                        <input
-                                            className='contractsContainer__contractsTable__itemContractContainer__input__prop'
-                                            type="text"
-                                            value={contract.dni}
-                                            onChange={(e) => handleContractFieldChange(index, 'dni', e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="contractsContainer__contractsTable__itemContractContainer__input">
-                                        <input
-                                            className='contractsContainer__contractsTable__itemContractContainer__input__prop'
-                                            type="text"
-                                            value={contract.phoneNumber}
-                                            onChange={(e) => handleContractFieldChange(index, 'phoneNumber', e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="contractsContainer__contractsTable__itemContractContainer__inputFile">
-                                        <label htmlFor={`itemContractListFileInput_${index}`} className="contractsContainer__contractsTable__itemContractContainer__inputFile__fileInputButton">
-                                            Seleccionar archivo
-                                        </label>
-                                        <input
-                                            id={`itemContractListFileInput_${index}`}
-                                            type="file"
-                                            className='contractsContainer__contractsTable__itemContractContainer__inputFile__propFile'
-                                            accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                                            onChange={(e) => handleContractFileChange(index, 'contract_file', e.target.files[0])}
-                                        />
-                                        {contract.contract_file && (
-                                            <>
+                                            type="datetime-local"
+                                            value={contract.transaction_date}
+                                            onChange={(e) => handleContractFieldChange(index, 'transaction_date', e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="contractsContainer__contractsTable__itemContractContainer__input">
+                                            <input
+                                                className='contractsContainer__contractsTable__itemContractContainer__input__prop'
+                                                type="text"
+                                                value={contract.first_name}
+                                                onChange={(e) => handleContractFieldChange(index, 'first_name', e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="contractsContainer__contractsTable__itemContractContainer__input">
+                                            <input
+                                                className='contractsContainer__contractsTable__itemContractContainer__input__prop'
+                                                type="text"
+                                                value={contract.last_name}
+                                                onChange={(e) => handleContractFieldChange(index, 'last_name', e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="contractsContainer__contractsTable__itemContractContainer__input">
+                                            <input
+                                                className='contractsContainer__contractsTable__itemContractContainer__input__prop'
+                                                type="text"
+                                                value={contract.dni}
+                                                onChange={(e) => handleContractFieldChange(index, 'dni', e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="contractsContainer__contractsTable__itemContractContainer__input">
+                                            <input
+                                                className='contractsContainer__contractsTable__itemContractContainer__input__prop'
+                                                type="text"
+                                                value={contract.phoneNumber}
+                                                onChange={(e) => handleContractFieldChange(index, 'phoneNumber', e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="contractsContainer__contractsTable__itemContractContainer__inputFile">
+                                            <label htmlFor={`itemContractListFileInput_${index}`} className="contractsContainer__contractsTable__itemContractContainer__inputFile__fileInputButton">
+                                                Seleccionar archivo
+                                            </label>
+                                            <input
+                                                id={`itemContractListFileInput_${index}`}
+                                                type="file"
+                                                className='contractsContainer__contractsTable__itemContractContainer__inputFile__propFile'
+                                                accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                                onChange={(e) => handleContractFileChange(index, 'contract_file', e.target.files[0])}
+                                            />
+                                            {contract.contract_file && (
+                                                <>
+                                                <p
+                                                style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
+                                                onClick={() => {
+                                                    const isFile = contract.contract_file instanceof File;
+                                                    const url = isFile
+                                                    ? URL.createObjectURL(contract.contract_file)
+                                                    : `http://localhost:8081/${contract.contract_file}`;
+
+                                                    const extension = url.split('.').pop().toLowerCase();
+
+                                                    if (extension !== 'pdf') {
+                                                    // Si no es PDF, abrir en nueva pestaña y no mostrar modal
+                                                    window.open(url, '_blank');
+                                                    } else {
+                                                    // Si es PDF, mostrarlo en el modal
+                                                    setSelectedPdf(url);
+                                                    }
+                                                }}
+                                                >
+                                                Ver contrato
+                                                </p>
+
+                                                </>
+                                            )}
+
+                                        </div>
+                                        <div className="contractsContainer__contractsTable__itemContractContainer__inputFile">
+                                            <label htmlFor={`itemContractListImageFileInput_${index}`} className="contractsContainer__contractsTable__itemContractContainer__inputFile__fileInputButton">
+                                                Seleccionar imagen
+                                            </label>
+                                            <input
+                                                id={`itemContractListImageFileInput_${index}`}
+                                                className='contractsContainer__contractsTable__itemContractContainer__inputFile__propFile'
+                                                type="file"
+                                                accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                                onChange={(e) => handleContractFileChange(index, 'image_dni', e.target.files[0])}
+                                            />
+                                            {contract.image_dni ? (
                                             <p
-                                            style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
-                                            onClick={() => {
-                                                const isFile = contract.contract_file instanceof File;
-                                                const url = isFile
-                                                ? URL.createObjectURL(contract.contract_file)
-                                                : `http://localhost:8081/${contract.contract_file}`;
-
-                                                const extension = url.split('.').pop().toLowerCase();
-
-                                                if (extension !== 'pdf') {
-                                                // Si no es PDF, abrir en nueva pestaña y no mostrar modal
-                                                window.open(url, '_blank');
-                                                } else {
-                                                // Si es PDF, mostrarlo en el modal
-                                                setSelectedPdf(url);
-                                                }
-                                            }}
+                                                style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
+                                                onClick={() => setSelectedImage(contract.image_dni)}
                                             >
-                                            Ver contrato
+                                                Ver imagen
                                             </p>
+                                            ) :  null}
 
-                                            </>
-                                        )}
+                                        </div>  
 
+
+                                        <div className="contractsContainer__contractsTable__itemContractContainer__btn">
+                                            <button className='contractsContainer__contractsTable__itemContractContainer__btn__prop' onClick={() => handleSaveContract(contract._id, contract)}>Guardar</button>
+                                            {loadingContractId === contract._id ? (
+                                                <button
+                                                disabled
+                                                className='cPanelProductsContainer__productsTable__itemContainer__btnsContainer__btn'
+                                                >
+                                                <Spinner/>
+                                                </button>
+                                            ) : (
+                                                <button
+                                                onClick={() => handleBtnDeleteContract(contract._id)}
+                                                className='contractsContainer__contractsTable__itemContractContainer__btn__prop'
+                                                >
+                                                Borrar
+                                                </button>
+                                            )}
+                                        </div>
                                     </div>
-                                    <div className="contractsContainer__contractsTable__itemContractContainer__inputFile">
-                                        <label htmlFor={`itemContractListImageFileInput_${index}`} className="contractsContainer__contractsTable__itemContractContainer__inputFile__fileInputButton">
-                                            Seleccionar archivo
-                                        </label>
-                                        <input
-                                            id={`itemContractListImageFileInput_${index}`}
-                                            className='contractsContainer__contractsTable__itemContractContainer__inputFile__propFile'
-                                            type="file"
-                                            accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                                            onChange={(e) => handleContractFileChange(index, 'image_dni', e.target.files[0])}
-                                        />
-                                        {contract.image_dni ? (
-                                        <p
-                                            style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
-                                            onClick={() => setSelectedImage(contract.image_dni)}
-                                        >
-                                            Ver imagen
-                                        </p>
-                                        ) :  null}
-
-                                    </div>  
-
-
-                                    <div className="contractsContainer__contractsTable__itemContractContainer__btn">
-                                        <button className='contractsContainer__contractsTable__itemContractContainer__btn__prop' onClick={() => handleSaveContract(contract._id, contract)}>Guardar</button>
-                                        {loadingContractId === contract._id ? (
-                                            <button
-                                            disabled
-                                            className='cPanelProductsContainer__productsTable__itemContainer__btnsContainer__btn'
-                                            >
-                                            <Spinner/>
-                                            </button>
-                                        ) : (
-                                            <button
-                                            onClick={() => handleBtnDeleteContract(contract._id)}
-                                            className='contractsContainer__contractsTable__itemContractContainer__btn__prop'
-                                            >
-                                            Borrar
-                                            </button>
-                                        )}
-                                    </div>
-                                </div>
-                            )
-                        })
+                                )
+                            })
+                        :   
+                        <div className="contractsContainer__contractsTable__isLoadingLabel">Aún no existen contratos en el día seleccionado</div>
                     }
 
                 </div>
                 {
                     
-                    !isLoadingContracts &&
+                    !isLoadingContracts && contracts.length > 0 &&
                     <div className='contractsContainer__btnsPagesContainer'>
                         <button className='contractsContainer__btnsPagesContainer__btn'
                             disabled={!pageInfo.hasPrevPage}
@@ -1036,31 +1187,6 @@ const Contracts = () => {
             </div>
         )}
 
-
-            {/* {selectedImage && (
-                <div
-                    onClick={() => setSelectedImage(null)}
-                    style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    width: '100vw',
-                    height: '100vh',
-                    backgroundColor: 'rgba(0,0,0,0.8)',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    zIndex: 9999,
-                    cursor: 'pointer'
-                    }}
-                >
-                    <img
-                    src={`http://localhost:8081/${selectedImage}`}
-                    alt="Imagen en grande"
-                    style={{ maxWidth: '90%', maxHeight: '90%', borderRadius: '10px' }}
-                    />
-                </div>
-            )} */}
             {selectedImage && (
                 <div
                     onClick={() => setSelectedImage(null)}
@@ -1095,8 +1221,8 @@ const Contracts = () => {
                             onClick={() => setSelectedImage(null)}
                             style={{
                                 marginBottom: '10px',
-                                backgroundColor: '#ff4d4f',
-                                color: '#fff',
+                                background: 'linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%)',
+                                color: 'black',
                                 border: 'none',
                                 padding: '10px 20px',
                                 borderRadius: '5px',
@@ -1124,10 +1250,10 @@ const Contracts = () => {
                             }}
                             style={{
                                 marginTop: '20px',
-                                backgroundColor: '#fff',
+                                background: 'linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%)',
+                                color: 'black',
                                 padding: '10px 20px',
                                 borderRadius: '5px',
-                                color: '#000',
                                 fontWeight: 'bold',
                                 cursor: 'pointer',
                             }}
@@ -1166,7 +1292,14 @@ const Contracts = () => {
             )}
 
 
-
+            {
+                isOpenCreateContractModal && 
+                <CreateContractModal
+                setIsOpenCreateContractModal={setIsOpenCreateContractModal}
+                fetchContracts={fetchContracts}
+                selectedDate={selectedDate}
+                />
+            }
         </>
     )
 

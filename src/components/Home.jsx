@@ -336,10 +336,6 @@ const Home = ({ openChatbot }) => {
                         </div>
                     </div>
 
-
-
-
-
                 </div>
 
             </div>

@@ -6,7 +6,7 @@ import Spinner from './Spinner';
 const CPanel = () => {
     const [menuOptions, setMenuOptions] = useState(false);
     const [user, setUser] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [loadingUserId, setLoadingUserId] = useState(null);
     const [isLoadingUsers, setIsLoadingUsers] = useState(false);
     const [adminUsers, setAdminUsers] = useState([]);
     const [adminsEdited, setAdminsEdited] = useState([]);
@@ -227,7 +227,7 @@ const CPanel = () => {
     };
 
     const handleBtnDeleteUser = async (userId) => {
-        setLoading(true);
+        setLoadingUserId(userId);
         try {
             const res = await fetch(`http://localhost:8081/api/users/delete-one/${userId}`, {
                 method: 'DELETE',  // Usamos PUT o PATCH para actualizar, no DELETE
@@ -251,7 +251,7 @@ const CPanel = () => {
         } catch (error) {
             console.error('Error:', error);
         } finally {
-            setLoading(false);
+            setLoadingUserId(null);
         }
     };
 
@@ -441,7 +441,7 @@ const CPanel = () => {
 
                                 <div className="cPanelContainer__contractsTable__itemContractContainer__btn">
                                     <button className='cPanelContainer__contractsTable__itemContractContainer__btn__prop' onClick={() => handleSaveUser(index)}>Actualizar</button>
-                                    {loading ? (
+                                    {loadingUserId === user._id ? (
                                         <button
                                         disabled
                                         className='cPanelProductsContainer__productsTable__itemContainer__btnsContainer__btn'

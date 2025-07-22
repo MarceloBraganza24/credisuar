@@ -5,9 +5,29 @@ import { toast } from 'react-toastify';
 const ItemBinContract = ({contract,fetchDeletedContracts,selectedContracts,setSelectedContracts}) => {
     const [loading, setLoading] = useState(false);
     const [loadingBtnRestore, setLoadingBtnRestore] = useState(false);
+    const [selectedPdf, setSelectedPdf] = useState(null);
+    const [selectedImage, setSelectedImage] = useState(null);
 
     const capitalizeFirstLetter = (text) => {
         return text.charAt(0).toUpperCase() + text.slice(1);
+    };
+
+    const handleDownloadImage = async () => {
+        try {
+            const response = await fetch(`http://localhost:8081/${selectedImage}`);
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'image_dni';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error al descargar la imagen:', error);
+        }
     };
 
     const handleBtnDeleteContract = async () => {
@@ -171,7 +191,8 @@ const ItemBinContract = ({contract,fetchDeletedContracts,selectedContracts,setSe
                     ) : contract.image_dni ? (
                     <p
                         style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
-                        onClick={() => setSelectedImage(`http://localhost:8081/${contract.dni_image}`)}
+                        //onClick={() => setSelectedImage(`http://localhost:8081/${contract.dni_image}`)}
+                        onClick={() => setSelectedImage(contract.image_dni)}
                     >
                         Ver imagen
                     </p>
@@ -215,6 +236,110 @@ const ItemBinContract = ({contract,fetchDeletedContracts,selectedContracts,setSe
                 </div>
 
             </div>
+
+            {selectedImage && (
+                <div
+                    onClick={() => setSelectedImage(null)}
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100vw',
+                        height: '100vh',
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        zIndex: 9999,
+                        flexDirection: 'column',
+                    }}
+                >
+                    {/* Contenedor interno que no cierra el modal al hacer clic */}
+                    <div
+                        style={{
+                            position: 'relative',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            maxWidth: '90%',
+                            maxHeight: '90%',
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Botón de cerrar */}
+                        <button
+                            onClick={() => setSelectedImage(null)}
+                            style={{
+                                marginBottom: '10px',
+                                background: 'linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%)',
+                                color: 'black',
+                                border: 'none',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            Cerrar
+                        </button>
+                        <img
+                            src={`http://localhost:8081/${selectedImage}`}
+                            alt="Imagen en grande"
+                            style={{
+                                maxWidth: '100%',
+                                maxHeight: '80vh',
+                                borderRadius: '10px',
+                            }}
+                        />
+
+                        {/* Botón de descarga */}
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation(); // evita que se cierre el modal
+                                handleDownloadImage();
+                            }}
+                            style={{
+                                marginTop: '20px',
+                                background: 'linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%)',
+                                color: 'black',
+                                padding: '10px 20px',
+                                borderRadius: '5px',
+                                fontWeight: 'bold',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            Descargar imagen
+                        </button>
+
+
+                        
+                    </div>
+                </div>
+            )}
+
+            {selectedPdf && (
+                <div
+                    onClick={() => setSelectedPdf(null)}
+                    style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100vw',
+                    height: '100vh',
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    zIndex: 9999
+                    }}
+                >
+                    <iframe
+                    src={selectedPdf}
+                    title="Contrato PDF"
+                    style={{ width: '80%', height: '90%', border: 'none', borderRadius: '10px' }}
+                    />
+                </div>
+            )}
 
         </>
     )
