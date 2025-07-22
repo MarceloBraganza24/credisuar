@@ -5,13 +5,13 @@ import Spinner from "./Spinner";
 import { toast } from "react-toastify";
 
 const Bin = () => {
+    const apiUrl = import.meta.env.VITE_API_URL;
     const [selectedContracts, setSelectedContracts] = useState([]);
     const [selectAllContracts, setSelectAllContracts] = useState(false);
     const [user, setUser] = useState('');
     const [isLoadingContracts, setIsLoadingContracts] = useState(true);
     const [contracts, setContracts] = useState([]);
     const [totalContracts, setTotalContracts] = useState("");
-    //console.log(contracts)
     const navigate = useNavigate();
     const [menuOptions, setMenuOptions] = useState(false);
     const [inputFilteredContracts, setInputFilteredContracts] = useState('');
@@ -28,9 +28,6 @@ const Bin = () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     }, [pageInfo.page]);
     
-    // console.log(contracts)
-    // const contractsSorted = contracts.sort((a, b) => b.createdAt - a.createdAt);
-
     useEffect(() => {
         const delay = setTimeout(() => {
             fetchDeletedContracts(1, inputFilteredContracts, 'all');
@@ -48,7 +45,7 @@ const Bin = () => {
 
     const fetchDeletedContracts = async (page = 1, search = "",field = "") => {
         try {
-            const response = await fetch(`http://localhost:8081/api/contracts/deleted?page=${page}&search=${search}&field=${field}`);
+            const response = await fetch(`${apiUrl}/api/contracts/deleted?page=${page}&search=${search}&field=${field}`);
             const contractsAll = await response.json();
             if (response.ok) {
                 const formattedContracts = contractsAll.data.docs.map(contract => ({
@@ -87,7 +84,7 @@ const Bin = () => {
 
     const fetchCurrentUser = async () => {
         try {
-            const response = await fetch('http://localhost:8081/api/sessions/current', {
+            const response = await fetch(`${apiUrl}/api/sessions/current`, {
                 method: 'GET',
                 credentials: 'include', // MUY IMPORTANTE para enviar cookies
             });
@@ -106,14 +103,6 @@ const Bin = () => {
         }
     };
 
-    /* useEffect(() => {
-        if (user?.isLoggedIn) {
-            setShowLogOutContainer(true);
-        } else {
-            setShowLogOutContainer(false);
-        }
-    }, [user]); */
-
     useEffect(() => {
         fetchCurrentUser();
         fetchDeletedContracts();
@@ -124,7 +113,7 @@ const Bin = () => {
         if (!confirm) return;
 
         try {
-            const res = await fetch('http://localhost:8081/api/contracts/mass-delete-permanent', {
+            const res = await fetch(`${apiUrl}/api/contracts/mass-delete-permanent`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ ids: selectedContracts })
@@ -167,7 +156,7 @@ const Bin = () => {
         if (!confirm) return;
 
         try {
-            const res = await fetch('http://localhost:8081/api/contracts/mass-restore', {
+            const res = await fetch(`${apiUrl}/api/contracts/mass-restore`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ ids: selectedContracts })
@@ -355,6 +344,7 @@ const Bin = () => {
                                     fetchDeletedContracts={fetchDeletedContracts}
                                     selectedContracts={selectedContracts}
                                     setSelectedContracts={setSelectedContracts}
+                                    apiUrl={apiUrl}
                                     />
                                 </>
                                 

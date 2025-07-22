@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import Spinner from './Spinner';
 import { toast } from 'react-toastify';
 
-const ItemBinContract = ({contract,fetchDeletedContracts,selectedContracts,setSelectedContracts}) => {
+const ItemBinContract = ({apiUrl,contract,fetchDeletedContracts,selectedContracts,setSelectedContracts}) => {
     const [loading, setLoading] = useState(false);
     const [loadingBtnRestore, setLoadingBtnRestore] = useState(false);
     const [selectedPdf, setSelectedPdf] = useState(null);
@@ -14,7 +14,7 @@ const ItemBinContract = ({contract,fetchDeletedContracts,selectedContracts,setSe
 
     const handleDownloadImage = async () => {
         try {
-            const response = await fetch(`http://localhost:8081/${selectedImage}`);
+            const response = await fetch(`${apiUrl}/${selectedImage}`);
             const blob = await response.blob();
             const url = URL.createObjectURL(blob);
 
@@ -33,7 +33,7 @@ const ItemBinContract = ({contract,fetchDeletedContracts,selectedContracts,setSe
     const handleBtnDeleteContract = async () => {
         setLoading(true);
         try {
-            const res = await fetch(`http://localhost:8081/api/contracts/${contract._id}`, {
+            const res = await fetch(`${apiUrl}/api/contracts/${contract._id}`, {
                 method: 'DELETE'
             });
             const result = await res.json();
@@ -65,7 +65,7 @@ const ItemBinContract = ({contract,fetchDeletedContracts,selectedContracts,setSe
     const handleBtnRestoreContract = async () => {
         try {
             setLoadingBtnRestore(true);
-            const res = await fetch(`http://localhost:8081/api/contracts/${contract._id}/restore`, {
+            const res = await fetch(`${apiUrl}/api/contracts/${contract._id}/restore`, {
                 method: 'PUT',
             });
 
@@ -164,7 +164,7 @@ const ItemBinContract = ({contract,fetchDeletedContracts,selectedContracts,setSe
                         const isFile = contract.contract_file instanceof File;
                         const url = isFile
                             ? URL.createObjectURL(contract.contract_file)
-                            : `http://localhost:8081/${contract.contract_file}`;
+                            : `${apiUrl}/${contract.contract_file}`;
                         setSelectedPdf(url);
                         }}
                     >
@@ -283,7 +283,7 @@ const ItemBinContract = ({contract,fetchDeletedContracts,selectedContracts,setSe
                             Cerrar
                         </button>
                         <img
-                            src={`http://localhost:8081/${selectedImage}`}
+                            src={`${apiUrl}/${selectedImage}`}
                             alt="Imagen en grande"
                             style={{
                                 maxWidth: '100%',

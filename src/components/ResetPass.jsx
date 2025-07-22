@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import Spinner from './Spinner';
 
 const ResetPass = () => {
+    const apiUrl = import.meta.env.VITE_API_URL;
     const [password, setPassword] = useState('');
     const [passwordValidation, setPasswordValidation] = useState({
         length: false,
@@ -39,7 +40,7 @@ const ResetPass = () => {
 
     const fetchStoreName = async () => {
         try {
-            const response = await fetch('http://localhost:8081/api/settings');
+            const response = await fetch(`${apiUrl}/api/settings`);
             const data = await response.json();
             if (response.ok) {
                 setStoreName(data.storeName)
@@ -64,7 +65,7 @@ const ResetPass = () => {
 
     const fetchEmailUsercookie = async () => {
         try {
-            const response = await fetch('http://localhost:8081/api/sessions/emailUsercookie', {
+            const response = await fetch(`${apiUrl}/api/sessions/emailUsercookie`, {
                 method: 'GET',
                 credentials: 'include', // 🔥 necesario para que la cookie se envíe
             });
@@ -84,7 +85,7 @@ const ResetPass = () => {
         const resetPass = async () => {
 
             setShowSpinner(true);
-            const response = await fetch(`http://localhost:8081/api/users/reset-pass?password=${password}`, {
+            const response = await fetch(`${apiUrl}/api/users/reset-pass?password=${password}`, {
                 method: 'POST',         
                 credentials: 'include', // 🔥 necesario para que la cookie llegue al backend
                 headers: {
@@ -236,7 +237,7 @@ const ResetPass = () => {
         }
         try {
             setLoadingBtnResetPass(true);
-            const response = await fetch(`http://localhost:8081/api/users/reset-pass?password=${password}`, {
+            const response = await fetch(`${apiUrl}/api/users/reset-pass?password=${password}`, {
                 method: 'POST',         
                 credentials: 'include', // 🔥 necesario para que la cookie llegue al backend
                 headers: {

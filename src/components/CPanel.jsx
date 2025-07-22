@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import Spinner from './Spinner';
 
 const CPanel = () => {
+    const apiUrl = import.meta.env.VITE_API_URL;
     const [menuOptions, setMenuOptions] = useState(false);
     const [user, setUser] = useState('');
     const [loadingUserId, setLoadingUserId] = useState(null);
@@ -39,7 +40,7 @@ const CPanel = () => {
 
     const fetchCurrentUser = async () => {
         try {
-            const response = await fetch('http://localhost:8081/api/sessions/current', {
+            const response = await fetch(`${apiUrl}/api/sessions/current`, {
                 method: 'GET',
                 credentials: 'include', // MUY IMPORTANTE para enviar cookies
             });
@@ -61,7 +62,7 @@ const CPanel = () => {
 
     const fetchAdminUsers = async () => {
         try {
-            const response = await fetch('http://localhost:8081/api/users/getAdmins', {
+            const response = await fetch(`${apiUrl}/api/users/getAdmins`, {
                 method: 'GET',
                 credentials: 'include', // MUY IMPORTANTE para enviar cookies
             });
@@ -107,7 +108,7 @@ const CPanel = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:8081/api/sessions/signIn', {
+            const response = await fetch(`${apiUrl}/api/sessions/signIn`, {
                 method: 'POST',  
                 headers: {
                     'Content-Type': 'application/json',
@@ -172,7 +173,7 @@ const CPanel = () => {
     const handleSaveUser = async (index) => {
         const adminToSave = adminUsers[index];
         try {
-            const response = await fetch(`http://localhost:8081/api/users/${adminToSave._id}`, {
+            const response = await fetch(`${apiUrl}/api/users/${adminToSave._id}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -229,7 +230,7 @@ const CPanel = () => {
     const handleBtnDeleteUser = async (userId) => {
         setLoadingUserId(userId);
         try {
-            const res = await fetch(`http://localhost:8081/api/users/delete-one/${userId}`, {
+            const res = await fetch(`${apiUrl}/api/users/delete-one/${userId}`, {
                 method: 'DELETE',  // Usamos PUT o PATCH para actualizar, no DELETE
             });
             if (res.ok) {
@@ -263,7 +264,7 @@ const CPanel = () => {
     };
 
     const handleBtnLogOut = async () => {
-        const response = await fetch(`http://localhost:8081/api/sessions/logout`, {
+        const response = await fetch(`${apiUrl}/api/sessions/logout`, {
             method: 'POST',         
             headers: {
                 'Content-Type': 'application/json',

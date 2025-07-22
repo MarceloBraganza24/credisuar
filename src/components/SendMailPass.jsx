@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import Spinner from './Spinner';
 
 const SendMailPass = () => {
+    const apiUrl = import.meta.env.VITE_API_URL;
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [storeName, setStoreName] = useState('');
@@ -63,7 +64,7 @@ const SendMailPass = () => {
         }
         try {
             setLoadingBtnRecieveLink(true);
-            const response = await fetch(`http://localhost:8081/api/users/password-link`, {
+            const response = await fetch(`${apiUrl}/api/users/password-link`, {
                 method: 'POST',         
                 headers: {
                     'Content-Type': 'application/json',

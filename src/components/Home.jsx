@@ -4,6 +4,7 @@ import Spinner from './Spinner';
 import { toast } from 'react-toastify';
 
 const Home = ({ openChatbot }) => {
+    const apiUrl = import.meta.env.VITE_API_URL;
     const [menuOptions, setMenuOptions] = useState(false);
     const [showFAQ, setShowFAQ] = useState(false);
     const [loadingCurrentUser, setLoadingCurrentUser] = useState(true);
@@ -103,7 +104,7 @@ const Home = ({ openChatbot }) => {
 
     const fetchCurrentUser = async () => {
         try {
-            const response = await fetch('http://localhost:8081/api/sessions/current', {
+            const response = await fetch(`${apiUrl}/api/sessions/current`, {
                 method: 'GET',
                 credentials: 'include', // MUY IMPORTANTE para enviar cookies
             });
@@ -128,7 +129,7 @@ const Home = ({ openChatbot }) => {
     }, []);
 
     const handleBtnLogOut = async () => {
-        const response = await fetch(`http://localhost:8081/api/sessions/logout`, {
+        const response = await fetch(`${apiUrl}/api/sessions/logout`, {
             method: 'POST',         
             headers: {
                 'Content-Type': 'application/json',

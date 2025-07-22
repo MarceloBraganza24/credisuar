@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import Spinner from './Spinner';
 
 const SignIn = () => {
+    const apiUrl = import.meta.env.VITE_API_URL;
     const navigate = useNavigate();
     const [isLoadingSignIn, setIsLoadingSignIn] = useState(true);
     const [credentials, setCredentials] = useState({
@@ -56,7 +57,7 @@ const SignIn = () => {
         if (!validateForm()) return;
 
         try {
-            const response = await fetch(`http://localhost:8081/api/sessions/signIn`, {
+            const response = await fetch(`${apiUrl}/api/sessions/signIn`, {
                 method: 'POST',         
                 headers: {
                     'Content-Type': 'application/json',

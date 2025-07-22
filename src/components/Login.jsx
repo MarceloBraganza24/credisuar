@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import Spinner from './Spinner';
 
 const Login = () => {
+    const apiUrl = import.meta.env.VITE_API_URL;
     const navigate = useNavigate();
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [storeSettings, setStoreSettings] = useState({});
@@ -44,7 +45,7 @@ const Login = () => {
         if (!validateForm()) return;
     
         try {
-            const response = await fetch(`http://localhost:8081/api/sessions/login`, {
+            const response = await fetch(`${apiUrl}/api/sessions/login`, {
                 method: 'POST',         
                 credentials: 'include', // 👈 necesario para recibir cookies
                 headers: {
@@ -116,13 +117,6 @@ const Login = () => {
                             <div className='loginContainer__formContainer__form__title__prop'>Inicio de sesión</div>
                         </div>
 
-                        {/* <div className='loginContainer__formContainer__form__input'>
-                            <input className='loginContainer__formContainer__form__input__prop' type="text" value={credentials.email} onChange={handleChange} placeholder='Email' name="email" id="" />
-                        </div> */}
-
-                        {/* <div className='loginContainer__formContainer__form__input'>
-                            <input className='loginContainer__formContainer__form__input__prop' type="password" value={credentials.password} onChange={handleChange} placeholder='Contraseña' name="password" id="" />
-                        </div> */}
                         <div className='loginContainer__formContainer__form__inputContainer'>
                             <div className='loginContainer__formContainer__form__inputContainer__input'>
                                 <input className='loginContainer__formContainer__form__inputContainer__input__prop' type="text" value={credentials.email} onChange={handleChange} placeholder='Email' name="email" id="" />

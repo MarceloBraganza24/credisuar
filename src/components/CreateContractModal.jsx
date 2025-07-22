@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react'
 import { toast } from 'react-toastify';
 
-const CreateContractModal = ({setIsOpenCreateContractModal,selectedDate,fetchContracts}) => {
+const CreateContractModal = ({apiUrl,setIsOpenCreateContractModal,selectedDate,fetchContracts}) => {
     const [selectedPreview, setSelectedPreview] = useState(null); 
     
     const [contractFormData, setContractFormData] = useState({
@@ -124,7 +124,7 @@ const CreateContractModal = ({setIsOpenCreateContractModal,selectedDate,fetchCon
         formDataToSend.append('image_dni', contractFormData.image_dni);
 
         try {
-            const response = await fetch('http://localhost:8081/api/contracts', {
+            const response = await fetch(`${apiUrl}/api/contracts`, {
                 method: 'POST',
                 body: formDataToSend,
             });

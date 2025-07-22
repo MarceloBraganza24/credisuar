@@ -5,6 +5,7 @@ import Spinner from './Spinner';
 import CreateContractModal from './CreateContractModal';
 
 const Contracts = () => {
+    const apiUrl = import.meta.env.VITE_API_URL;
     const [selectAllContracts, setSelectAll] = useState(false);
     const [selectedContracts, setSelectedContracts] = useState([]);
     const navigate = useNavigate();
@@ -102,7 +103,7 @@ const Contracts = () => {
     };
 
     const handleBtnLogOut = async () => {
-        const response = await fetch(`http://localhost:8081/api/sessions/logout`, {
+        const response = await fetch(`${apiUrl}/api/sessions/logout`, {
             method: 'POST',         
             headers: {
                 'Content-Type': 'application/json',
@@ -138,7 +139,7 @@ const Contracts = () => {
 
     const fetchContracts = async (page = 1, search = "",field = "", selectedDate = null) => {
         try {
-            const response = await fetch(`http://localhost:8081/api/contracts/byPage?page=${page}&search=${search}&field=${field}&selectedDate=${selectedDate}`)
+            const response = await fetch(`${apiUrl}/api/contracts/byPage?page=${page}&search=${search}&field=${field}&selectedDate=${selectedDate}`)
             const contractsAll = await response.json();
             if(response.ok) {
                 const formattedContracts = contractsAll.data.docs.map(contract => ({
@@ -257,7 +258,7 @@ const Contracts = () => {
         formDataToSend.append('image_dni', contractFormData.image_dni);
 
         try {
-            const response = await fetch('http://localhost:8081/api/contracts', {
+            const response = await fetch(`${apiUrl}/api/contracts`, {
                 method: 'POST',
                 body: formDataToSend,
             });
@@ -366,7 +367,7 @@ const Contracts = () => {
         } */
 
         try {
-            const response = await fetch(`http://localhost:8081/api/contracts/${id}`, {
+            const response = await fetch(`${apiUrl}/api/contracts/${id}`, {
                 method: 'PUT',
                 body: formData
             });
@@ -416,7 +417,7 @@ const Contracts = () => {
     const handleBtnDeleteContract = async (contractId) => {
         setLoadingContractId(contractId);
         try {
-            const res = await fetch(`http://localhost:8081/api/contracts/${contractId}/soft-delete`, {
+            const res = await fetch(`${apiUrl}/api/contracts/${contractId}/soft-delete`, {
                 method: 'PUT',  // Usamos PUT o PATCH para actualizar, no DELETE
             });
 
@@ -454,7 +455,7 @@ const Contracts = () => {
 
     const fetchCurrentUser = async () => {
         try {
-            const response = await fetch('http://localhost:8081/api/sessions/current', {
+            const response = await fetch(`${apiUrl}/api/sessions/current`, {
                 method: 'GET',
                 credentials: 'include', // MUY IMPORTANTE para enviar cookies
             });
@@ -505,7 +506,7 @@ const Contracts = () => {
         if (!confirm) return;
 
         try {
-            const res = await fetch('http://localhost:8081/api/contracts/mass-delete', {
+            const res = await fetch(`${apiUrl}/api/contracts/mass-delete`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ ids: selectedContracts })
@@ -568,7 +569,7 @@ const Contracts = () => {
 
     const handleDownloadImage = async () => {
         try {
-            const response = await fetch(`http://localhost:8081/${selectedImage}`);
+            const response = await fetch(`${apiUrl}/${selectedImage}`);
             const blob = await response.blob();
             const url = URL.createObjectURL(blob);
 
@@ -1298,6 +1299,7 @@ const Contracts = () => {
                 setIsOpenCreateContractModal={setIsOpenCreateContractModal}
                 fetchContracts={fetchContracts}
                 selectedDate={selectedDate}
+                apiUrl={apiUrl}
                 />
             }
         </>
