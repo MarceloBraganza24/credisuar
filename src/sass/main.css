@@ -1641,7 +1641,7 @@
   align-items: center;
 }
 .linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork__prop {
-  width: 40%;
+  width: 60%;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
 }

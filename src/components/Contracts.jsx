@@ -1050,7 +1050,7 @@ const Contracts = () => {
                                                     const isFile = contract.contract_file instanceof File;
                                                     const url = isFile
                                                     ? URL.createObjectURL(contract.contract_file)
-                                                    : `http://localhost:8081/${contract.contract_file}`;
+                                                    : `${apiUrl}/${contract.contract_file}`;
 
                                                     const extension = url.split('.').pop().toLowerCase();
 
@@ -1234,7 +1234,7 @@ const Contracts = () => {
                             Cerrar
                         </button>
                         <img
-                            src={`http://localhost:8081/${selectedImage}`}
+                            src={`${apiUrl}/${selectedImage}`}
                             alt="Imagen en grande"
                             style={{
                                 maxWidth: '100%',

@@ -34,7 +34,7 @@ const chatbotFlow = {
     sos_titular_de_la_tarjeta: {
         question: "¿Sos titular de la tarjeta?",
         options: [
-        { text: "Sí", next: "final_contacto" },
+        { text: "Sí", next: "final_confirmacion" },
         { text: "No", next: "imposible_solicitar_prestamo" },
         ]
     },
@@ -43,10 +43,6 @@ const chatbotFlow = {
         options: [
         { text: "Volver al inicio", next: "start" }
         ]
-    },
-    final_contacto: {
-        question: "¿Cuál es tu DNI?",
-        options: [] // se maneja con input
     },
     final_confirmacion: {
         question: "¡Gracias! Ya tenemos todo.\nA partir de ahora te contactamos con nuestro asesor para finalizar tu solicitud.",
@@ -61,44 +57,9 @@ export default function ChatBot({ isOpen, setIsOpen }) {
         nombre: "",
         monto: "",
         cuotas: "",
-        dni: "",
     });
 
     const step = chatbotFlow[currentStep];
-
-    /* const handleOptionClick = (option) => {
-        const { text, next } = option;
-
-        // Si volvés al inicio, reseteás todo
-        if (next === "inicio") {
-            setCurrentStep("inicio");
-            setHistory([]);
-            return;
-        }
-
-        // Guardar tarjeta correctamente
-        if (currentStep === "que_tarjeta_tenes") {
-            setFormData((prev) => ({
-            ...prev,
-            tarjeta: text
-            }));
-        }
-
-        const currentQuestion = chatbotFlow[currentStep].question;
-
-        const isDuplicate = history.some(
-            (item) => item.question === currentQuestion && item.answer === text
-        );
-
-        if (currentQuestion && !isDuplicate) {
-            setHistory((prev) => [
-            ...prev,
-            { question: currentQuestion, answer: text }
-            ]);
-        }
-
-        setCurrentStep(next);
-    }; */
 
     const handleOptionClick = (option) => {
         const { text, next } = option;
@@ -154,8 +115,8 @@ export default function ChatBot({ isOpen, setIsOpen }) {
     };
 
     const handleSubmit = () => {
-        const { nombre, monto, cuotas, dni } = formData;
-        const whatsappNumber = "5492926459172";
+        const { nombre, monto, cuotas } = formData;
+        const whatsappNumber = "5492926507044";
 
         const now = new Date();
 
@@ -180,7 +141,6 @@ export default function ChatBot({ isOpen, setIsOpen }) {
 🆔 ID: ${id}
 📅 Fecha: ${fecha} hs.
 🙋‍♂️ Nombre: ${nombre}
-🪪 DNI: ${dni}
 💰 Monto solicitado: $${monto}
 📆 Cuotas: ${cuotas}
 
@@ -248,43 +208,11 @@ ${seleccion}`;
                         Continuar
                     </button>
                     </>
-                ) : currentStep === "final_contacto" ? (
-                    <>
-                    <input
-                        type="number"
-                        name="dni"
-                        placeholder="DNI"
-                        value={formData.dni}
-                        onChange={handleInputChange}
-                    />
-                    <button
-                        onClick={() => {
-                        if (formData.dni) {
-                            setCurrentStep("final_confirmacion");
-                        }
-                        }}
-                    >
-                        Continuar
-                    </button>
-                    <button
-                        onClick={() => {
-                        setCurrentStep("start");
-                        setHistory([]);
-                        }}
-                    >
-                        Volver al inicio
-                    </button>
-                    </>
                 ) : currentStep === "final_confirmacion" ? (
                     <>
                     <button onClick={handleSubmit}>Contactar asesor</button>
                     </>
                 ) : (
-                    /* step.options.map((option, index) => (
-                    <button key={index} onClick={() => handleOptionClick(option.next)}>
-                        {option.text}
-                    </button>
-                    )) */
                    step.options.map((option, index) => (
                         <button key={index} onClick={() => handleOptionClick(option)}>
                             {option.text}
