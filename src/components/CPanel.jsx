@@ -319,7 +319,7 @@ const CPanel = () => {
                     <div onClick={btnShowMenuOptions} className='menuContainer__arrow'>v</div>
                     <div className={`menuContainer__menu ${menuOptions ? 'menuContainer__menu--active' : ''}`}>
                         <Link to={"/"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
-                            - Home
+                            - Inicio
                         </Link>
                         <Link to={"/contracts"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
                             - Contratos
@@ -342,12 +342,111 @@ const CPanel = () => {
 
                 <div className='cPanelContainer__subTitle'>Crear usuario</div>
 
+                <div className="cPanelContainer__gridLabelInput">
+
+                    <div className="cPanelContainer__gridLabelInput__label">
+                        <div className="cPanelContainer__gridLabelInput__label__prop">Nombre</div>
+                    </div>
+
+                    <div className="cPanelContainer__gridLabelInput__input">
+                        <input
+                            name="first_name"
+                            value={userformData.first_name}
+                            onChange={handleInputChange}
+                            placeholder="Nombre"
+                            className="cPanelContainer__gridLabelInput__input__prop"
+                        />
+                    </div>
+
+                </div>
+
+                <div className="cPanelContainer__gridLabelInput">
+
+                    <div className="cPanelContainer__gridLabelInput__label">
+                        <div className="cPanelContainer__gridLabelInput__label__prop">Apellido</div>
+                    </div>
+
+                    <div className="cPanelContainer__gridLabelInput__input">
+                        <input
+                            name="last_name"
+                            placeholder="Apellido"
+                            value={userformData.last_name}
+                            onChange={handleInputChange}
+                            className="cPanelContainer__gridLabelInput__input__prop"
+                        />
+                    </div>
+
+                </div>
+
+                <div className="cPanelContainer__gridLabelInput">
+
+                    <div className="cPanelContainer__gridLabelInput__label">
+                        <div className="cPanelContainer__gridLabelInput__label__prop">Email</div>
+                    </div>
+
+                    <div className="cPanelContainer__gridLabelInput__input">
+                        <input
+                            name="email"
+                            type='email'
+                            placeholder="Apellido"
+                            value={userformData.email}
+                            onChange={handleInputChange}
+                            className="cPanelContainer__gridLabelInput__input__prop"
+                        />
+                    </div>
+
+                </div>
+
+                <div className="cPanelContainer__gridLabelInput">
+
+                    <div className="cPanelContainer__gridLabelInput__label">
+                        <div className="cPanelContainer__gridLabelInput__label__prop">Contraseña</div>
+                    </div>
+
+                    <div className="cPanelContainer__gridLabelInput__input">
+                        <input
+                            name="password"
+                            type='password'
+                            placeholder="Contraseña"
+                            value={userformData.password}
+                            onChange={handleInputChange}
+                            className="cPanelContainer__gridLabelInput__input__prop"
+                        />
+                    </div>
+
+                </div>
+
+                <div className="cPanelContainer__gridLabelInput">
+
+                    <div className="cPanelContainer__gridLabelInput__label">
+                        <div className="cPanelContainer__gridLabelInput__label__prop">Rol</div>
+                    </div>
+
+                    <div className="cPanelContainer__gridLabelInput__input">
+                        <select
+                            name="role"
+                            value={userformData.role}
+                            onChange={handleInputChange}
+                            className='cPanelContainer__gridLabelInput__input__prop'
+                            required
+                        >
+                            <option value="">Seleccionar rol</option>
+                            <option value="admin">Administrador</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div className='cPanelContainer__separator'>
+                    <div className='cPanelContainer__separator__prop'></div>
+                </div>
+
                 <div className='cPanelContainer__headerTable'>
                     <div className='cPanelContainer__headerTable__item'>Nombre</div>
                     <div className='cPanelContainer__headerTable__item'>Apellido</div>
                     <div className='cPanelContainer__headerTable__item'>Email</div>
                     <div className='cPanelContainer__headerTable__item'>Contraseña</div>
-                    <div className='cPanelContainer__headerTable__item'></div>
+                    <div className='cPanelContainer__headerTable__item'>Rol</div>
                 </div>
 
                 <div className='cPanelContainer__contractsTable'>
@@ -367,16 +466,16 @@ const CPanel = () => {
                             <input onChange={handleInputChange} value={userformData.password} className='cPanelContainer__contractsTable__createContractContainer__input__prop' type="password" name="password" placeholder="Contraseña" required/>
                         </div>
                         <div className='cPanelContainer__contractsTable__createContractContainer__input'>
-                        <select
-                            name="role"
-                            value={userformData.role}
-                            onChange={handleInputChange}
-                            className='cPanelContainer__contractsTable__createContractContainer__input__prop'
-                            required
-                        >
-                            <option value="">Seleccionar rol</option>
-                            <option value="admin">Administrador</option>
-                        </select>
+                            <select
+                                name="role"
+                                value={userformData.role}
+                                onChange={handleInputChange}
+                                className='cPanelContainer__contractsTable__createContractContainer__input__prop'
+                                required
+                            >
+                                <option value="">Seleccionar rol</option>
+                                <option value="admin">Administrador</option>
+                            </select>
                         </div>
                         <div className='cPanelContainer__contractsTable__createContractContainer__btn'>
                             <button className='cPanelContainer__contractsTable__createContractContainer__btn__prop' onClick={handleBtnSubmitUser}>Crear usuario</button>
@@ -407,58 +506,109 @@ const CPanel = () => {
                             </>
                         :
                         adminUsers.map((user, index) => (
-                            <div className="cPanelContainer__contractsTable__itemContractContainer" key={user._id}>
-                                <div className="cPanelContainer__contractsTable__itemContractContainer__input">
-                                    <input
-                                        className='cPanelContainer__contractsTable__itemContractContainer__input__prop'
-                                        type="text"
-                                        value={user.first_name}
-                                        onChange={(e) => handleUserFieldChange(index, 'first_name', e.target.value)}
-                                    />
-                                </div>
-                                <div className="cPanelContainer__contractsTable__itemContractContainer__input">
-                                    <input
-                                        className='cPanelContainer__contractsTable__itemContractContainer__input__prop'
-                                        type="text"
-                                        value={user.last_name}
-                                        onChange={(e) => handleUserFieldChange(index, 'last_name', e.target.value)}
-                                    />
-                                </div>
-                                <div className="cPanelContainer__contractsTable__itemContractContainer__input">
-                                    <input
-                                        className='cPanelContainer__contractsTable__itemContractContainer__input__prop'
-                                        type="email"
-                                        value={user.email}
-                                        onChange={(e) => handleUserFieldChange(index, 'email', e.target.value)}
-                                    />
-                                </div>
-                                <div className="cPanelContainer__contractsTable__itemContractContainer__input">
-                                    -
-                                </div>
-                                <div className="cPanelContainer__contractsTable__itemContractContainer__input">
-                                    {user.role}
-                                </div>
+                            <>
+                                <div className="cPanelContainer__contractsTable__itemContractContainer" key={user._id}>
+                                    <div className="cPanelContainer__contractsTable__itemContractContainer__input">
+                                        <input
+                                            className='cPanelContainer__contractsTable__itemContractContainer__input__prop'
+                                            type="text"
+                                            value={user.first_name}
+                                            onChange={(e) => handleUserFieldChange(index, 'first_name', e.target.value)}
+                                            />
+                                    </div>
+                                    <div className="cPanelContainer__contractsTable__itemContractContainer__input">
+                                        <input
+                                            className='cPanelContainer__contractsTable__itemContractContainer__input__prop'
+                                            type="text"
+                                            value={user.last_name}
+                                            onChange={(e) => handleUserFieldChange(index, 'last_name', e.target.value)}
+                                            />
+                                    </div>
+                                    <div className="cPanelContainer__contractsTable__itemContractContainer__input">
+                                        <input
+                                            className='cPanelContainer__contractsTable__itemContractContainer__input__prop'
+                                            type="email"
+                                            value={user.email}
+                                            onChange={(e) => handleUserFieldChange(index, 'email', e.target.value)}
+                                            />
+                                    </div>
+                                    <div className="cPanelContainer__contractsTable__itemContractContainer__input">
+                                        -
+                                    </div>
+                                    <div className="cPanelContainer__contractsTable__itemContractContainer__input">
+                                        {user.role}
+                                    </div>
 
 
-                                <div className="cPanelContainer__contractsTable__itemContractContainer__btn">
-                                    <button className='cPanelContainer__contractsTable__itemContractContainer__btn__prop' onClick={() => handleSaveUser(index)}>Actualizar</button>
-                                    {loadingUserId === user._id ? (
-                                        <button
-                                        disabled
-                                        className='cPanelProductsContainer__productsTable__itemContainer__btnsContainer__btn'
-                                        >
-                                        <Spinner/>
-                                        </button>
-                                    ) : (
-                                        <button
-                                        onClick={() => handleBtnDeleteUser(user._id)}
-                                        className='cPanelContainer__contractsTable__itemContractContainer__btn__prop'
-                                        >
-                                        Borrar
-                                        </button>
-                                    )}
+                                    <div className="cPanelContainer__contractsTable__itemContractContainer__btn">
+                                        <button className='cPanelContainer__contractsTable__itemContractContainer__btn__prop' onClick={() => handleSaveUser(index)}>Actualizar</button>
+                                        {loadingUserId === user._id ? (
+                                            <button
+                                            disabled
+                                            className='cPanelProductsContainer__productsTable__itemContainer__btnsContainer__btn'
+                                            >
+                                            <Spinner/>
+                                            </button>
+                                        ) : (
+                                            <button
+                                            onClick={() => handleBtnDeleteUser(user._id)}
+                                            className='cPanelContainer__contractsTable__itemContractContainer__btn__prop'
+                                            >
+                                            Borrar
+                                            </button>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
+
+                                <div className="cPanelContainer__contractsTable__itemContractContainerMobile" key={user._id}>
+                                    <div className="cPanelContainer__contractsTable__itemContractContainerMobile__input">
+                                        <input
+                                            className='cPanelContainer__contractsTable__itemContractContainerMobile__input__prop'
+                                            type="text"
+                                            placeholder='Nombre'
+                                            value={user.first_name}
+                                            onChange={(e) => handleUserFieldChange(index, 'first_name', e.target.value)}
+                                            />
+                                    </div>
+                                    <div className="cPanelContainer__contractsTable__itemContractContainerMobile__input">
+                                        <input
+                                            className='cPanelContainer__contractsTable__itemContractContainerMobile__input__prop'
+                                            type="text"
+                                            placeholder='Apellido'
+                                            value={user.last_name}
+                                            onChange={(e) => handleUserFieldChange(index, 'last_name', e.target.value)}
+                                            />
+                                    </div>
+                                    <div className="cPanelContainer__contractsTable__itemContractContainerMobile__input">
+                                        <input
+                                            placeholder='Email'
+                                            className='cPanelContainer__contractsTable__itemContractContainerMobile__input__prop'
+                                            type="email"
+                                            value={user.email}
+                                            onChange={(e) => handleUserFieldChange(index, 'email', e.target.value)}
+                                            />
+                                    </div>
+
+                                    <div className="cPanelContainer__contractsTable__itemContractContainerMobile__btn">
+                                        <button className='cPanelContainer__contractsTable__itemContractContainerMobile__btn__prop' onClick={() => handleSaveUser(index)}>Actualizar</button>
+                                        {loadingUserId === user._id ? (
+                                            <button
+                                            disabled
+                                            className='cPanelProductsContainer__productsTable__itemContainer__btnsContainer__btn'
+                                            >
+                                            <Spinner/>
+                                            </button>
+                                        ) : (
+                                            <button
+                                            onClick={() => handleBtnDeleteUser(user._id)}
+                                            className='cPanelContainer__contractsTable__itemContractContainerMobile__btn__prop'
+                                            >
+                                            Borrar
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+                            </>
                         ))
                     }
 

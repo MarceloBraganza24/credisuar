@@ -109,6 +109,7 @@ const Home = ({ openChatbot }) => {
                 credentials: 'include', // MUY IMPORTANTE para enviar cookies
             });
             const data = await response.json();
+            console.log(data.data)
             if(data.error === 'jwt must be provided') { 
                 console.log('jwt must be provided')
             } else {
@@ -187,7 +188,7 @@ const Home = ({ openChatbot }) => {
                     <div onClick={btnShowMenuOptions} className='menuContainer__arrow'>v</div>
                     <div className={`menuContainer__menu ${menuOptions ? 'menuContainer__menu--active' : ''}`}>
                         <Link to={"/"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
-                        - Home
+                        - Inicio
                         </Link>
                         <Link to={"/contracts"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
                         - Contratos
@@ -201,15 +202,14 @@ const Home = ({ openChatbot }) => {
                     </div>
                 </div>
             }
-
             <div class="homeContainer">
 
                 <div class="homeContainer__logoImg">
-                    <img class="homeContainer__logoImg__prop" src="/src/assets/logo_credisuar.webp" alt="logo"/>
+                    <img class="homeContainer__logoImg__prop" src="/logo_credisuar.webp" alt="logo"/>
                 </div>
 
                 <div class="homeContainer__titleImg">
-                    <img class="homeContainer__titleImg__prop" src="/src/assets/label_credisuar.webp" alt="logo"/>
+                    <img class="homeContainer__titleImg__prop" src="/label_credisuar.webp" alt="logo"/>
                 </div>
 
                 <div class="homeContainer__label">
@@ -223,7 +223,7 @@ const Home = ({ openChatbot }) => {
                     </div>
 
                     <div class="homeContainer__btnLogoWhap__logoWhap">
-                        <img onClick={openChatbot} class="homeContainer__btnLogoWhap__logoWhap__prop" src="/src/assets/logo_whap.webp" alt="logo_whatsapp"/>
+                        <img onClick={openChatbot} class="homeContainer__btnLogoWhap__logoWhap__prop" src="/logo_whap.webp" alt="logo_whatsapp"/>
                     </div>
 
                 </div>
@@ -237,7 +237,7 @@ const Home = ({ openChatbot }) => {
             <div class="linksContainer">
 
                 <div class="linksContainer__titleImg">
-                    <img class="linksContainer__titleImg__prop" src="/src/assets/label_credisuar.webp" alt="logo"/>
+                    <img class="linksContainer__titleImg__prop" src="/label_credisuar.webp" alt="logo"/>
                 </div>
 
                 <div class="linksContainer__label">
@@ -309,28 +309,28 @@ const Home = ({ openChatbot }) => {
                             <a onClick={openChatbot} className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork">
                                 <img
                                 className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork__prop"
-                                src="/src/assets/logo_whap_network.webp"
+                                src="/logo_whap_network.webp"
                                 alt="logo_whap_network"
                                 />
                             </a>
                             <a href='https://www.instagram.com/credisuar?igsh=MTNveWZoaHM0aDJ6Nw==' target="_blank" className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork">
                                 <img
                                 className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork__prop"
-                                src="/src/assets/logo_insta_network.webp"
+                                src="/logo_insta_network.webp"
                                 alt="logo_insta_network"
                                 />
                             </a>
                             <a href='https://www.facebook.com/share/16pA7LVa3n/?mibextid=wwXIfr' target="_blank" className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork">
                                 <img
                                 className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork__prop"
-                                src="/src/assets/logo_face_network.webp"
+                                src="/logo_face_network.webp"
                                 alt="logo_face_network"
                                 />
                             </a>
                             <a href='https://www.tiktok.com/' target="_blank" className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork">
                                 <img
                                 className="linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork__prop"
-                                src="/src/assets/logo_tiktok_network.webp"
+                                src="/logo_tiktok_network.webp"
                                 alt="logo_tiktok_network"
                                 />
                             </a>
@@ -350,7 +350,7 @@ const Home = ({ openChatbot }) => {
                 <div class="whoWeAreContainer__headerImg"></div>
 
                 <div class="whoWeAreContainer__whoWeAreText">
-                    <div className='whoWeAreContainer__whoWeAreText__prop'>En Credisuar, te damos acceso al dinero que necesitás, de forma 100% online y con tu tarjeta de crédito. <br/>  Somos una empresa argentina especializada en otorgar créditos rápidos, simples y seguros sin necesidad de trámites presenciales ni papeleos innecesarios</div>
+                    <div className='whoWeAreContainer__whoWeAreText__prop'>En Credisuar, te damos acceso al dinero que necesitás, de forma 100% online y con tu tarjeta de crédito. <br/>  Somos una empresa argentina especializada en otorgar créditos rápidos, simples y seguros sin necesidad de trámites presenciales ni papeleos innecesarios.</div>
                 </div>
 
             </div>

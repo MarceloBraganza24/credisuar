@@ -241,7 +241,7 @@ const Bin = () => {
                     <div onClick={btnShowMenuOptions} className='menuContainer__arrow'>v</div>
                     <div className={`menuContainer__menu ${menuOptions ? 'menuContainer__menu--active' : ''}`}>
                         <Link to={"/"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
-                            - Home
+                            - Inicio
                         </Link>
                         <Link to={"/contracts"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
                             - Contratos
@@ -263,15 +263,13 @@ const Bin = () => {
                 </div>
 
                 <div className="binContainer__subTitle">
-                    <div className="binContainer__subTitle__prop">Contratos eliminados:</div>
+                    <div className="binContainer__subTitle__prop">Contratos eliminados</div>
                 </div>
 
-                <div className='contractsContainer__contractsTable__subTitleTable'>Buscar contratos</div>
+                <div className='binContainer__labelInputSearch'>Buscar contratos</div>
 
-                <div className='contractsContainer__inputSearchProduct'>
-                    <div className='contractsContainer__inputSearchProduct__inputContainer'>
-                        <input type="text" onChange={handleInputFilteredContracts} value={inputFilteredContracts} placeholder={`Buscar contrato`} className='contractsContainer__inputSearchProduct__inputContainer__input' name="" id="" />
-                    </div>
+                <div className='binContainer__inputSearchContract'>
+                    <input type="text" onChange={handleInputFilteredContracts} value={inputFilteredContracts} placeholder={`Buscar contrato`} className='binContainer__inputSearchContract__prop' name="" id="" />
                 </div>
 
                 {
@@ -308,23 +306,40 @@ const Bin = () => {
 
                 {
                     contracts.length != 0 &&
-                    <div className='binContainer__headerTableContainer'>
 
-                        <div className="binContainer__headerTableContainer__headerTable">
+                    <>
+                        <div className='binContainer__headerTableContainer'>
 
-                            <div className="binContainer__headerTableContainer__headerTable__item">&nbsp;</div>
-                            <div className="binContainer__headerTableContainer__headerTable__item">N° transacción</div>
-                            <div className="binContainer__headerTableContainer__headerTable__item">Fecha y hora transacción</div>
-                            <div className="binContainer__headerTableContainer__headerTable__item">Nombre</div>
-                            <div className="binContainer__headerTableContainer__headerTable__item">Apellido</div>
-                            <div className="binContainer__headerTableContainer__headerTable__item">DNI</div>
-                            <div className="binContainer__headerTableContainer__headerTable__item">Teléfono</div>
-                            <div className="binContainer__headerTableContainer__headerTable__item">Archivo de contrato</div>
-                            <div className="binContainer__headerTableContainer__headerTable__item">Imagen DNI</div>
+                            <div className="binContainer__headerTableContainer__headerTable">
+
+                                <div className="binContainer__headerTableContainer__headerTable__item">&nbsp;</div>
+                                <div className="binContainer__headerTableContainer__headerTable__item">N° transacción</div>
+                                <div className="binContainer__headerTableContainer__headerTable__item">Fecha y hora transacción</div>
+                                <div className="binContainer__headerTableContainer__headerTable__item">Nombre</div>
+                                <div className="binContainer__headerTableContainer__headerTable__item">Apellido</div>
+                                <div className="binContainer__headerTableContainer__headerTable__item">DNI</div>
+                                <div className="binContainer__headerTableContainer__headerTable__item">Teléfono</div>
+                                <div className="binContainer__headerTableContainer__headerTable__item">Archivo de contrato</div>
+                                <div className="binContainer__headerTableContainer__headerTable__item">Imagen DNI</div>
+
+                            </div>
 
                         </div>
 
-                    </div>
+                        <div className='binContainer__headerTableMobileContainer'>
+
+                            <div className="binContainer__headerTableMobileContainer__headerTable">
+
+                                <div className="binContainer__headerTableMobileContainer__headerTable__item">&nbsp;</div>
+                                <div className="binContainer__headerTableMobileContainer__headerTable__item">N° transacción</div>
+                                <div className="binContainer__headerTableMobileContainer__headerTable__item">Fecha y hora transacción</div>
+                                <div className="binContainer__headerTableMobileContainer__headerTable__item">Apellido</div>
+                                <div className="binContainer__headerTableMobileContainer__headerTable__item" style={{width:'100px'}}></div>
+
+                            </div>
+
+                        </div>
+                    </>
                 }
 
                 <div className="binContainer__contractsTable">

@@ -165,7 +165,7 @@ const Login = () => {
                     <div className='loginContainer__logoContainer__logo'>
                         <img
                         className='loginContainer__logoContainer__logo__prop'
-                        src="/src/assets/logo_credisuar.webp"
+                        src="/logo_credisuar.webp"
                         alt="logo_tienda"
                         />
                     </div>  

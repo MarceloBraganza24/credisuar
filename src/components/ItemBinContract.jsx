@@ -237,6 +237,71 @@ const ItemBinContract = ({apiUrl,contract,fetchDeletedContracts,selectedContract
 
             </div>
 
+            <div className="binContainer__contractsTable__itemContainerMobile">
+
+                <div className="binContainer__contractsTable__itemContainerMobile__item">
+                    <input
+                        type="checkbox"
+                        checked={selectedContracts.includes(contract._id)}
+                        onChange={() => {
+                        if (selectedContracts.includes(contract._id)) {
+                            setSelectedContracts(selectedContracts.filter(id => id !== contract._id));
+                        } else {
+                            setSelectedContracts([...selectedContracts, contract._id]);
+                        }
+                        }}
+                    />
+                </div>
+
+                <div className="binContainer__contractsTable__itemContainerMobile__descriptionEllipsis">
+                    <div className="binContainer__contractsTable__itemContainerMobile__descriptionEllipsis__label">{contract.transaction_number}</div>
+                </div>
+
+                <div className="binContainer__contractsTable__itemContainerMobile__descriptionEllipsis">
+                    <div className="binContainer__contractsTable__itemContainerMobile__descriptionEllipsis__label">{formatToReadableDatetime(contract.transaction_date)}</div>
+                </div>
+
+                <div className="binContainer__contractsTable__itemContainerMobile__descriptionEllipsis">
+                    <div className="binContainer__contractsTable__itemContainerMobile__descriptionEllipsis__description">{capitalizeFirstLetter(contract.last_name)}</div>
+                </div>
+
+                <div className='binContainer__contractsTable__itemContainerMobile__btnsContainer'>
+                    {loadingBtnRestore ? (
+                        <button
+                        disabled
+                        className='binContainer__contractsTable__itemContainerMobile__btnsContainer__btn'
+                        >
+                        <Spinner/>
+                        </button>
+                    ) : (
+                        <button
+                        onClick={handleBtnRestoreContract}
+                        className='binContainer__contractsTable__itemContainerMobile__btnsContainer__btn'
+                        >
+                        Restaurar
+                        </button>
+                    )}
+
+                    {loading ? (
+                        <button
+                        disabled
+                        className='binContainer__contractsTable__itemContainerMobile__btnsContainer__btn'
+                        >
+                        <Spinner/>
+                        </button>
+                    ) : (
+                        <button
+                        onClick={handleBtnDeleteContract}
+                        className='binContainer__contractsTable__itemContainerMobile__btnsContainer__btn'
+                        >
+                        Borrar <br /> permanentemente
+                        </button>
+                    )}
+
+                </div>
+
+            </div>
+
             {selectedImage && (
                 <div
                     onClick={() => setSelectedImage(null)}

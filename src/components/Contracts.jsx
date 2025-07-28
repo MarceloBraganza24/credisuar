@@ -3,6 +3,7 @@ import { Link,useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Spinner from './Spinner';
 import CreateContractModal from './CreateContractModal';
+import UpdateContractModal from './UpdateContractModal';
 
 const Contracts = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -18,6 +19,8 @@ const Contracts = () => {
     const [contracts, setContracts] = useState([]);
     const [isLoadingContracts, setIsLoadingContracts] = useState(true);
     const [isOpenCreateContractModal, setIsOpenCreateContractModal] = useState(false);
+    const [isOpenUpdateContractModal, setIsOpenUpdateContractModal] = useState(false);
+    const [selectedContract, setSelectedContract] = useState(null);
     const [totalContracts, setTotalContracts] = useState("");
     const [totalPerPageContracts, setTotalPerPageContracts] = useState("");
     const [user, setUser] = useState('');
@@ -339,9 +342,6 @@ const Contracts = () => {
 
 
     const handleSaveContract = async (id, updatedContract) => {
-        
-        // console.log('Enviando archivo contract_file:', updatedContract.contract_file, updatedContract.contract_file instanceof File);
-        // console.log('Enviando archivo image_dni:', updatedContract.image_dni, updatedContract.image_dni instanceof File);
 
         const formData = new FormData();
 
@@ -361,10 +361,6 @@ const Contracts = () => {
                 }
             }
         }
-
-        /* for (const key of formData.keys()) {
-            console.log(`${key}:`, formData.get(key));
-        } */
 
         try {
             const response = await fetch(`${apiUrl}/api/contracts/${id}`, {
@@ -585,6 +581,14 @@ const Contracts = () => {
         }
     };
 
+    const handleBtnUpdateContractModal = (contract) => {
+        //console.log(contract)
+
+
+        setIsOpenUpdateContractModal(true)
+
+    };
+
     const goToPreviousDay = () => {
         setIsLoadingContracts(true);
         const prevDate = new Date(selectedDate);
@@ -639,7 +643,7 @@ const Contracts = () => {
                     <div onClick={btnShowMenuOptions} className='menuContainer__arrow'>v</div>
                     <div className={`menuContainer__menu ${menuOptions ? 'menuContainer__menu--active' : ''}`}>
                         <Link to={"/"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
-                            - Home
+                            - Inicio
                         </Link>
                         <Link to={"/contracts"} onClick={btnShowMenuOptions} className='menuContainer__menu__item'>
                             - Contratos
@@ -731,7 +735,7 @@ const Contracts = () => {
                             <div className='contractsContainer__contractsTableMobile__header__item'></div>
                             <div className='contractsContainer__contractsTableMobile__header__item'>N° transacción</div>
                             <div className='contractsContainer__contractsTableMobile__header__item'>Fecha y hora transacción</div>
-                            <div className='contractsContainer__contractsTableMobile__header__item'>Nombre</div>
+                            <div className='contractsContainer__contractsTableMobile__header__item'>Apellido</div>
                             <div className='contractsContainer__contractsTableMobile__header__item'></div>
                         </div>
                     }
@@ -755,35 +759,23 @@ const Contracts = () => {
                                                 onChange={() => toggleSelectContract(contract._id)}
                                             />
                                         </div>
-                                        <div className="contractsContainer__contractsTableMobile__itemContractContainer__input">
-                                            {/* <input
-                                                className='contractsContainer__contractsTableMobile__itemContractContainer__input__prop'
-                                                type="text"
-                                                value={contract.transaction_number}
-                                                onChange={(e) => handleContractFieldChange(index, 'transaction_number', e.target.value)}
-                                            /> */}
+                                        <div className="contractsContainer__contractsTableMobile__itemContractContainer__descriptionEllipsis">
                                             <div>{contract.transaction_number}</div>
                                         </div>
-                                        <div className="contractsContainer__contractsTableMobile__itemContractContainer__input">
-                                            {/* <input
-                                            className='contractsContainer__contractsTableMobile__itemContractContainer__input__prop'
-                                            type="datetime-local"
-                                            value={contract.transaction_date}
-                                            onChange={(e) => handleContractFieldChange(index, 'transaction_date', e.target.value)}
-                                            /> */}
-                                            <div>{contract.transaction_date}</div>
+                                        <div className="contractsContainer__contractsTableMobile__itemContractContainer__descriptionEllipsis">
+                                            <div>{contract.transaction_date.replace('T', ' ')}</div>
                                         </div>
-                                        <div className="contractsContainer__contractsTableMobile__itemContractContainer__input">
-                                            {/* <input
-                                                className='contractsContainer__contractsTableMobile__itemContractContainer__input__prop'
-                                                type="text"
-                                                value={contract.first_name}
-                                                onChange={(e) => handleContractFieldChange(index, 'first_name', e.target.value)}
-                                            /> */}
-                                            <div>{contract.first_name}</div>
+                                        <div className="contractsContainer__contractsTableMobile__itemContractContainer__descriptionEllipsis">
+                                            <div>{contract.last_name}</div>
                                         </div>
                                         <div className="contractsContainer__contractsTableMobile__itemContractContainer__btn">
-                                            <button className='contractsContainer__contractsTableMobile__itemContractContainer__btn__prop' onClick={() => handleSaveContract(contract._id, contract)}>Guardar</button>
+                                            <button 
+                                                className='contractsContainer__contractsTableMobile__itemContractContainer__btn__prop'
+                                                onClick={() => {
+                                                    setSelectedContract(contract); // <-- Seteás el contrato completo
+                                                    setIsOpenUpdateContractModal(true); // <-- Mostrás el modal
+                                                }}>Editar
+                                            </button>
                                             {loadingContractId === contract._id ? (
                                                 <button
                                                 disabled
@@ -1298,6 +1290,17 @@ const Contracts = () => {
                 <CreateContractModal
                 setIsOpenCreateContractModal={setIsOpenCreateContractModal}
                 fetchContracts={fetchContracts}
+                selectedDate={selectedDate}
+                apiUrl={apiUrl}
+                />
+            }
+
+            {
+                isOpenUpdateContractModal && 
+                <UpdateContractModal
+                setIsOpenUpdateContractModal={setIsOpenUpdateContractModal}
+                fetchContracts={fetchContracts}
+                contract={selectedContract}
                 selectedDate={selectedDate}
                 apiUrl={apiUrl}
                 />
