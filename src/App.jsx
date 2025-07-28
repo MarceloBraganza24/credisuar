@@ -1,5 +1,6 @@
 import Home from './components/Home.jsx';
 import { IsLoggedInContext } from './context/IsLoggedContext.jsx';
+import { AuthProvider } from './context/AuthContext.jsx';
 import {useState} from 'react'
 
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
@@ -36,7 +37,9 @@ function App() {
         <>
 
             <BrowserRouter>
-
+            
+                <AuthProvider>
+                    
                     <IsLoggedInContext>
 
                         <ChatbotWrapper isOpen={isChatOpen} setIsOpen={setIsChatOpen} />
@@ -57,6 +60,8 @@ function App() {
                         <ToastContainer />
                         
                     </IsLoggedInContext>
+
+                </AuthProvider>
 
             </BrowserRouter>
         

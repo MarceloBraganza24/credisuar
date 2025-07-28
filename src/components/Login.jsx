@@ -2,9 +2,11 @@ import {useEffect,useState,useContext} from 'react'
 import { Link,useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Spinner from './Spinner';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
+    const { login } = useAuth();
     const navigate = useNavigate();
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [storeSettings, setStoreSettings] = useState({});
@@ -40,7 +42,7 @@ const Login = () => {
         return true;
     };
 
-    const handleSubmit = async (e) => {
+    /* const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validateForm()) return;
     
@@ -87,6 +89,36 @@ const Login = () => {
         } catch (error) {
           console.error('Error:', error);
         }
+    }; */
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const success = await login(credentials.email, credentials.password);
+        if (success) {
+            navigate('/');
+            toast('Bienvenido, has iniciado sesion con éxito!', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                className: "custom-toast",
+            });
+        } else {
+            toast('Alguno de los datos ingresados es incorrecto. Inténtalo nuevamente!', {
+                position: "top-right",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                className: "custom-toast",
+            });
+        }
     };
 
     useEffect(() => {
@@ -119,7 +151,7 @@ const Login = () => {
 
                         <div className='loginContainer__formContainer__form__inputContainer'>
                             <div className='loginContainer__formContainer__form__inputContainer__input'>
-                                <input className='loginContainer__formContainer__form__inputContainer__input__prop' type="text" value={credentials.email} onChange={handleChange} placeholder='Email' name="email" id="" />
+                                <input className='loginContainer__formContainer__form__inputContainer__input__prop' type="email" value={credentials.email} onChange={handleChange} placeholder='Email' name="email" id="" />
                             </div>
                         </div>
                         

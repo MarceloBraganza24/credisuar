@@ -2,8 +2,11 @@ import React, {useState,useRef,useEffect}  from 'react'
 import { Link,useNavigate } from 'react-router-dom';
 import Spinner from './Spinner';
 import { toast } from 'react-toastify';
+import { useAuth } from '../context/AuthContext';
+import { fetchWithAuth } from './FetchWithAuth.jsx';
 
 const Home = ({ openChatbot }) => {
+    const { token } = useAuth(); // Usás el token desde el contexto
     const apiUrl = import.meta.env.VITE_API_URL;
     const [menuOptions, setMenuOptions] = useState(false);
     const [showFAQ, setShowFAQ] = useState(false);
@@ -105,31 +108,34 @@ const Home = ({ openChatbot }) => {
     const fetchCurrentUser = async () => {
         try {
             const response = await fetch(`${apiUrl}/api/sessions/current`, {
-                method: 'GET',
-                credentials: 'include', // MUY IMPORTANTE para enviar cookies
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${token}`, // ⬅️ ¡Acá va el JWT!
+            },
             });
+
             const data = await response.json();
-            console.log(data.data)
-            if(data.error === 'jwt must be provided') { 
-                console.log('jwt must be provided')
-            } else {
-                const user = data.data;
-                if(user) {
-                    setUser(user)
+
+            if (response.ok) {
+                const user = data.data; // si usás res.sendSuccess(user)
+                if (user) {
+                    setUser(user);
                 }
+            } else {
+                console.log('Error al obtener el usuario:', data);
             }
         } catch (error) {
             console.error('Error:', error);
         } finally {
             setLoadingCurrentUser(false);
         }
-    };
+    }
 
     useEffect(() => {
         fetchCurrentUser();
     }, []);
 
-    const handleBtnLogOut = async () => {
+    /* const handleBtnLogOut = async () => {
         const response = await fetch(`${apiUrl}/api/sessions/logout`, {
             method: 'POST',         
             headers: {
@@ -155,7 +161,27 @@ const Home = ({ openChatbot }) => {
                 window.location.reload()
             }, 2000);
         }
-    }
+    } */
+   const handleBtnLogOut = async () => {
+        const response = await fetchWithAuth('/api/sessions/logout', {
+            method: 'POST',
+        });
+
+        if (response) {
+            toast('Gracias por visitar nuestra página', {
+                position: "top-right",
+                autoClose: 1500,
+                theme: "dark",
+                className: "custom-toast",
+            });
+            localStorage.removeItem("token");
+            setTimeout(() => {
+                navigate('/');
+                window.location.reload();
+            }, 2000);
+        }
+    };
+
 
     return (
 

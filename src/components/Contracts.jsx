@@ -4,8 +4,11 @@ import { toast } from 'react-toastify';
 import Spinner from './Spinner';
 import CreateContractModal from './CreateContractModal';
 import UpdateContractModal from './UpdateContractModal';
+import { useAuth } from '../context/AuthContext';
+import { fetchWithAuth } from './FetchWithAuth.jsx';
 
 const Contracts = () => {
+    const { token } = useAuth(); // Usás el token desde el contexto
     const apiUrl = import.meta.env.VITE_API_URL;
     const [selectAllContracts, setSelectAll] = useState(false);
     const [selectedContracts, setSelectedContracts] = useState([]);
@@ -105,7 +108,7 @@ const Contracts = () => {
         setContractFormData(updatedForm);
     };
 
-    const handleBtnLogOut = async () => {
+    /* const handleBtnLogOut = async () => {
         const response = await fetch(`${apiUrl}/api/sessions/logout`, {
             method: 'POST',         
             headers: {
@@ -131,7 +134,26 @@ const Contracts = () => {
                 window.location.reload()
             }, 2000);
         }
-    }
+    } */
+    const handleBtnLogOut = async () => {
+        const response = await fetchWithAuth('/api/sessions/logout', {
+            method: 'POST',
+        });
+
+        if (response) {
+            toast('Gracias por visitar nuestra página', {
+                position: "top-right",
+                autoClose: 1500,
+                theme: "dark",
+                className: "custom-toast",
+            });
+            localStorage.removeItem("token");
+            setTimeout(() => {
+                navigate('/');
+                window.location.reload();
+            }, 2000);
+        }
+    };
 
     const formatToDatetimeLocal = (isoString) => {
         const date = new Date(isoString);
@@ -449,7 +471,7 @@ const Contracts = () => {
         }
     };
 
-    const fetchCurrentUser = async () => {
+    /* const fetchCurrentUser = async () => {
         try {
             const response = await fetch(`${apiUrl}/api/sessions/current`, {
                 method: 'GET',
@@ -469,7 +491,32 @@ const Contracts = () => {
         } finally {
             setLoadingCurrentUser(false);
         }
-    };
+    }; */
+    const fetchCurrentUser = async () => {
+        try {
+            const response = await fetch(`${apiUrl}/api/sessions/current`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${token}`, // ⬅️ ¡Acá va el JWT!
+            },
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                const user = data.data; // si usás res.sendSuccess(user)
+                if (user) {
+                    setUser(user);
+                }
+            } else {
+                console.log('Error al obtener el usuario:', data);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        } finally {
+            setLoadingCurrentUser(false);
+        }
+    }
 
     useEffect(() => {
         fetchContracts(1, inputFilteredContracts, 'all', formatDateToString(selectedDate));

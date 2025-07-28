@@ -3,13 +3,17 @@ import { Link, useNavigate } from 'react-router-dom'
 import ItemBinContract from "./ItemBinContract.jsx";
 import Spinner from "./Spinner";
 import { toast } from "react-toastify";
+import { useAuth } from '../context/AuthContext';
+import { fetchWithAuth } from './FetchWithAuth.jsx';
 
 const Bin = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
+    const { token } = useAuth(); // Usás el token desde el contexto
     const [selectedContracts, setSelectedContracts] = useState([]);
     const [selectAllContracts, setSelectAllContracts] = useState(false);
     const [user, setUser] = useState('');
     const [isLoadingContracts, setIsLoadingContracts] = useState(true);
+    const [loadingCurrentUser, setLoadingCurrentUser] = useState(true);
     const [contracts, setContracts] = useState([]);
     const [totalContracts, setTotalContracts] = useState("");
     const navigate = useNavigate();
@@ -82,7 +86,7 @@ const Bin = () => {
         }
     };
 
-    const fetchCurrentUser = async () => {
+    /* const fetchCurrentUser = async () => {
         try {
             const response = await fetch(`${apiUrl}/api/sessions/current`, {
                 method: 'GET',
@@ -101,7 +105,32 @@ const Bin = () => {
         } catch (error) {
             console.error('Error:', error);
         }
-    };
+    }; */
+    const fetchCurrentUser = async () => {
+        try {
+            const response = await fetch(`${apiUrl}/api/sessions/current`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${token}`, // ⬅️ ¡Acá va el JWT!
+            },
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                const user = data.data; // si usás res.sendSuccess(user)
+                if (user) {
+                    setUser(user);
+                }
+            } else {
+                console.log('Error al obtener el usuario:', data);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        } finally {
+            setLoadingCurrentUser(false);
+        }
+    }
 
     useEffect(() => {
         fetchCurrentUser();
@@ -231,6 +260,26 @@ const Bin = () => {
         setInputFilteredContracts(soloLetrasYNumeros);
     }
 
+    const handleBtnLogOut = async () => {
+        const response = await fetchWithAuth('/api/sessions/logout', {
+            method: 'POST',
+        });
+
+        if (response) {
+            toast('Gracias por visitar nuestra página', {
+                position: "top-right",
+                autoClose: 1500,
+                theme: "dark",
+                className: "custom-toast",
+            });
+            localStorage.removeItem("token");
+            setTimeout(() => {
+                navigate('/');
+                window.location.reload();
+            }, 2000);
+        }
+    };
+
     return (
 
         <>
@@ -253,6 +302,26 @@ const Bin = () => {
                             - Panel de control
                         </Link>
                     </div>
+                </div>
+            }
+
+            {
+                loadingCurrentUser ?
+                <div className='logoutLinkContainer'>
+                    <div className='logoutLinkContainer__labelLogout'>
+                        <Spinner/>
+                    </div>
+                </div>
+                :
+                !user ?
+                <div className='loginLinkContainer'>
+                    <Link to={"/login"} className='loginLinkContainer__labelLogin'>
+                        Iniciar sesión
+                    </Link>
+                </div>
+                :
+                <div className='logoutLinkContainer'>
+                    <div onClick={handleBtnLogOut} className='logoutLinkContainer__labelLogout'>SALIR</div>
                 </div>
             }
 
