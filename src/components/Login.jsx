@@ -202,9 +202,9 @@ const Login = () => {
                         />
                     </div>  
 
-                    <div className='loginContainer__logoContainer__phrase'>
+                    {/* <div className='loginContainer__logoContainer__phrase'>
                         <div className='loginContainer__logoContainer__phrase__prop'>"Ingresa a tu cuenta y disfruta de una experiencia única con nuestros productos financieros especialmente para ti"</div>
-                    </div>
+                    </div> */}
 
                 </div>  
 

@@ -14,16 +14,9 @@ const ResetPass = () => {
         specialChar: false
     });
     const [showSpinner, setShowSpinner] = useState(false);
-    const [isMonted, setIsMonted] = useState(false);
-    const [isCorrectCookie, setIsCorrectCookie] = useState(false);
     const [emailUsercookie, setEmailUsercookie] = useState(null);
-    const [storeName, setStoreName] = useState('');
     const [loadingBtnResetPass, setLoadingBtnResetPass] = useState(false);
     const [passwordVisible, setPasswordVisible] = useState(false);
-
-    useEffect(() => {
-        fetchStoreName();
-    }, []);
 
     const handlePasswordChange = (e) => {
         const value = e.target.value;
@@ -36,31 +29,6 @@ const ResetPass = () => {
             number: /[0-9]/.test(value),
             specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(value)
         });
-    };
-
-    const fetchStoreName = async () => {
-        try {
-            const response = await fetch(`${apiUrl}/api/settings`);
-            const data = await response.json();
-            if (response.ok) {
-                setStoreName(data.storeName)
-            } else {
-                toast('Error al cargar configuraciones', {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                    className: "custom-toast",
-                });
-            }
-
-        } catch (error) {
-            console.error(error);
-        }
     };
 
     const fetchEmailUsercookie = async () => {
@@ -311,14 +279,13 @@ const ResetPass = () => {
                     <div className='resetPassContainer'>
                         <div className='resetPassContainer__credentials'>
                             <div className='resetPassContainer__credentials__phrase'>
-                                <div className='resetPassContainer__credentials__phrase__title'>{storeName}</div>
+                                <div className='resetPassContainer__credentials__phrase__title'>Credisuar</div>
                             </div>
                             <div className='resetPassContainer__credentials__phrase'>
                                 <div className='resetPassContainer__credentials__phrase__ask'>Ingrese su nueva contraseña</div>
                             </div>
                             <div className='resetPassContainer__credentials__form'>
                                 <div className='resetPassContainer__credentials__form__label-input'>
-                                    <div className='resetPassContainer__credentials__form__label-input__label'>Contraseña:</div>
                                     <div className='resetPassContainer__credentials__form__label-input__input'>
                                          <input
                                             className='resetPassContainer__credentials__form__label-input__input__prop'
@@ -403,7 +370,7 @@ const ResetPass = () => {
                     <div className='resetPassContainer'>
                         <div className='resetPassContainer__linkExpiredContaienr'>
                             <div className='resetPassContainer__linkExpiredContaienr__phrase'>
-                                <div className='resetPassContainer__linkExpiredContaienr__phrase__title'>{storeName}</div>
+                                <div className='resetPassContainer__linkExpiredContaienr__phrase__title'>Credisuar</div>
                             </div>
                             <div className='resetPassContainer__linkExpiredContaienr__label'>
                                 <div className='resetPassContainer__linkExpiredContaienr__label__prop'>El link ha expirado</div>

@@ -133,7 +133,6 @@ const SendMailPass = () => {
                     </div>
                     <div className='sendMailContainer__credentials__form'>
                         <div className='sendMailContainer__credentials__form__label-input'>
-                            <div className='sendMailContainer__credentials__form__label-input__label'>Email</div>
                             <div className='sendMailContainer__credentials__form__label-input__input'>
                                 <input className='sendMailContainer__credentials__form__label-input__input__prop' type='email' placeholder='Email' onChange={handleInputEmail}/>
                             </div>

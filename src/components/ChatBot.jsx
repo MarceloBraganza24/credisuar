@@ -199,6 +199,7 @@ ${seleccion}`;
                         onChange={handleInputChange}
                     />
                     <button
+                        //style={{backgroundColor:'black'}}
                         onClick={() => {
                         if (formData.nombre && formData.monto && formData.cuotas) {
                             setCurrentStep("start");
@@ -210,11 +211,11 @@ ${seleccion}`;
                     </>
                 ) : currentStep === "final_confirmacion" ? (
                     <>
-                    <button onClick={handleSubmit}>Contactar asesor</button>
+                    <button className="btnChatBot" onClick={handleSubmit}>Contactar asesor</button>
                     </>
                 ) : (
                    step.options.map((option, index) => (
-                        <button key={index} onClick={() => handleOptionClick(option)}>
+                        <button style={{backgroundColor:'black', color:'white'}} key={index} onClick={() => handleOptionClick(option)}>
                             {option.text}
                         </button>
                     ))

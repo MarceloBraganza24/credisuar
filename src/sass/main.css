@@ -98,37 +98,6 @@
   transform: scale(1.1);
 }
 
-/* .signInLinkContainer {
-    position: fixed;
-    bottom: 5vh;
-    right: 6vh;
-    &__labelSignIn {
-        width: 100%;
-        background-color: yellow;
-        border-radius: 30vh;
-        font-size: 20px;
-        padding: 1vh 2vh;
-        text-decoration: none;
-        cursor: pointer;
-        font-weight: bold;
-        background: linear-gradient(
-        to bottom,
-        #b8860b 0%,
-        #ffd700 20%,
-        #fff8dc 40%,
-        #ffd700 60%,
-        #b8860b 80%,
-        #ffd700 100%
-        );
-        color: black;
-        text-align: center;
-        font-family: 'Anton', sans-serif;
-    }
-    transition: transform 0.3s ease-in-out;
-    &:hover {
-        transform: scale(1.1);
-    }
-} */
 .loginContainer {
   width: 100%;
   height: 100vh;
@@ -1218,13 +1187,13 @@
   transform: scale(1.1);
 }
 .menuContainer__menu {
-  width: 200px;
-  height: 100px;
+  width: 250px;
+  height: auto;
   display: flex;
   flex-direction: column;
   background-color: black;
   border-radius: 1vh;
-  padding-top: 2vh;
+  padding: 2vh 0vh 2vh 0vh;
   transform: translateX(-100%);
   opacity: 0;
   transition: transform 0.3s ease, opacity 0.3s ease;
@@ -1236,8 +1205,11 @@
 .menuContainer__menu__item {
   color: white;
   padding-left: 2vh;
-  font-size: 20px;
+  font-size: 25px;
   text-decoration: none;
+}
+.menuContainer__menu__item:hover {
+  text-decoration: underline;
 }
 
 .homeContainer {
@@ -1379,6 +1351,7 @@
   padding-left: 1vh;
   border-radius: 1vh;
   font-size: 18px;
+  text-align: center;
 }
 .sendMailContainer__credentials__form__btn {
   width: 100%;
@@ -1512,6 +1485,7 @@
   height: 30px;
   padding-left: 1vh;
   border-radius: 1vh;
+  text-align: center;
 }
 .resetPassContainer__credentials__form__label-input__input__toggleBtn {
   background-color: black;
@@ -1784,17 +1758,21 @@
   width: 100%;
   margin-bottom: 10px;
   padding: 8px;
-  background-color: #f1f1f1;
+  background-color: black;
+  color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  border: 0.3vh solid black;
 }
 
 .chatbot-options button:hover {
-  background-color: #e0e0e0;
+  background-color: white;
+  color: black;
+  border: 0.3vh solid black;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 376px) {
   .cPanelContainer {
     background-color: black;
     width: 100%;
@@ -2755,12 +2733,2374 @@
     -webkit-backdrop-filter: blur(6px);
     background-color: rgb(185, 184, 184);
     background-color: whitesmoke;
-    width: 75%;
+    width: 70%;
     display: flex;
     flex-direction: column;
     gap: 2vh;
     margin-left: 0vh;
-    padding: 6vh 2vh;
+    padding: 6vh 1vh;
+    border-radius: 2vh;
+    box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.4);
+  }
+  .loginContainer__formContainer__form__title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 1vh;
+  }
+  .loginContainer__formContainer__form__title__prop {
+    font-size: 32px;
+  }
+  .loginContainer__formContainer__form__forgotPass {
+    color: black;
+    font-size: 14px;
+  }
+  .loginContainer__formContainer__form__input {
+    width: 100%;
+    display: flex;
+  }
+  .loginContainer__formContainer__form__input__prop {
+    background-color: white;
+    width: 100%;
+    height: 20px;
+    border-radius: 1vh;
+    font-size: 16px;
+    padding: 1vh;
+    color: black;
+    border: 0.3vh solid black;
+  }
+  .loginContainer__formContainer__form__inputContainer {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 7fr 1fr;
+  }
+  .loginContainer__formContainer__form__inputContainer__input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-column: 2/3;
+  }
+  .loginContainer__formContainer__form__inputContainer__input__prop {
+    background-color: white;
+    width: 85%;
+    height: 20px;
+    border-radius: 1vh;
+    font-size: 16px;
+    padding: 1vh;
+    color: black;
+    grid-column: 2/3;
+    border: 0.3vh solid black;
+  }
+  .loginContainer__formContainer__form__inputPassContainer {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 7fr 1fr;
+  }
+  .loginContainer__formContainer__form__inputPassContainer__inputPass {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-column: 2/3;
+  }
+  .loginContainer__formContainer__form__inputPassContainer__inputPass__prop {
+    background-color: white;
+    width: 85%;
+    height: 20px;
+    border-radius: 1vh;
+    font-size: 16px;
+    padding: 1vh;
+    color: black;
+    border: 0.3vh solid black;
+  }
+  .loginContainer__formContainer__form__inputPassContainer__inputPassEye {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-column: 3/4;
+  }
+  .loginContainer__formContainer__form__inputPassContainer__inputPassEye__propEye {
+    width: 30px;
+    background-color: black;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .loginContainer__formContainer__form__btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2vh;
+    flex-direction: column;
+    gap: 1vh;
+  }
+  .loginContainer__formContainer__form__btn__prop {
+    width: 65%;
+    padding: 1vh 0vh;
+    font-size: 18px;
+    border-radius: 0.5vh;
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    border: 0.3vh solid black;
+    font-weight: 600;
+  }
+  .loginContainer__formContainer__form__btn__prop:hover {
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+  }
+  .loginContainer__logoContainer {
+    background-color: black;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-items: end;
+    flex-direction: column;
+    gap: 5vh;
+  }
+  .loginContainer__logoContainer__title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .loginContainer__logoContainer__title__prop {
+    font-size: 35px;
+    color: white;
+    text-align: center;
+  }
+  .loginContainer__logoContainer__logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .loginContainer__logoContainer__logo__prop {
+    width: 45%;
+  }
+  .loginContainer__logoContainer__phrase {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+  }
+  .loginContainer__logoContainer__phrase__prop {
+    width: 50%;
+    font-size: 25px;
+    text-align: justify;
+    color: white;
+  }
+  .createContractModalContainer {
+    background-color: black;
+    width: 80%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 0.5vh solid white;
+    border-radius: 2vh;
+    z-index: 1;
+    padding: 1vh 2vh 2vh 2vh;
+  }
+  .createContractModalContainer__btnCloseModal {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+  }
+  .createContractModalContainer__btnCloseModal__btn {
+    color: white;
+    padding-right: 1vh;
+    font-size: 20px;
+  }
+  .createContractModalContainer__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .createContractModalContainer__title__prop {
+    color: white;
+    font-size: 25px;
+  }
+  .createContractModalContainer__gridLabelInput {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    padding-top: 2vh;
+  }
+  .createContractModalContainer__gridLabelInput__label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .createContractModalContainer__gridLabelInput__label__prop {
+    color: white;
+    text-align: center;
+  }
+  .createContractModalContainer__gridLabelInput__input {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+  }
+  .createContractModalContainer__gridLabelInput__input__prop {
+    width: 90%;
+    height: 25px;
+    text-align: center;
+  }
+  .createContractModalContainer__gridLabelInput__input__prop::-moz-placeholder {
+    text-align: center;
+  }
+  .createContractModalContainer__gridLabelInput__input__prop::placeholder {
+    text-align: center;
+  }
+  .createContractModalContainer__gridLabelInput__inputFile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .createContractModalContainer__gridLabelInput__inputFile__label {
+    color: white;
+    padding-left: 2vh;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    padding-bottom: 0.5vh;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+  }
+  .createContractModalContainer__gridLabelInput__inputFile__nameContract {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0.5vh;
+    width: 100%;
+    overflow: hidden;
+  }
+  .createContractModalContainer__gridLabelInput__inputFile__nameContract__item {
+    max-width: 200px; /* o lo que necesites */
+    overflow-x: auto;
+    white-space: nowrap;
+    display: block;
+    cursor: pointer;
+    color: white;
+    scrollbar-width: thin; /* para Firefox */
+  }
+  .createContractModalContainer__gridLabelInput__inputFile__nameContract__item::-webkit-scrollbar {
+    display: none;
+  }
+  .createContractModalContainer__gridLabelInput__inputFile__prop {
+    width: 65%;
+  }
+  .createContractModalContainer__btnCreateContract {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2vh;
+  }
+  .createContractModalContainer__btnCreateContract__prop {
+    width: 60%;
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    padding: 0.5vh 2vh;
+    font-size: 20px;
+    border-radius: 1vh;
+  }
+  .updateContractModalContainer {
+    background-color: black;
+    width: 80%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 0.5vh solid white;
+    border-radius: 2vh;
+    z-index: 1;
+    padding: 1vh 2vh 2vh 2vh;
+  }
+  .updateContractModalContainer__btnCloseModal {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+  }
+  .updateContractModalContainer__btnCloseModal__btn {
+    color: white;
+    padding-right: 1vh;
+    font-size: 20px;
+  }
+  .updateContractModalContainer__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .updateContractModalContainer__title__prop {
+    color: white;
+    font-size: 25px;
+  }
+  .updateContractModalContainer__gridLabelInput {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    padding-top: 2vh;
+  }
+  .updateContractModalContainer__gridLabelInput__label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .updateContractModalContainer__gridLabelInput__label__prop {
+    color: white;
+    text-align: center;
+  }
+  .updateContractModalContainer__gridLabelInput__input {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+  }
+  .updateContractModalContainer__gridLabelInput__input__prop {
+    width: 90%;
+    height: 25px;
+    text-align: center;
+  }
+  .updateContractModalContainer__gridLabelInput__input__prop::-moz-placeholder {
+    text-align: center;
+  }
+  .updateContractModalContainer__gridLabelInput__input__prop::placeholder {
+    text-align: center;
+  }
+  .updateContractModalContainer__gridLabelInput__inputFile {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1vh 0vh;
+  }
+  .updateContractModalContainer__gridLabelInput__inputFile__prop {
+    width: 90%;
+    height: 25px;
+    border-radius: 0.5vh;
+    text-align: center;
+    color: black;
+  }
+  .updateContractModalContainer__gridLabelInput__inputFile__fileInputButton {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+    color: white;
+  }
+  .updateContractModalContainer__gridLabelInput__inputFile__propFile {
+    display: none;
+  }
+  .updateContractModalContainer__gridLabelInput__inputFile__label {
+    color: white;
+  }
+  .updateContractModalContainer__btnUpdateContract {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2vh;
+  }
+  .updateContractModalContainer__btnUpdateContract__prop {
+    width: 70%;
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    padding: 0.5vh 2vh;
+    font-size: 18px;
+    border-radius: 1vh;
+  }
+  .contractsContainer {
+    background-color: black;
+    width: 100%;
+    height: 100vh;
+    background-image: url("/src/assets/fondo_home_m.webp");
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+  }
+  .contractsContainer__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 7vh;
+  }
+  .contractsContainer__title__prop {
+    font-size: 45px;
+  }
+  .contractsContainer__btnCreateContract {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15vh;
+  }
+  .contractsContainer__btnCreateContract__prop {
+    width: 50%;
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    padding: 1vh 2vh;
+    font-size: 20px;
+    color: black;
+    border: 0.3vh solid black;
+    border-radius: 1vh;
+  }
+  .contractsContainer__subTitle {
+    display: none;
+  }
+  .contractsContainer__inputSearchProduct {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 2vh;
+  }
+  .contractsContainer__inputSearchProduct__selectContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2vh;
+  }
+  .contractsContainer__inputSearchProduct__selectContainer__select {
+    width: 90%;
+    height: 30px;
+    border-radius: 0.5vh;
+    text-align: center;
+    font-size: 16px;
+  }
+  .contractsContainer__inputSearchProduct__selectContainer__select:hover {
+    cursor: pointer;
+  }
+  .contractsContainer__inputSearchProduct__inputContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .contractsContainer__inputSearchProduct__inputContainer__input {
+    width: 65%;
+    height: 35px;
+    border-radius: 0.5vh;
+    text-align: center;
+    font-size: 22px;
+  }
+  .contractsContainer__inputSearchProduct__inputContainer__input::-moz-placeholder {
+    text-align: center;
+    font-size: 18px;
+  }
+  .contractsContainer__inputSearchProduct__inputContainer__input::placeholder {
+    text-align: center;
+    font-size: 18px;
+  }
+  .contractsContainer__quantityContracts {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr;
+    padding: 2vh 0vh;
+  }
+  .contractsContainer__quantityContracts__prop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: white;
+  }
+  .contractsContainer__quantityContracts__massDeleteBtnContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    gap: 2vh;
+  }
+  .contractsContainer__quantityContracts__massDeleteBtnContainer__btn {
+    width: 100%;
+    padding: 0.5vh 1vh;
+    border-radius: 0.5vh;
+  }
+  .contractsContainer__dateFilter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3vh;
+    padding: 2vh 0vh;
+  }
+  .contractsContainer__dateFilter__btn {
+    width: 120px;
+    padding: 0.5vh 0vh;
+    font-size: 16px;
+    border-radius: 0.5vh;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    border: 0.3vh solid black;
+    font-weight: 600;
+  }
+  .contractsContainer__dateFilter__btn:hover {
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+  }
+  .contractsContainer__dateFilter__date {
+    text-align: center;
+    font-size: 25px;
+    background: none;
+    border: none;
+    color: white;
+  }
+  .contractsContainer__dateFilter__date::-webkit-calendar-picker-indicator {
+    filter: brightness(0) invert(1);
+  }
+  .contractsContainer__contractsTableMobile {
+    background-color: black;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .contractsContainer__contractsTableMobile__subTitleTable {
+    color: white;
+    text-align: center;
+    font-size: 30px;
+    padding: 2vh 0vh;
+  }
+  .contractsContainer__contractsTableMobile__inputSearchProduct {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 2vh;
+  }
+  .contractsContainer__contractsTableMobile__inputSearchProduct__inputContainer {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .contractsContainer__contractsTableMobile__inputSearchProduct__inputContainer__input {
+    width: 100%;
+    height: 30px;
+    border-radius: 0.5vh;
+    text-align: center;
+    font-size: 22px;
+  }
+  .contractsContainer__contractsTableMobile__inputSearchProduct__inputContainer__input::-moz-placeholder {
+    text-align: center;
+    font-size: 18px;
+  }
+  .contractsContainer__contractsTableMobile__inputSearchProduct__inputContainer__input::placeholder {
+    text-align: center;
+    font-size: 18px;
+  }
+  .contractsContainer__contractsTableMobile__quantityContracts {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2vh 0vh;
+  }
+  .contractsContainer__contractsTableMobile__quantityContracts__prop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    color: white;
+  }
+  .contractsContainer__contractsTableMobile__quantityContracts__massDeleteBtnContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    gap: 2vh;
+  }
+  .contractsContainer__contractsTableMobile__quantityContracts__massDeleteBtnContainer__btn {
+    width: 100%;
+    padding: 0.5vh 1vh;
+    border-radius: 0.5vh;
+  }
+  .contractsContainer__contractsTableMobile__dateFilter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1vh;
+    padding: 2vh 0vh;
+  }
+  .contractsContainer__contractsTableMobile__dateFilter__btn {
+    width: 80px;
+    padding: 0.5vh 0vh;
+    font-size: 14px;
+    border-radius: 0.5vh;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    color: black;
+    border: 0.3vh solid black;
+    font-weight: 600;
+  }
+  .contractsContainer__contractsTableMobile__dateFilter__btn:hover {
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+  }
+  .contractsContainer__contractsTableMobile__dateFilter__date {
+    width: 120px;
+    text-align: center;
+    font-size: 18px;
+    background: none;
+    border: none;
+    color: white;
+  }
+  .contractsContainer__contractsTableMobile__dateFilter__date::-webkit-calendar-picker-indicator {
+    filter: brightness(0) invert(1);
+  }
+  .contractsContainer__contractsTableMobile__header {
+    width: 95%;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr;
+    align-self: center;
+    padding-top: 2vh;
+    gap: 1vh;
+  }
+  .contractsContainer__contractsTableMobile__header__item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    font-size: 12px;
+  }
+  .contractsContainer__contractsTableMobile__itemContractContainer {
+    background-color: whitesmoke;
+    width: 95%;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr;
+    align-self: center;
+    align-items: center;
+    margin-top: 1vh;
+    gap: 1vh;
+    border-radius: 1vh;
+  }
+  .contractsContainer__contractsTableMobile__itemContractContainer__checkBox {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .contractsContainer__contractsTableMobile__itemContractContainer__checkBox__prop {
+    width: 10px;
+    height: 10px;
+  }
+  .contractsContainer__contractsTableMobile__itemContractContainer__descriptionEllipsis {
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%;
+    max-width: 100%;
+    padding-bottom: 2px;
+    scroll-behavior: smooth;
+    text-align: center;
+  }
+  .contractsContainer__contractsTableMobile__itemContractContainer__descriptionEllipsis::-webkit-scrollbar {
+    display: none; /* Oculta la barra de desplazamiento */
+  }
+  .contractsContainer__contractsTableMobile__itemContractContainer__descriptionEllipsis__item {
+    display: inline-block;
+    font-size: 16px;
+    white-space: nowrap;
+  }
+  .contractsContainer__contractsTableMobile__itemContractContainer__input {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .contractsContainer__contractsTableMobile__itemContractContainer__input__prop {
+    width: 90%;
+    height: 30px;
+    border-radius: 0.5vh;
+    text-align: center;
+  }
+  .contractsContainer__contractsTableMobile__itemContractContainer__input__propFile {
+    width: 50%;
+    height: 30px;
+    border-radius: 0.5vh;
+    text-align: center;
+    color: black;
+  }
+  .contractsContainer__contractsTableMobile__itemContractContainer__inputFile {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1vh 0vh;
+  }
+  .contractsContainer__contractsTableMobile__itemContractContainer__inputFile__prop {
+    width: 90%;
+    height: 30px;
+    border-radius: 0.5vh;
+    text-align: center;
+    color: black;
+  }
+  .contractsContainer__contractsTableMobile__itemContractContainer__inputFile__fileInputButton {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+  }
+  .contractsContainer__contractsTableMobile__itemContractContainer__inputFile__propFile {
+    display: none;
+  }
+  .contractsContainer__contractsTableMobile__itemContractContainer__btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1vh 0vh;
+    gap: 0.5vh;
+  }
+  .contractsContainer__contractsTableMobile__itemContractContainer__btn__prop {
+    background-color: black;
+    color: white;
+    padding: 0.5vh 1vh;
+    font-size: 14px;
+    border-radius: 0.5vh;
+    cursor: pointer;
+  }
+  .contractsContainer__contractsTableMobile__itemContractContainer__btn__prop:hover {
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+  }
+  .contractsContainer__headerTable {
+    background-color: rgba(183, 183, 183, 0.85);
+    background-color: whitesmoke;
+    width: 95%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    margin-top: 2vh;
+    align-self: center;
+    padding: 1vh 0vh;
+    border-top-left-radius: 1vh;
+    border-top-right-radius: 1vh;
+    gap: 2vh;
+    display: none;
+  }
+  .contractsContainer__headerTable__item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: black;
+    font-size: 22px;
+  }
+  .contractsContainer__contractsTable {
+    background-color: black;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    display: none;
+  }
+  .contractsContainer__contractsTable__createContractContainer {
+    background-color: rgba(183, 183, 183, 0.85);
+    width: 95%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    align-self: center;
+    padding: 2vh 0vh;
+    gap: 2vh;
+    border-bottom-left-radius: 1vh;
+    border-bottom-right-radius: 1vh;
+  }
+  .contractsContainer__contractsTable__createContractContainer__input {
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1vh 0vh;
+  }
+  .contractsContainer__contractsTable__createContractContainer__input__prop {
+    width: 90%;
+    height: 30px;
+    border-radius: 0.5vh;
+    text-align: center;
+  }
+  .contractsContainer__contractsTable__createContractContainer__input__fileInputButton {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    padding-bottom: 0.5vh;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+  }
+  .contractsContainer__contractsTable__createContractContainer__input__propFile {
+    display: none;
+  }
+  .contractsContainer__contractsTable__createContractContainer__input__nameContract {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden;
+  }
+  .contractsContainer__contractsTable__createContractContainer__input__nameContract__item {
+    max-width: 200px; /* o lo que necesites */
+    overflow-x: auto;
+    white-space: nowrap;
+    display: block;
+    cursor: pointer;
+    scrollbar-width: thin; /* para Firefox */
+  }
+  .contractsContainer__contractsTable__createContractContainer__input__nameContract__item::-webkit-scrollbar {
+    display: none;
+  }
+  .contractsContainer__contractsTable__createContractContainer__btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1vh 0vh;
+  }
+  .contractsContainer__contractsTable__createContractContainer__btn__prop {
+    background-color: black;
+    color: white;
+    padding: 0.5vh 2vh;
+    border-radius: 0.5vh;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .contractsContainer__contractsTable__createContractContainer__btn__prop:hover {
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+  }
+  .contractsContainer__contractsTable__titleTable {
+    color: white;
+    padding: 4vh 0vh 2vh 0vh;
+    text-align: center;
+    font-size: 35px;
+  }
+  .contractsContainer__contractsTable__subTitleTable {
+    color: white;
+    text-align: center;
+    font-size: 30px;
+    padding: 6vh 0vh 2vh 0vh;
+  }
+  .contractsContainer__contractsTable__isLoadingLabel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 1vh 0vh;
+    font-size: 20px;
+  }
+  .contractsContainer__contractsTable__header {
+    width: 95%;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    align-self: center;
+    padding-top: 2vh;
+  }
+  .contractsContainer__contractsTable__header__item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    font-size: 20px;
+  }
+  .contractsContainer__contractsTable__itemContractContainer {
+    background-color: whitesmoke;
+    width: 95%;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    align-self: center;
+    margin-top: 1vh;
+    border-radius: 1vh;
+  }
+  .contractsContainer__contractsTable__itemContractContainer__checkBox {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .contractsContainer__contractsTable__itemContractContainer__checkBox__prop {
+    width: 15px;
+    height: 15px;
+  }
+  .contractsContainer__contractsTable__itemContractContainer__input {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .contractsContainer__contractsTable__itemContractContainer__input__prop {
+    width: 90%;
+    height: 30px;
+    border-radius: 0.5vh;
+    text-align: center;
+  }
+  .contractsContainer__contractsTable__itemContractContainer__input__propFile {
+    width: 50%;
+    height: 30px;
+    border-radius: 0.5vh;
+    text-align: center;
+    color: black;
+  }
+  .contractsContainer__contractsTable__itemContractContainer__inputFile {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1vh 0vh;
+  }
+  .contractsContainer__contractsTable__itemContractContainer__inputFile__prop {
+    width: 90%;
+    height: 30px;
+    border-radius: 0.5vh;
+    text-align: center;
+    color: black;
+  }
+  .contractsContainer__contractsTable__itemContractContainer__inputFile__fileInputButton {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+  }
+  .contractsContainer__contractsTable__itemContractContainer__inputFile__propFile {
+    display: none;
+  }
+  .contractsContainer__contractsTable__itemContractContainer__btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1vh 0vh;
+    gap: 0.5vh;
+  }
+  .contractsContainer__contractsTable__itemContractContainer__btn__prop {
+    width: 70%;
+    background-color: black;
+    color: white;
+    padding: 0.5vh 2vh;
+    font-size: 16px;
+    border-radius: 0.5vh;
+    cursor: pointer;
+  }
+  .contractsContainer__contractsTable__itemContractContainer__btn__prop:hover {
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+  }
+  .contractsContainer__btnsPagesContainer {
+    background-color: black;
+    width: 100%;
+    display: flex;
+    gap: 2vh;
+    align-items: center;
+    justify-content: center;
+    padding: 4vh 0vh 2vh 0vh;
+    color: white;
+  }
+  .contractsContainer__btnsPagesContainer__btn {
+    background-color: whitesmoke;
+    padding: 0.5vh 2vh;
+    border-radius: 0.5vh;
+    text-align: center;
+    cursor: pointer;
+    color: black;
+    font-size: 16px;
+  }
+  .contractsContainer__btnsPagesContainer__btn:hover {
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+  }
+  .contractsContainer__contractsTableBottom {
+    background-color: black;
+    width: 100%;
+    display: flex;
+    align-self: center;
+    padding: 4vh 0vh;
+  }
+  .chatbot-toggle {
+    position: fixed;
+    bottom: 8vh;
+    right: 2vh;
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+  }
+  .chatbot-toggle:hover {
+    transform: scale(1.15);
+    cursor: pointer;
+  }
+  .loginLinkContainer {
+    position: fixed;
+    bottom: 3vh;
+    right: 2vh;
+    transition: transform 0.3s ease-in-out;
+  }
+  .loginLinkContainer__labelLogin {
+    width: 100%;
+    background-color: yellow;
+    border-radius: 30vh;
+    font-size: 18px;
+    padding: 1vh 2vh;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+    text-align: center;
+    font-family: "Anton", sans-serif;
+  }
+  .loginLinkContainer:hover {
+    transform: scale(1.1);
+  }
+  .logoutLinkContainer {
+    position: fixed;
+    bottom: 2vh;
+    right: 6vh;
+    transition: transform 0.3s ease-in-out;
+  }
+  .logoutLinkContainer__labelLogout {
+    width: 100%;
+    background-color: yellow;
+    border-radius: 30vh;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1vh 2vh;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+    text-align: center;
+    font-family: "Anton", sans-serif;
+  }
+  .logoutLinkContainer:hover {
+    transform: scale(1.1);
+  }
+  .menuContainer {
+    position: absolute;
+    top: 8vh;
+    left: 3vh;
+  }
+  .menuContainer__arrow {
+    width: 25px;
+    background-color: black;
+    border-radius: 30vh;
+    font-size: 20px;
+    padding: 1vh 2vh;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    font-family: "Anton", sans-serif;
+    transition: transform 0.3s ease-in-out;
+  }
+  .menuContainer__arrow:hover {
+    transform: scale(1.1);
+  }
+  .menuContainer__menu {
+    width: 200px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    border-radius: 1vh;
+    padding-top: 2vh;
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  .menuContainer__menu--active {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  .menuContainer__menu__item {
+    color: white;
+    padding: 0vh 0vh 0.5vh 2vh;
+    font-size: 20px;
+    text-decoration: none;
+  }
+  .homeContainer {
+    background-image: url("/src/assets/fondo_home_m.webp");
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .homeContainer__logoImg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .homeContainer__logoImg__prop {
+    width: 35%;
+    margin-top: 8vh;
+  }
+  .homeContainer__titleImg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10vh;
+  }
+  .homeContainer__titleImg__prop {
+    width: 90%;
+  }
+  .homeContainer__label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .homeContainer__label__prop {
+    font-family: Impact, sans-serif;
+    font-size: 50px;
+    color: white;
+    letter-spacing: 0.5vh;
+    margin-top: 4vh;
+    text-align: center;
+  }
+  .homeContainer__btnLogoWhap {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    padding: 8vh 0vh 2vh 0vh;
+  }
+  .homeContainer__btnLogoWhap__btn {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding-right: 0vh;
+    transition: transform 0.3s ease-in-out;
+  }
+  .homeContainer__btnLogoWhap__btn__prop {
+    background-color: yellow;
+    width: 90%;
+    border-radius: 30vh;
+    font-size: 20px;
+    padding: 1.5vh 4vh;
+    cursor: pointer;
+    font-weight: bold;
+    border-color: black;
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+    text-align: center;
+    font-family: "Anton", sans-serif;
+  }
+  .homeContainer__btnLogoWhap__btn:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+  .homeContainer__btnLogoWhap__logoWhap {
+    display: flex;
+  }
+  .homeContainer__btnLogoWhap__logoWhap__prop {
+    width: 50%;
+    padding-left: 4vh;
+    transition: transform 0.3s ease-in-out;
+  }
+  .homeContainer__btnLogoWhap__logoWhap__prop:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+  .linksContainer {
+    background-color: black;
+    width: 100%;
+    height: auto;
+    padding: 8vh 0vh 16vh 0vh;
+  }
+  .linksContainer__titleImg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .linksContainer__titleImg__prop {
+    width: 85%;
+    margin-top: 2vh;
+  }
+  .linksContainer__label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .linksContainer__label__prop {
+    font-family: Impact, sans-serif;
+    font-size: 35px;
+    color: white;
+    letter-spacing: 0.5vh;
+    margin-top: 2vh;
+  }
+  .linksContainer__items {
+    display: flex;
+    flex-direction: column;
+    margin-top: 6vh;
+  }
+  .linksContainer__items__itemBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2vh;
+  }
+  .linksContainer__items__itemBtn__btn {
+    background-color: yellow;
+    width: 85%;
+    border-radius: 30vh;
+    font-size: 22px;
+    padding: 1vh;
+    cursor: pointer;
+    font-weight: bold;
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+    border-color: black;
+    text-align: center;
+    font-family: "Anton", sans-serif;
+  }
+  .linksContainer__items__frequentlyAskedQuestions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1vh;
+  }
+  .linksContainer__items__frequentlyAskedQuestions__frequentlyAskedQuestionGradient {
+    background-color: yellow;
+    width: 75%;
+    border-radius: 30vh;
+    font-size: 10px;
+    padding: 1vh 1vh;
+    cursor: pointer;
+    font-weight: bold;
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+    text-align: center;
+    font-family: "Anton", sans-serif;
+  }
+  .linksContainer__items__frequentlyAskedQuestions__frequentlyAskedQuestion {
+    background-color: white;
+    width: 75%;
+    border-radius: 30vh;
+    font-size: 10px;
+    padding: 1vh 1vh;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    font-family: "Anton", sans-serif;
+  }
+  .linksContainer__items__frequentAnswers__frequentAnswerContainer {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .linksContainer__items__frequentAnswers__frequentAnswerContainer.active {
+    max-height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .linksContainer__items__frequentAnswers__frequentAnswer {
+    width: 65%;
+    color: white;
+    font-size: 12px;
+    text-align: justify;
+    padding: 1vh 2vh;
+  }
+  .linksContainer__items__socialNetworksContainer {
+    transition: max-height 0.5s ease, padding-top 0.5s ease;
+    padding-top: 1vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .linksContainer__items__socialNetworksContainer.open {
+    max-height: 500px;
+    padding-top: 1vh;
+  }
+  .linksContainer__items__socialNetworksContainer__socialNetworks {
+    width: 60%;
+    border-radius: 30vh;
+    padding: 0.5vh 4vh;
+    font-weight: bold;
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    font-family: "Anton", sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 2vh;
+  }
+  .linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork__prop {
+    width: 85%;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+  }
+  .linksContainer__items__socialNetworksContainer__socialNetworks__socialNetwork__prop:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+  .whoWeAreContainer {
+    background-color: black;
+    width: 100%;
+    height: 85vh;
+    padding-top: 0vh;
+    padding-bottom: 7vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .whoWeAreContainer__headerImg {
+    width: 100%;
+    height: 20vh;
+    background-image: url("/src/assets/header_whoWeAreContainer.webp");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  .whoWeAreContainer__whoWeAreText {
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .whoWeAreContainer__whoWeAreText__prop {
+    width: 80%;
+    font-size: 25px;
+    font-family: Impact, sans-serif;
+    color: white;
+    text-align: justify;
+    letter-spacing: 0.1vh;
+  }
+  .chatbot-window {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 250px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 30px 30px 5px 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    font-family: sans-serif;
+    z-index: 1;
+  }
+}
+@media (min-width: 376px) and (max-width: 480px) {
+  .cPanelContainer {
+    background-color: black;
+    width: 100%;
+    height: 100vh;
+    background-image: url("/fondo_home_m.webp");
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+  }
+  .cPanelContainer__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8vh;
+  }
+  .cPanelContainer__title__prop {
+    font-size: 30px;
+  }
+  .cPanelContainer__subTitle {
+    color: white;
+    padding: 2vh 0vh;
+    text-align: center;
+    font-size: 35px;
+    margin-top: 15vh;
+  }
+  .cPanelContainer__gridLabelInput {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    padding-top: 2vh;
+    gap: 2vh;
+  }
+  .cPanelContainer__gridLabelInput__label {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+  }
+  .cPanelContainer__gridLabelInput__label__prop {
+    color: white;
+    text-align: center;
+    padding-left: 5vh;
+  }
+  .cPanelContainer__gridLabelInput__input {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+  }
+  .cPanelContainer__gridLabelInput__input__prop {
+    width: 80%;
+    height: 25px;
+    text-align: center;
+  }
+  .cPanelContainer__gridLabelInput__input__prop::-moz-placeholder {
+    text-align: center;
+  }
+  .cPanelContainer__gridLabelInput__input__prop::placeholder {
+    text-align: center;
+  }
+  .cPanelContainer__gridLabelInput__inputFile {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1vh 0vh;
+  }
+  .cPanelContainer__gridLabelInput__inputFile__prop {
+    width: 90%;
+    height: 25px;
+    border-radius: 0.5vh;
+    text-align: center;
+    color: black;
+  }
+  .cPanelContainer__gridLabelInput__inputFile__fileInputButton {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+    color: white;
+  }
+  .cPanelContainer__gridLabelInput__inputFile__propFile {
+    display: none;
+  }
+  .cPanelContainer__gridLabelInput__inputFile__label {
+    color: white;
+  }
+  .cPanelContainer__gridLabelInput__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 4vh;
+  }
+  .cPanelContainer__gridLabelInput__btn__prop {
+    width: 45%;
+    border-radius: 1vh;
+    font-size: 18px;
+    padding: 0.5vh 1vh;
+    font-weight: bold;
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+    text-align: center;
+    font-family: "Anton", sans-serif;
+  }
+  .cPanelContainer__quantityContracts {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr;
+  }
+  .cPanelContainer__quantityContracts__prop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: white;
+    padding-top: 2vh;
+  }
+  .cPanelContainer__quantityContracts__massDeleteBtnContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    gap: 2vh;
+  }
+  .cPanelContainer__quantityContracts__massDeleteBtnContainer__btn {
+    width: 100%;
+    padding: 0.5vh 1vh;
+    border-radius: 0.5vh;
+  }
+  .cPanelContainer__separator {
+    padding-top: 4vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .cPanelContainer__separator__prop {
+    background-color: gray;
+    width: 80%;
+    height: 0.5vh;
+    align-self: center;
+    border-radius: 50%;
+  }
+  .cPanelContainer__headerTable {
+    background-color: rgba(183, 183, 183, 0.85);
+    background-color: whitesmoke;
+    width: 90%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    margin-top: 2vh;
+    align-self: center;
+    padding: 1vh 0vh;
+    border-top-left-radius: 1vh;
+    border-top-right-radius: 1vh;
+    display: none;
+  }
+  .cPanelContainer__headerTable__item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: black;
+    display: none;
+    font-size: 25px;
+  }
+  .cPanelContainer__contractsTable {
+    background-color: black;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 15vh;
+  }
+  .cPanelContainer__contractsTable__createContractContainer {
+    background-color: rgba(183, 183, 183, 0.85);
+    width: 90%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    align-self: center;
+    padding: 2vh 0vh;
+    border-bottom-left-radius: 1vh;
+    border-bottom-right-radius: 1vh;
+    display: none;
+  }
+  .cPanelContainer__contractsTable__createContractContainer__input {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1vh 0vh;
+  }
+  .cPanelContainer__contractsTable__createContractContainer__input__prop {
+    width: 90%;
+    height: 30px;
+    border-radius: 0.5vh;
+    text-align: center;
+  }
+  .cPanelContainer__contractsTable__createContractContainer__btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1vh 0vh;
+  }
+  .cPanelContainer__contractsTable__createContractContainer__btn__prop {
+    background-color: black;
+    color: white;
+    padding: 0.5vh 2vh;
+    border-radius: 0.5vh;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .cPanelContainer__contractsTable__createContractContainer__btn__prop:hover {
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+  }
+  .cPanelContainer__contractsTable__titleTable {
+    color: white;
+    padding: 4vh 0vh 2vh 0vh;
+    text-align: center;
+    font-size: 35px;
+  }
+  .cPanelContainer__contractsTable__subTitleTable {
+    color: white;
+    text-align: center;
+    font-size: 25px;
+    padding: 4vh 0vh 0vh 0vh;
+  }
+  .cPanelContainer__contractsTable__isLoadingLabel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 1vh 0vh;
+    font-size: 20px;
+  }
+  .cPanelContainer__contractsTable__header {
+    width: 90%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    align-self: center;
+  }
+  .cPanelContainer__contractsTable__header__item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    font-size: 20px;
+  }
+  .cPanelContainer__contractsTable__itemContractContainer {
+    background-color: whitesmoke;
+    width: 90%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    align-self: center;
+    margin-top: 1vh;
+    border-radius: 1vh;
+    display: none;
+  }
+  .cPanelContainer__contractsTable__itemContractContainer__checkBox {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .cPanelContainer__contractsTable__itemContractContainer__checkBox__prop {
+    width: 15px;
+    height: 15px;
+  }
+  .cPanelContainer__contractsTable__itemContractContainer__input {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .cPanelContainer__contractsTable__itemContractContainer__input__prop {
+    width: 90%;
+    height: 30px;
+    border-radius: 0.5vh;
+    text-align: center;
+  }
+  .cPanelContainer__contractsTable__itemContractContainer__input__propFile {
+    width: 50%;
+    height: 30px;
+    border-radius: 0.5vh;
+    text-align: center;
+    color: black;
+  }
+  .cPanelContainer__contractsTable__itemContractContainer__inputFile {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1vh 0vh;
+  }
+  .cPanelContainer__contractsTable__itemContractContainer__inputFile__prop {
+    width: 90%;
+    height: 30px;
+    border-radius: 0.5vh;
+    text-align: center;
+    color: black;
+  }
+  .cPanelContainer__contractsTable__itemContractContainer__btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1vh 0vh;
+    gap: 0.5vh;
+  }
+  .cPanelContainer__contractsTable__itemContractContainer__btn__prop {
+    width: 70%;
+    background-color: black;
+    color: white;
+    padding: 0.5vh 2vh;
+    font-size: 16px;
+    border-radius: 0.5vh;
+    cursor: pointer;
+  }
+  .cPanelContainer__contractsTable__itemContractContainer__btn__prop:hover {
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+  }
+  .cPanelContainer__contractsTable__itemContractContainerMobile {
+    background-color: whitesmoke;
+    width: 90%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    align-self: center;
+    margin-top: 1vh;
+    border-radius: 1vh;
+  }
+  .cPanelContainer__contractsTable__itemContractContainerMobile__checkBox {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .cPanelContainer__contractsTable__itemContractContainerMobile__checkBox__prop {
+    width: 15px;
+    height: 15px;
+  }
+  .cPanelContainer__contractsTable__itemContractContainerMobile__input {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .cPanelContainer__contractsTable__itemContractContainerMobile__input__prop {
+    width: 90%;
+    height: 25px;
+    border-radius: 0.5vh;
+    text-align: center;
+  }
+  .cPanelContainer__contractsTable__itemContractContainerMobile__input__propFile {
+    width: 50%;
+    height: 30px;
+    border-radius: 0.5vh;
+    text-align: center;
+    color: black;
+  }
+  .cPanelContainer__contractsTable__itemContractContainerMobile__inputFile {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1vh 0vh;
+  }
+  .cPanelContainer__contractsTable__itemContractContainerMobile__inputFile__prop {
+    width: 90%;
+    height: 30px;
+    border-radius: 0.5vh;
+    text-align: center;
+    color: black;
+  }
+  .cPanelContainer__contractsTable__itemContractContainerMobile__btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1vh 0vh;
+    gap: 0.5vh;
+  }
+  .cPanelContainer__contractsTable__itemContractContainerMobile__btn__prop {
+    width: 95%;
+    text-align: center;
+    background-color: black;
+    color: white;
+    padding: 0.5vh 2vh;
+    font-size: 14px;
+    border-radius: 0.5vh;
+    cursor: pointer;
+  }
+  .cPanelContainer__contractsTable__itemContractContainerMobile__btn__prop:hover {
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+  }
+  .cPanelContainer__btnsPagesContainer {
+    background-color: black;
+    width: 100%;
+    display: flex;
+    gap: 2vh;
+    align-items: center;
+    justify-content: center;
+    padding: 4vh 0vh 2vh 0vh;
+    color: white;
+  }
+  .cPanelContainer__btnsPagesContainer__btn {
+    background-color: whitesmoke;
+    padding: 1vh 3vh;
+    border-radius: 0.5vh;
+    text-align: center;
+    cursor: pointer;
+    color: black;
+  }
+  .cPanelContainer__btnsPagesContainer__btn:hover {
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+  }
+  .cPanelContainer__contractsTableBottom {
+    background-color: black;
+    width: 100%;
+    display: flex;
+    align-self: center;
+    padding: 4vh 0vh;
+  }
+  .binContainer {
+    background-color: black;
+    background-image: url("/src/assets/fondo_home_m.webp");
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .binContainer__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 6vh;
+  }
+  .binContainer__title__prop {
+    font-size: 50px;
+  }
+  .binContainer__labelInputSearch {
+    font-size: 25px;
+    text-align: center;
+    color: white;
+  }
+  .binContainer__inputSearchContract {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1vh 0vh;
+  }
+  .binContainer__inputSearchContract__prop {
+    width: 65%;
+    height: 25px;
+    text-align: center;
+  }
+  .binContainer__subTitle {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15vh 0vh 2vh 0vh;
+  }
+  .binContainer__subTitle__prop {
+    font-size: 30px;
+    color: white;
+    padding-left: 0vh;
+  }
+  .binContainer__quantityContracts {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    padding: 2vh 0vh 2vh 0vh;
+    gap: 1vh;
+  }
+  .binContainer__quantityContracts__prop {
+    font-size: 18px;
+    color: white;
+    text-align: center;
+  }
+  .binContainer__quantityContracts__massDeleteBtnContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-row: 2/3;
+    gap: 1vh;
+    color: white;
+  }
+  .binContainer__massDeleteBtnContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4vh;
+    padding: 2vh 0vh 1vh 0vh;
+  }
+  .binContainer__massDeleteBtnContainer__btn {
+    padding: 0.5vh 1vh;
+    border-radius: 0.5vh;
+    text-align: center;
+    cursor: pointer;
+  }
+  .binContainer__headerTableMobileContainer {
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    border-top-left-radius: 0.5vh;
+    border-top-right-radius: 0.5vh;
+  }
+  .binContainer__headerTableMobileContainer__headerTable {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    color: white;
+    gap: 1vh;
+    padding: 2vh 0vh 0vh 0vh;
+  }
+  .binContainer__headerTableMobileContainer__headerTable__item {
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    align-self: center;
+    border-right: 0.3vh solid black;
+  }
+  .binContainer__headerTableContainer {
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    border-top-left-radius: 0.5vh;
+    border-top-right-radius: 0.5vh;
+    display: none;
+  }
+  .binContainer__headerTableContainer__headerTable {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    color: white;
+    padding: 2vh 0vh 0vh 0vh;
+  }
+  .binContainer__headerTableContainer__headerTable__item {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    align-self: center;
+    border-right: 0.3vh solid black;
+  }
+  .binContainer__contractsTable {
+    background-color: black;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    margin-bottom: 4vh;
+    border-bottom-left-radius: 0.5vh;
+    border-bottom-right-radius: 0.5vh;
+    padding: 1vh 0vh 2vh 0vh;
+  }
+  .binContainer__contractsTable__isLoadingLabel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 1vh 0vh;
+    font-size: 20px;
+  }
+  .binContainer__contractsTable__itemContainer {
+    background-color: whitesmoke;
+    width: 95%;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    border-bottom: 0.3vh solid #d6d5d5;
+    align-self: center;
+    margin-top: 1vh;
+    padding: 1vh 1vh;
+    border-radius: 1vh;
+    display: none;
+  }
+  .binContainer__contractsTable__itemContainer__item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .binContainer__contractsTable__itemContainer__item__img {
+    width: 60px;
+    height: 50px;
+  }
+  .binContainer__contractsTable__itemContainer__item__label {
+    text-align: center;
+    font-size: 16px;
+  }
+  .binContainer__contractsTable__itemContainer__item__labelLong {
+    text-align: center;
+    font-size: 14px;
+  }
+  .binContainer__contractsTable__itemContainer__item__description {
+    text-align: center;
+    font-size: 16px;
+  }
+  .binContainer__contractsTable__itemContainer__btnsContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1vh;
+  }
+  .binContainer__contractsTable__itemContainer__btnsContainer__btn {
+    width: 90%;
+    background-color: black;
+    color: white;
+    padding: 0.5vh 2vh;
+    font-size: 14px;
+    border-radius: 0.5vh;
+    cursor: pointer;
+  }
+  .binContainer__contractsTable__itemContainer__btnsContainer__btn:hover {
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+  }
+  .binContainer__contractsTable__itemContainerMobile {
+    background-color: whitesmoke;
+    width: 95%;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr;
+    border-bottom: 0.3vh solid #d6d5d5;
+    align-self: center;
+    margin-top: 1vh;
+    gap: 1vh;
+    align-items: center;
+    padding: 1vh 1vh;
+    border-radius: 1vh;
+  }
+  .binContainer__contractsTable__itemContainerMobile__item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .binContainer__contractsTable__itemContainerMobile__item__img {
+    width: 60px;
+    height: 50px;
+  }
+  .binContainer__contractsTable__itemContainerMobile__item__label {
+    text-align: center;
+    font-size: 16px;
+  }
+  .binContainer__contractsTable__itemContainerMobile__item__labelLong {
+    text-align: center;
+    font-size: 14px;
+  }
+  .binContainer__contractsTable__itemContainerMobile__item__description {
+    text-align: center;
+    font-size: 16px;
+  }
+  .binContainer__contractsTable__itemContainerMobile__descriptionEllipsis {
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%;
+    max-width: 100%;
+    padding-bottom: 2px;
+    scroll-behavior: smooth;
+    text-align: center;
+    font-size: 12px;
+  }
+  .binContainer__contractsTable__itemContainerMobile__descriptionEllipsis::-webkit-scrollbar {
+    display: none; /* Oculta la barra de desplazamiento */
+  }
+  .binContainer__contractsTable__itemContainerMobile__descriptionEllipsis__item {
+    display: inline-block;
+    font-size: 16px;
+    white-space: nowrap;
+  }
+  .binContainer__contractsTable__itemContainerMobile__btnsContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1vh;
+  }
+  .binContainer__contractsTable__itemContainerMobile__btnsContainer__btn {
+    width: 100px;
+    background-color: black;
+    color: white;
+    padding: 0.5vh 0vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    border-radius: 0.5vh;
+    cursor: pointer;
+  }
+  .binContainer__contractsTable__itemContainerMobile__btnsContainer__btn:hover {
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+  }
+  .sendMailContainer {
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+  }
+  .sendMailContainer__credentials {
+    background-color: rgba(183, 183, 183, 0.85);
+    width: 65%;
+    height: auto;
+    padding: 6vh 4vh;
+    border-radius: 5vh;
+    box-shadow: 4px 4px 10px black, -4px -4px 10px black;
+  }
+  .sendMailContainer__credentials__phrase {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .sendMailContainer__credentials__phrase__title {
+    font-size: 40px;
+    letter-spacing: 1vh;
+  }
+  .sendMailContainer__credentials__phrase__h2 {
+    font-size: 18px;
+    padding: 2vh 2vh;
+    text-align: center;
+  }
+  .sendMailContainer__credentials__form {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+  }
+  .sendMailContainer__credentials__form__label-input {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 2vh;
+  }
+  .sendMailContainer__credentials__form__label-input__label {
+    padding-bottom: 0.5vh;
+    font-size: 18px;
+  }
+  .sendMailContainer__credentials__form__label-input__input {
+    width: 100%;
+  }
+  .sendMailContainer__credentials__form__label-input__input__prop {
+    background-color: whitesmoke;
+    width: 100%;
+    height: 30px;
+    padding-left: 1vh;
+    border-radius: 1vh;
+    font-size: 16px;
+  }
+  .sendMailContainer__credentials__form__btn {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .sendMailContainer__credentials__form__btn__prop {
+    background-color: black;
+    color: white;
+    width: 70%;
+    font-size: 16px;
+    border-radius: 0.5vh;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0.3vh solid black;
+    padding: 0.5vh 0vh;
+    text-align: center;
+  }
+  .sendMailContainer__credentials__form__btn__prop:hover {
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+  }
+  .resetPassContainer {
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+  }
+  .resetPassContainer__linkExpiredContaienr {
+    background-color: rgba(183, 183, 183, 0.85);
+    width: 55%;
+    height: auto;
+    padding: 5vh 4vh;
+    border-radius: 5vh;
+  }
+  .resetPassContainer__linkExpiredContaienr__phrase {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2vh;
+  }
+  .resetPassContainer__linkExpiredContaienr__phrase__title {
+    font-size: 60px;
+    letter-spacing: 1vh;
+  }
+  .resetPassContainer__linkExpiredContaienr__phrase__ask {
+    font-size: 25px;
+    text-align: center;
+  }
+  .resetPassContainer__linkExpiredContaienr__label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .resetPassContainer__linkExpiredContaienr__label__prop {
+    font-size: 25px;
+    padding: 1vh 0vh;
+  }
+  .resetPassContainer__linkExpiredContaienr__link {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1vh 0vh;
+    color: black;
+  }
+  .resetPassContainer__credentials {
+    background-color: rgba(183, 183, 183, 0.85);
+    width: 60%;
+    height: auto;
+    padding: 6vh 4vh;
+    border-radius: 5vh;
+  }
+  .resetPassContainer__credentials__phrase {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2vh;
+  }
+  .resetPassContainer__credentials__phrase__title {
+    font-size: 60px;
+    letter-spacing: 1vh;
+  }
+  .resetPassContainer__credentials__phrase__ask {
+    font-size: 25px;
+    text-align: center;
+  }
+  .resetPassContainer__credentials__form {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    padding-top: 2vh;
+  }
+  .resetPassContainer__credentials__form__label-input {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vh;
+  }
+  .resetPassContainer__credentials__form__label-input__passwordValidation {
+    width: 50%;
+    font-size: 14px;
+  }
+  .resetPassContainer__credentials__form__label-input__passwordStrengthBar {
+    width: 60%;
+  }
+  .resetPassContainer__credentials__form__label-input__label {
+    font-size: 18px;
+  }
+  .resetPassContainer__credentials__form__label-input__input {
+    width: 100%;
+    display: flex;
+    gap: 1vh;
+  }
+  .resetPassContainer__credentials__form__label-input__input__prop {
+    width: 90%;
+    height: 30px;
+    padding-left: 1vh;
+    border-radius: 1vh;
+  }
+  .resetPassContainer__credentials__form__label-input__input__toggleBtn {
+    background-color: black;
+    border-radius: 50%;
+    padding: 0vh 0.5vh;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .resetPassContainer__credentials__form__btn {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    padding-top: 2vh;
+  }
+  .resetPassContainer__credentials__form__btn__prop {
+    width: 80%;
+    height: 30px;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    color: white;
+    border-radius: 0.5vh;
+    cursor: pointer;
+  }
+  .loginContainer {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+  .loginContainer__formContainer {
+    background-color: black;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-items: start;
+    grid-row: 2/3;
+  }
+  .loginContainer__formContainer__form {
+    background-color: rgba(183, 183, 183, 0.85);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    background-color: rgb(185, 184, 184);
+    background-color: whitesmoke;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    margin-left: 0vh;
+    padding: 6vh 1vh;
     border-radius: 2vh;
     box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.4);
   }
@@ -3182,6 +5522,8 @@
     background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
     padding: 1vh 2vh;
     font-size: 20px;
+    color: black;
+    border: 0.3vh solid black;
     border-radius: 1vh;
   }
   .contractsContainer__subTitle {
@@ -3315,7 +5657,7 @@
   }
   .contractsContainer__contractsTableMobile__inputSearchProduct__inputContainer__input {
     width: 100%;
-    height: 25px;
+    height: 30px;
     border-radius: 0.5vh;
     text-align: center;
     font-size: 22px;
@@ -3339,7 +5681,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 14px;
+    font-size: 16px;
     color: white;
   }
   .contractsContainer__contractsTableMobile__quantityContracts__massDeleteBtnContainer {
@@ -3371,6 +5713,7 @@
     cursor: pointer;
     border: 0.3vh solid black;
     font-weight: 600;
+    color: black;
   }
   .contractsContainer__contractsTableMobile__dateFilter__btn:hover {
     background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
@@ -3421,8 +5764,8 @@
     align-items: center;
   }
   .contractsContainer__contractsTableMobile__itemContractContainer__checkBox__prop {
-    width: 10px;
-    height: 10px;
+    width: 14px;
+    height: 14px;
   }
   .contractsContainer__contractsTableMobile__itemContractContainer__descriptionEllipsis {
     overflow-x: auto;
@@ -3749,7 +6092,8 @@
   }
   .contractsContainer__btnsPagesContainer__btn {
     background-color: whitesmoke;
-    padding: 1vh 3vh;
+    padding: 0.5vh 2vh;
+    font-size: 16px;
     border-radius: 0.5vh;
     text-align: center;
     cursor: pointer;
@@ -3861,7 +6205,7 @@
   }
   .menuContainer__menu {
     width: 200px;
-    height: 100px;
+    height: auto;
     display: flex;
     flex-direction: column;
     background-color: black;
@@ -3877,7 +6221,7 @@
   }
   .menuContainer__menu__item {
     color: white;
-    padding-left: 2vh;
+    padding: 0vh 0vh 0.5vh 2vh;
     font-size: 20px;
     text-decoration: none;
   }
@@ -5969,12 +8313,12 @@
     -webkit-backdrop-filter: blur(6px);
     background-color: rgb(185, 184, 184);
     background-color: whitesmoke;
-    width: 65%;
+    width: 55%;
     display: flex;
     flex-direction: column;
     gap: 2vh;
     margin-left: 0vh;
-    padding: 6vh 2vh;
+    padding: 6vh 0vh;
     border-radius: 2vh;
     box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.4);
   }
@@ -6023,7 +8367,7 @@
     width: 100%;
     height: 20px;
     border-radius: 1vh;
-    font-size: 16px;
+    font-size: 18px;
     padding: 1vh;
     color: black;
     grid-column: 2/3;
@@ -6046,7 +8390,7 @@
     width: 100%;
     height: 20px;
     border-radius: 1vh;
-    font-size: 16px;
+    font-size: 18px;
     padding: 1vh;
     color: black;
     border: 0.3vh solid black;
@@ -6076,7 +8420,7 @@
   .loginContainer__formContainer__form__btn__prop {
     width: 50%;
     padding: 1vh 0vh;
-    font-size: 18px;
+    font-size: 20px;
     border-radius: 0.5vh;
     background-color: black;
     color: white;
@@ -6206,7 +8550,7 @@
   }
   .menuContainer {
     position: absolute;
-    top: 6vh;
+    top: 7vh;
     left: 3vh;
   }
   .menuContainer__arrow {
@@ -6228,7 +8572,7 @@
   }
   .menuContainer__menu {
     width: 200px;
-    height: 100px;
+    height: auto;
     display: flex;
     flex-direction: column;
     background-color: black;
@@ -6244,8 +8588,8 @@
   }
   .menuContainer__menu__item {
     color: white;
-    padding-left: 2vh;
-    font-size: 20px;
+    padding: 0vh 0vh 0.5vh 2vh;
+    font-size: 22px;
     text-decoration: none;
   }
   .homeContainer {
@@ -6500,7 +8844,7 @@
   }
   .whoWeAreContainer__whoWeAreText__prop {
     width: 80%;
-    font-size: 45px;
+    font-size: 40px;
     font-family: Impact, sans-serif;
     color: white;
     text-align: justify;
@@ -7720,12 +10064,12 @@
     -webkit-backdrop-filter: blur(6px);
     background-color: rgb(185, 184, 184);
     background-color: whitesmoke;
-    width: 60%;
+    width: 50%;
     display: flex;
     flex-direction: column;
     gap: 2vh;
     margin-left: 0vh;
-    padding: 6vh 2vh;
+    padding: 6vh 0vh;
     border-radius: 2vh;
     box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.4);
   }
@@ -7774,7 +10118,7 @@
     width: 100%;
     height: 20px;
     border-radius: 1vh;
-    font-size: 16px;
+    font-size: 18px;
     padding: 1vh;
     color: black;
     grid-column: 2/3;
@@ -7797,7 +10141,7 @@
     width: 100%;
     height: 20px;
     border-radius: 1vh;
-    font-size: 16px;
+    font-size: 18px;
     padding: 1vh;
     color: black;
     border: 0.3vh solid black;
@@ -7827,7 +10171,7 @@
   .loginContainer__formContainer__form__btn__prop {
     width: 65%;
     padding: 1vh 0vh;
-    font-size: 18px;
+    font-size: 20px;
     border-radius: 0.5vh;
     background-color: black;
     color: white;
@@ -7957,7 +10301,7 @@
   }
   .menuContainer {
     position: absolute;
-    top: 6vh;
+    top: 7vh;
     left: 3vh;
   }
   .menuContainer__arrow {
@@ -7979,7 +10323,7 @@
   }
   .menuContainer__menu {
     width: 200px;
-    height: 100px;
+    height: auto;
     display: flex;
     flex-direction: column;
     background-color: black;
@@ -7995,8 +10339,8 @@
   }
   .menuContainer__menu__item {
     color: white;
-    padding-left: 2vh;
-    font-size: 20px;
+    padding: 0vh 0vh 0.5vh 2vh;
+    font-size: 22px;
     text-decoration: none;
   }
   .homeContainer {
@@ -8249,7 +10593,7 @@
   }
   .whoWeAreContainer__whoWeAreText__prop {
     width: 80%;
-    font-size: 30px;
+    font-size: 35px;
     font-family: Impact, sans-serif;
     color: white;
     text-align: justify;
