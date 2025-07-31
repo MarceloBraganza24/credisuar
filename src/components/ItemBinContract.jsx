@@ -31,6 +31,9 @@ const ItemBinContract = ({apiUrl,contract,fetchDeletedContracts,selectedContract
     };
 
     const handleBtnDeleteContract = async () => {
+        const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar este contrato? Esta acción no se puede deshacer.");
+
+        if (!confirmDelete) return;
         setLoading(true);
         try {
             const res = await fetch(`${apiUrl}/api/contracts/${contract._id}`, {
@@ -63,6 +66,9 @@ const ItemBinContract = ({apiUrl,contract,fetchDeletedContracts,selectedContract
     };
 
     const handleBtnRestoreContract = async () => {
+        const confirmDelete = window.confirm("¿Estás seguro de que deseas restaurar el contrato?");
+
+        if (!confirmDelete) return;
         try {
             setLoadingBtnRestore(true);
             const res = await fetch(`${apiUrl}/api/contracts/${contract._id}/restore`, {

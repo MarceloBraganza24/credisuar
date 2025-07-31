@@ -16,6 +16,7 @@ const CreateContractModal = ({apiUrl,setIsOpenCreateContractModal,selectedDate,f
         image_dni: null,
         image_dni_preview: ''
     });
+    //console.log(contractFormData)
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -26,6 +27,10 @@ const CreateContractModal = ({apiUrl,setIsOpenCreateContractModal,selectedDate,f
     };
 
     const handleFileChange = (e) => {
+        console.log("Evento recibido:", e);
+        console.log("Name:", e.target.name);
+        console.log("Archivos:", e.target.files);
+
         const { name, files } = e.target;
         const file = files?.[0];
 
@@ -53,9 +58,9 @@ const CreateContractModal = ({apiUrl,setIsOpenCreateContractModal,selectedDate,f
             return updated;
         });
         
-        setTimeout(() => {
+        /* setTimeout(() => {
         e.target.value = null;
-        }, 100);
+        }, 100); */
     };
 
     const handleBtnSubmitContract = async () => {

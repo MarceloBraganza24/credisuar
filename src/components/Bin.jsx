@@ -86,26 +86,6 @@ const Bin = () => {
         }
     };
 
-    /* const fetchCurrentUser = async () => {
-        try {
-            const response = await fetch(`${apiUrl}/api/sessions/current`, {
-                method: 'GET',
-                credentials: 'include', // MUY IMPORTANTE para enviar cookies
-            });
-            const data = await response.json();
-            if(data.error === 'jwt must be provided') { 
-                navigate('/')
-                setUser(null)
-            } else {
-                const user = data.data
-                if(user) {
-                    setUser(user)
-                }
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }; */
     const fetchCurrentUser = async () => {
         try {
             const response = await fetch(`${apiUrl}/api/sessions/current`, {
@@ -123,6 +103,7 @@ const Bin = () => {
                     setUser(user);
                 }
             } else {
+                navigate("/")
                 console.log('Error al obtener el usuario:', data);
             }
         } catch (error) {

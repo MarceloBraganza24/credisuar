@@ -18,7 +18,7 @@ export const fetchWithAuth = async (endpoint, options = {}) => {
 
         if (response.status === 401 || response.status === 403) {
             localStorage.removeItem("token");
-            toast.error("Tu sesión ha expirado", { theme: "dark" });
+            //toast.error("Tu sesión ha expirado", { theme: "dark" });
             setTimeout(() => {
                 window.location.href = "/";
             }, 1500);

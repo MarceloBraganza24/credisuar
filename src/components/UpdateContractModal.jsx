@@ -76,41 +76,6 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
         }, 100);
     };
 
-    /* const handleBtnUpdateContract = async () => {
-        const formDataToSend = new FormData();
-        formDataToSend.append('transaction_number', contractFormData.transaction_number);
-        formDataToSend.append('transaction_date', contractFormData.transaction_date);
-        formDataToSend.append('first_name', contractFormData.first_name);
-        formDataToSend.append('last_name', contractFormData.last_name);
-        formDataToSend.append('dni', contractFormData.dni);
-        formDataToSend.append('phoneNumber', contractFormData.phoneNumber);
-
-        if (contractFormData.contract_file) {
-            formDataToSend.append('contract_file', contractFormData.contract_file);
-        }
-
-        if (contractFormData.image_dni) {
-            formDataToSend.append('image_dni', contractFormData.image_dni);
-        }
-
-        try {
-            const response = await fetch(`${apiUrl}/api/contracts/${contract._id}`, {
-                method: 'PUT',
-                body: formDataToSend
-            });
-
-            if (response.ok) {
-                toast('Contrato actualizado exitosamente!', { theme: 'dark' });
-                setIsOpenUpdateContractModal(false);
-                fetchContracts(1, "", 'all', selectedDate);
-            } else {
-                toast('Error al actualizar contrato', { theme: 'dark' });
-            }
-        } catch (err) {
-            console.error(err);
-            toast('Error en el servidor al actualizar', { theme: 'dark' });
-        }
-    }; */
     const handleBtnUpdateContract = async (id, updatedContract) => {
 
         const formData = new FormData();
@@ -190,7 +155,9 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
                     <div onClick={() => setIsOpenUpdateContractModal(false)} className='updateContractModalContainer__btnCloseModal__btn'>X</div>
                 </div>
 
-                <h2 className='updateContractModalContainer__title'>Editar contrato</h2>
+                <div className='updateContractModalContainer__title'>
+                    <div className='updateContractModalContainer__title__prop'>Editar contrato</div>
+                </div>
 
                 <div className="updateContractModalContainer__gridLabelInput">
 
@@ -302,9 +269,9 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
                     </div>
 
                     <div className="updateContractModalContainer__gridLabelInput__inputFile">
-                        <label htmlFor={`itemContractListFileInput`} className="updateContractModalContainer__gridLabelInput__inputFile__fileInputButton">
+                        {/* <label htmlFor={`itemContractListFileInput`} className="updateContractModalContainer__gridLabelInput__inputFile__fileInputButton">
                             Seleccionar archivo
-                        </label>
+                        </label> */}
                         <input
                             id={`itemContractListFileInput`}
                             type="file"
@@ -352,9 +319,9 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
                     </div>
 
                     <div className="updateContractModalContainer__gridLabelInput__inputFile">
-                        <label htmlFor={`itemContractListImageFileInput`} className="updateContractModalContainer__gridLabelInput__inputFile__fileInputButton">
+                        {/* <label htmlFor={`itemContractListImageFileInput`} className="updateContractModalContainer__gridLabelInput__inputFile__fileInputButton">
                             Seleccionar imagen
-                        </label>
+                        </label> */}
                         <input
                             id={`itemContractListImageFileInput`}
                             className='updateContractModalContainer__gridLabelInput__inputFile__propFile'

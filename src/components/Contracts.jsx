@@ -433,6 +433,8 @@ const Contracts = () => {
     };
     
     const handleBtnDeleteContract = async (contractId) => {
+        const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar el contrato?");
+        if (!confirmDelete) return;
         setLoadingContractId(contractId);
         try {
             const res = await fetch(`${apiUrl}/api/contracts/${contractId}/soft-delete`, {
@@ -509,6 +511,7 @@ const Contracts = () => {
                     setUser(user);
                 }
             } else {
+                navigate("/")
                 console.log('Error al obtener el usuario:', data);
             }
         } catch (error) {

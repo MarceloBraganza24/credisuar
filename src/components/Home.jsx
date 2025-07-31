@@ -133,35 +133,9 @@ const Home = ({ openChatbot }) => {
 
     useEffect(() => {
         fetchCurrentUser();
+        window.scrollTo(0, 0);
     }, []);
 
-    /* const handleBtnLogOut = async () => {
-        const response = await fetch(`${apiUrl}/api/sessions/logout`, {
-            method: 'POST',         
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include', // 👈 Esto es clave
-        })
-        const data = await response.json();
-        if(response.ok) {
-            toast('Gracias por visitar nuestra página', {
-                position: "top-right",
-                autoClose: 1500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                className: "custom-toast",
-            });
-            setTimeout(() => {
-                navigate('/')
-                window.location.reload()
-            }, 2000);
-        }
-    } */
    const handleBtnLogOut = async () => {
         const response = await fetchWithAuth('/api/sessions/logout', {
             method: 'POST',
