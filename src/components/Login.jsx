@@ -7,6 +7,7 @@ import { useAuth } from '../context/AuthContext';
 const Login = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
     const { login } = useAuth();
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [storeSettings, setStoreSettings] = useState({});
@@ -92,6 +93,7 @@ const Login = () => {
     }; */
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         const success = await login(credentials.email, credentials.password);
         if (success) {
             navigate('/');
@@ -118,6 +120,7 @@ const Login = () => {
                 theme: "dark",
                 className: "custom-toast",
             });
+            setLoading(false);
         }
     };
 
@@ -178,7 +181,19 @@ const Login = () => {
                         </div>
 
                         <div className='loginContainer__formContainer__form__btn'>
-                            <button onClick={handleSubmit} className='loginContainer__formContainer__form__btn__prop'>Iniciar sesión</button>
+                            {/* <button onClick={handleSubmit} className='loginContainer__formContainer__form__btn__prop'>Iniciar sesión</button> */}
+                            <button
+                            onClick={handleSubmit}
+                            className='loginContainer__formContainer__form__btn__prop'
+                            disabled={loading}
+                            >
+                            {loading ? (
+                                <Spinner/>// Podés reemplazar esto con tu spinner real o ícono
+                            ) : (
+                                "Iniciar sesión"
+                            )}
+                            </button>
+
                             <Link to={"/sendMail"} className='loginContainer__formContainer__form__forgotPass'>
                                 ¿Olvidaste tu contraseña? Has click aquí
                             </Link>

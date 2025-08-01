@@ -15,6 +15,7 @@ const Bin = () => {
     const [isLoadingContracts, setIsLoadingContracts] = useState(true);
     const [loadingCurrentUser, setLoadingCurrentUser] = useState(true);
     const [contracts, setContracts] = useState([]);
+    const [loggingOut, setLoggingOut] = useState(false);
     const [totalContracts, setTotalContracts] = useState("");
     const navigate = useNavigate();
     const [menuOptions, setMenuOptions] = useState(false);
@@ -242,6 +243,7 @@ const Bin = () => {
     }
 
     const handleBtnLogOut = async () => {
+        setLoggingOut(true);
         const response = await fetchWithAuth('/api/sessions/logout', {
             method: 'POST',
         });
@@ -302,7 +304,12 @@ const Bin = () => {
                 </div>
                 :
                 <div className='logoutLinkContainer'>
-                    <div onClick={handleBtnLogOut} className='logoutLinkContainer__labelLogout'>SALIR</div>
+                    <div
+                        onClick={loggingOut ? null : handleBtnLogOut}
+                        className='logoutLinkContainer__labelLogout'
+                    >
+                        {loggingOut ? <span className="spinner" /> : "SALIR"}
+                    </div>
                 </div>
             }
 

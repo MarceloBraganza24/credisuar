@@ -27,9 +27,6 @@ const CreateContractModal = ({apiUrl,setIsOpenCreateContractModal,selectedDate,f
     };
 
     const handleFileChange = (e) => {
-        console.log("Evento recibido:", e);
-        console.log("Name:", e.target.name);
-        console.log("Archivos:", e.target.files);
 
         const { name, files } = e.target;
         const file = files?.[0];
@@ -117,10 +114,13 @@ const CreateContractModal = ({apiUrl,setIsOpenCreateContractModal,selectedDate,f
             });
             return;
         }
-        
+
+        const date = new Date(contractFormData.transaction_date);
+        const isoDate = date.toISOString(); // Ej: 2025-07-30T23:20:00.000Z
+
         const formDataToSend = new FormData();
         formDataToSend.append('transaction_number', contractFormData.transaction_number);
-        formDataToSend.append('transaction_date', contractFormData.transaction_date);
+        formDataToSend.append('transaction_date', isoDate);
         formDataToSend.append('first_name', contractFormData.first_name);
         formDataToSend.append('last_name', contractFormData.last_name);
         formDataToSend.append('dni', contractFormData.dni);
@@ -193,154 +193,174 @@ const CreateContractModal = ({apiUrl,setIsOpenCreateContractModal,selectedDate,f
             
             <div className='createContractModalContainer'>
 
-                <div className='createContractModalContainer__btnCloseModal'>
-                    <div onClick={()=>setIsOpenCreateContractModal(false)} className='createContractModalContainer__btnCloseModal__btn'>X</div>
-                </div>
+                <div className='createContractModalContainer__createContractModal'>
 
-                <div className='createContractModalContainer__title'>
-                    <div className='createContractModalContainer__title__prop'>Crear contrato</div>
-                </div>
-
-                <div className="createContractModalContainer__gridLabelInput">
-
-                    <div className="createContractModalContainer__gridLabelInput__label">
-                        <div className="createContractModalContainer__gridLabelInput__label__prop">N° transacción</div>
+                    <div className='createContractModalContainer__createContractModal__btnCloseModal'>
+                        <div onClick={()=>setIsOpenCreateContractModal(false)} className='createContractModalContainer__createContractModal__btnCloseModal__btn'>X</div>
                     </div>
 
-                    <div className="createContractModalContainer__gridLabelInput__input">
-                        <input onChange={handleInputChange} value={contractFormData.transaction_number} className='createContractModalContainer__gridLabelInput__input__prop' type="text" name="transaction_number" placeholder="N° transacción" required/>
+                    <div className='createContractModalContainer__createContractModal__title'>
+                        <div className='createContractModalContainer__createContractModal__title__prop'>Crear contrato</div>
                     </div>
 
-                </div>
+                    <div className="createContractModalContainer__createContractModal__gridLabelInput">
 
-                <div className="createContractModalContainer__gridLabelInput">
+                        <div className="createContractModalContainer__createContractModal__gridLabelInput__label">
+                            <div className="createContractModalContainer__createContractModal__gridLabelInput__label__prop">N° transacción</div>
+                        </div>
 
-                    <div className="createContractModalContainer__gridLabelInput__label">
-                        <div className="createContractModalContainer__gridLabelInput__label__prop">Fecha y hora transacción</div>
+                        <div className="createContractModalContainer__createContractModal__gridLabelInput__input">
+                            <input onChange={handleInputChange} value={contractFormData.transaction_number} className='createContractModalContainer__createContractModal__gridLabelInput__input__prop' type="text" name="transaction_number" placeholder="N° transacción" required/>
+                        </div>
+
                     </div>
 
-                    <div className="createContractModalContainer__gridLabelInput__input">
-                        <input onChange={handleInputChange} value={contractFormData.transaction_date} className='createContractModalContainer__gridLabelInput__input__prop' type="datetime-local" name="transaction_date" placeholder="Fecha transacción" required/>
+                    <div className="createContractModalContainer__createContractModal__gridLabelInput">
+
+                        <div className="createContractModalContainer__createContractModal__gridLabelInput__label">
+                            <div className="createContractModalContainer__createContractModal__gridLabelInput__label__prop">Fecha y hora transacción</div>
+                        </div>
+
+                        <div className="createContractModalContainer__createContractModal__gridLabelInput__input">
+                            <input onChange={handleInputChange} value={contractFormData.transaction_date} className='createContractModalContainer__createContractModal__gridLabelInput__input__prop' type="datetime-local" name="transaction_date" placeholder="Fecha transacción" required/>
+                        </div>
+
                     </div>
 
-                </div>
+                    <div className="createContractModalContainer__createContractModal__gridLabelInput">
 
-                <div className="createContractModalContainer__gridLabelInput">
+                        <div className="createContractModalContainer__createContractModal__gridLabelInput__label">
+                            <div className="createContractModalContainer__createContractModal__gridLabelInput__label__prop">Nombre</div>
+                        </div>
 
-                    <div className="createContractModalContainer__gridLabelInput__label">
-                        <div className="createContractModalContainer__gridLabelInput__label__prop">Nombre</div>
+                        <div className="createContractModalContainer__createContractModal__gridLabelInput__input">
+                            <input onChange={handleInputChange} value={contractFormData.first_name} className='createContractModalContainer__createContractModal__gridLabelInput__input__prop' type="text" name="first_name" placeholder="Nombre" required/>
+                        </div>
+
                     </div>
 
-                    <div className="createContractModalContainer__gridLabelInput__input">
-                        <input onChange={handleInputChange} value={contractFormData.first_name} className='createContractModalContainer__gridLabelInput__input__prop' type="text" name="first_name" placeholder="Nombre" required/>
+                    <div className="createContractModalContainer__createContractModal__gridLabelInput">
+
+                        <div className="createContractModalContainer__createContractModal__gridLabelInput__label">
+                            <div className="createContractModalContainer__createContractModal__gridLabelInput__label__prop">Apellido</div>
+                        </div>
+
+                        <div className="createContractModalContainer__createContractModal__gridLabelInput__input">
+                            <input onChange={handleInputChange} value={contractFormData.last_name} className='createContractModalContainer__createContractModal__gridLabelInput__input__prop' type="text" name="last_name" placeholder="Apellido" required/>
+                        </div>
+
                     </div>
 
-                </div>
+                    <div className="createContractModalContainer__createContractModal__gridLabelInput">
 
-                <div className="createContractModalContainer__gridLabelInput">
+                        <div className="createContractModalContainer__createContractModal__gridLabelInput__label">
+                            <div className="createContractModalContainer__createContractModal__gridLabelInput__label__prop">DNI</div>
+                        </div>
 
-                    <div className="createContractModalContainer__gridLabelInput__label">
-                        <div className="createContractModalContainer__gridLabelInput__label__prop">Apellido</div>
+                        <div className="createContractModalContainer__createContractModal__gridLabelInput__input">
+                            <input onChange={handleInputChange} value={contractFormData.dni} className='createContractModalContainer__createContractModal__gridLabelInput__input__prop' type="text" name="dni" placeholder="DNI" required/>
+                        </div>
+
                     </div>
 
-                    <div className="createContractModalContainer__gridLabelInput__input">
-                        <input onChange={handleInputChange} value={contractFormData.last_name} className='createContractModalContainer__gridLabelInput__input__prop' type="text" name="last_name" placeholder="Apellido" required/>
+                    <div className="createContractModalContainer__createContractModal__gridLabelInput">
+
+                        <div className="createContractModalContainer__createContractModal__gridLabelInput__label">
+                            <div className="createContractModalContainer__createContractModal__gridLabelInput__label__prop">Teléfono</div>
+                        </div>
+
+                        <div className="createContractModalContainer__createContractModal__gridLabelInput__input">
+                            <input onChange={handleInputChange} value={contractFormData.phoneNumber} className='createContractModalContainer__createContractModal__gridLabelInput__input__prop' type="text" name="phoneNumber" placeholder="Teléfono" required/>
+                        </div>
+
                     </div>
 
-                </div>
+                    <div className="createContractModalContainer__createContractModal__gridLabelInput">
 
-                <div className="createContractModalContainer__gridLabelInput">
+                        <div className="createContractModalContainer__createContractModal__gridLabelInput__label">
+                            <div className="createContractModalContainer__createContractModal__gridLabelInput__label__prop">Archivo de contrato</div>
+                        </div>
 
-                    <div className="createContractModalContainer__gridLabelInput__label">
-                        <div className="createContractModalContainer__gridLabelInput__label__prop">DNI</div>
-                    </div>
-
-                    <div className="createContractModalContainer__gridLabelInput__input">
-                        <input onChange={handleInputChange} value={contractFormData.dni} className='createContractModalContainer__gridLabelInput__input__prop' type="text" name="dni" placeholder="DNI" required/>
-                    </div>
-
-                </div>
-
-                <div className="createContractModalContainer__gridLabelInput">
-
-                    <div className="createContractModalContainer__gridLabelInput__label">
-                        <div className="createContractModalContainer__gridLabelInput__label__prop">Teléfono</div>
-                    </div>
-
-                    <div className="createContractModalContainer__gridLabelInput__input">
-                        <input onChange={handleInputChange} value={contractFormData.phoneNumber} className='createContractModalContainer__gridLabelInput__input__prop' type="text" name="phoneNumber" placeholder="Teléfono" required/>
-                    </div>
-
-                </div>
-
-                <div className="createContractModalContainer__gridLabelInput">
-
-                    <div className="createContractModalContainer__gridLabelInput__label">
-                        <div className="createContractModalContainer__gridLabelInput__label__prop">Archivo de contrato</div>
-                    </div>
-
-                    <div className="createContractModalContainer__gridLabelInput__inputFile">
-                        {/* <label htmlFor="contractFileInput" className="createContractModalContainer__gridLabelInput__inputFile__label">
-                            Seleccionar archivo
-                        </label> */}
-                        <input
-                            id="contractFileInput"
-                            type="file"
-                            name="contract_file"
-                            accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                            onChange={handleFileChange}
-                            className="createContractModalContainer__gridLabelInput__inputFile__prop"
-                            required
-                        />
-                        {contractFormData.contract_file && (
-                            <div className='createContractModalContainer__gridLabelInput__inputFile__nameContract'>
-                                <p className="createContractModalContainer__gridLabelInput__inputFile__nameContract__item">{contractFormData.contract_file.name}</p>
-                            </div>
-                        )}
-                    </div>
-
-                </div>
-
-                <div className="createContractModalContainer__gridLabelInput">
-
-                    <div className="createContractModalContainer__gridLabelInput__label">
-                        <div className="createContractModalContainer__gridLabelInput__label__prop">Imagen DNI</div>
-                    </div>
-
-                    <div className="createContractModalContainer__gridLabelInput__inputFile">
-                        
-                        {/* <label htmlFor="contractFileImageInput" className="createContractModalContainer__gridLabelInput__inputFile__label">
-                            Seleccionar imagen
-                        </label> */}
-                        <input id="contractFileImageInput" onChange={handleFileChange} className='createContractModalContainer__gridLabelInput__inputFile__prop' type="file" name="image_dni" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"  required/>
-                        {contractFormData.image_dni && (
-                            <div className='createContractModalContainer__gridLabelInput__inputFile__nameContract'>
-                                <p 
+                        <div className="createContractModalContainer__createContractModal__gridLabelInput__inputFile">
+                            <input
+                                id="contractFileInput"
+                                type="file"
+                                name="contract_file"
+                                accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                onChange={handleFileChange}
+                                className="createContractModalContainer__createContractModal__gridLabelInput__inputFile__prop"
+                                required
+                            />
+                            {/* {contractFormData.contract_file && (
+                                <div className='createContractModalContainer__createContractModal__gridLabelInput__inputFile__nameContract'>
+                                    <p className="createContractModalContainer__createContractModal__gridLabelInput__inputFile__nameContract__item">{contractFormData.contract_file.name}</p>
+                                </div>
+                            )} */}
+                            {contractFormData.contract_file && (
+                            <div className='createContractModalContainer__createContractModal__gridLabelInput__inputFile__nameContract'>
+                                <p
                                 onClick={() => {
-                                    const file = contractFormData.image_dni;
+                                    const file = contractFormData.contract_file;
                                     const fileType = file.type;
 
                                     if (fileType.startsWith('image/')) {
-                                        setSelectedPreview({ type: 'image', url: URL.createObjectURL(file) });
+                                    setSelectedPreview({ type: 'image', url: URL.createObjectURL(file) });
                                     } else if (fileType === 'application/pdf') {
-                                        setSelectedPreview({ type: 'pdf', url: URL.createObjectURL(file) });
+                                    setSelectedPreview({ type: 'pdf', url: URL.createObjectURL(file) });
                                     } else {
-                                        setSelectedPreview({ type: 'doc', url: file.name });
+                                    setSelectedPreview({ type: 'doc', url: file.name });
                                     }
                                 }}
-                                className="createContractModalContainer__gridLabelInput__inputFile__nameContract__item">
-                                    {contractFormData.image_dni.name}
+                                className="createContractModalContainer__createContractModal__gridLabelInput__inputFile__nameContract__item"
+                                style={{ cursor: 'pointer' }}
+                                >
+                                {contractFormData.contract_file.name}
                                 </p>
                             </div>
-                        )}
-                        
+                            )}
+                        </div>
+
                     </div>
 
-                </div>
+                    <div className="createContractModalContainer__createContractModal__gridLabelInput">
 
-                <div className='createContractModalContainer__btnCreateContract'>
-                    <button onClick={handleBtnSubmitContract} className='createContractModalContainer__btnCreateContract__prop'>Crear contrato</button>
-                </div> 
+                        <div className="createContractModalContainer__createContractModal__gridLabelInput__label">
+                            <div className="createContractModalContainer__createContractModal__gridLabelInput__label__prop">Imagen DNI</div>
+                        </div>
+
+                        <div className="createContractModalContainer__createContractModal__gridLabelInput__inputFile">
+                            
+                            <input id="contractFileImageInput" onChange={handleFileChange} className='createContractModalContainer__createContractModal__gridLabelInput__inputFile__prop' type="file" name="image_dni" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"  required/>
+                            {contractFormData.image_dni && (
+                                <div className='createContractModalContainer__createContractModal__gridLabelInput__inputFile__nameContract'>
+                                    <p 
+                                    onClick={() => {
+                                        const file = contractFormData.image_dni;
+                                        const fileType = file.type;
+
+                                        if (fileType.startsWith('image/')) {
+                                            setSelectedPreview({ type: 'image', url: URL.createObjectURL(file) });
+                                        } else if (fileType === 'application/pdf') {
+                                            setSelectedPreview({ type: 'pdf', url: URL.createObjectURL(file) });
+                                        } else {
+                                            setSelectedPreview({ type: 'doc', url: file.name });
+                                        }
+                                    }}
+                                    className="createContractModalContainer__createContractModal__gridLabelInput__inputFile__nameContract__item">
+                                        {contractFormData.image_dni.name}
+                                    </p>
+                                </div>
+                            )}
+                            
+                        </div>
+
+                    </div>
+
+                    <div className='createContractModalContainer__createContractModal__btnCreateContract'>
+                        <button onClick={handleBtnSubmitContract} className='createContractModalContainer__createContractModal__btnCreateContract__prop'>Crear contrato</button>
+                    </div> 
+
+                </div>
 
             </div>
 

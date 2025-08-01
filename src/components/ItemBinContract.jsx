@@ -31,7 +31,17 @@ const ItemBinContract = ({apiUrl,contract,fetchDeletedContracts,selectedContract
     };
 
     const handleBtnDeleteContract = async () => {
-        const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar este contrato? Esta acción no se puede deshacer.");
+        
+        const date = new Date(contract.transaction_date);
+        const formattedDate = date.toLocaleString('es-AR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        });
+        const confirmDelete = window.confirm(`¿Estás seguro de que deseas eliminar permanentemente el contrato de ${contract.first_name} ${contract.last_name} con fecha ${formattedDate}? Esta acción no se puede deshacer.`);
+        //const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar este contrato? Esta acción no se puede deshacer.");
 
         if (!confirmDelete) return;
         setLoading(true);
@@ -66,7 +76,15 @@ const ItemBinContract = ({apiUrl,contract,fetchDeletedContracts,selectedContract
     };
 
     const handleBtnRestoreContract = async () => {
-        const confirmDelete = window.confirm("¿Estás seguro de que deseas restaurar el contrato?");
+        const date = new Date(contract.transaction_date);
+        const formattedDate = date.toLocaleString('es-AR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        });
+        const confirmDelete = window.confirm(`¿Estás seguro de que deseas restaurar el contrato de ${contract.first_name} ${contract.last_name} con fecha ${formattedDate}?`);
 
         if (!confirmDelete) return;
         try {

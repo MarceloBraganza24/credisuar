@@ -13,6 +13,7 @@ const CPanel = () => {
     const [loadingUserId, setLoadingUserId] = useState(null);
     const [isLoadingUsers, setIsLoadingUsers] = useState(false);
     const [adminUsers, setAdminUsers] = useState([]);
+    const [loggingOut, setLoggingOut] = useState(false);
     const [adminsEdited, setAdminsEdited] = useState([]);
     const [loadingCurrentUser, setLoadingCurrentUser] = useState(true);
     const navigate = useNavigate();
@@ -256,12 +257,12 @@ const CPanel = () => {
         }
     };
 
-    const handleBtnDeleteUser = async (userId) => {
-        const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar el usuario? Esta acción no se puede deshacer.");
+    const handleBtnDeleteUser = async (user) => {
+        const confirmDelete = window.confirm(`¿Estás seguro de que deseas eliminar el usuario ${user.first_name} ${user.last_name}? Esta acción no se puede deshacer.`);
         if (!confirmDelete) return;
-        setLoadingUserId(userId);
+        setLoadingUserId(user._id);
         try {
-            const res = await fetch(`${apiUrl}/api/users/delete-one/${userId}`, {
+            const res = await fetch(`${apiUrl}/api/users/delete-one/${user._id}`, {
                 method: 'DELETE',  // Usamos PUT o PATCH para actualizar, no DELETE
             });
             if (res.ok) {
@@ -295,6 +296,7 @@ const CPanel = () => {
     };
 
    const handleBtnLogOut = async () => {
+        setLoggingOut(true);
         const response = await fetchWithAuth('/api/sessions/logout', {
             method: 'POST',
         });
@@ -334,7 +336,12 @@ const CPanel = () => {
                 </div>
                 :
                 <div className='logoutLinkContainer'>
-                    <div onClick={handleBtnLogOut} className='logoutLinkContainer__labelLogout'>SALIR</div>
+                    <div
+                        onClick={loggingOut ? null : handleBtnLogOut}
+                        className='logoutLinkContainer__labelLogout'
+                    >
+                        {loggingOut ? <span className="spinner" /> : "SALIR"}
+                    </div>
                 </div>
             }
             {
@@ -579,7 +586,7 @@ const CPanel = () => {
                                             </button>
                                         ) : (
                                             <button
-                                            onClick={() => handleBtnDeleteUser(user._id)}
+                                            onClick={() => handleBtnDeleteUser(user)}
                                             className='cPanelContainer__contractsTable__itemContractContainer__btn__prop'
                                             >
                                             Borrar
@@ -628,7 +635,7 @@ const CPanel = () => {
                                             </button>
                                         ) : (
                                             <button
-                                            onClick={() => handleBtnDeleteUser(user._id)}
+                                            onClick={() => handleBtnDeleteUser(user)}
                                             className='cPanelContainer__contractsTable__itemContractContainerMobile__btn__prop'
                                             >
                                             Borrar

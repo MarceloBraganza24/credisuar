@@ -16,6 +16,8 @@ const Home = ({ openChatbot }) => {
     const whoWeAreRef = useRef(null);
     const [user, setUser] = useState('');
     const navigate = useNavigate();
+    const [loggingOut, setLoggingOut] = useState(false);
+
 
     const [showSocialNetworks, setShowSocialNetworks] = useState(false);
     const socialRef = useRef(null);
@@ -137,6 +139,7 @@ const Home = ({ openChatbot }) => {
     }, []);
 
    const handleBtnLogOut = async () => {
+        setLoggingOut(true);
         const response = await fetchWithAuth('/api/sessions/logout', {
             method: 'POST',
         });
@@ -178,7 +181,12 @@ const Home = ({ openChatbot }) => {
                 </div>
                 :
                 <div className='logoutLinkContainer'>
-                    <div onClick={handleBtnLogOut} className='logoutLinkContainer__labelLogout'>SALIR</div>
+                    <div
+                        onClick={loggingOut ? null : handleBtnLogOut}
+                        className='logoutLinkContainer__labelLogout'
+                    >
+                        {loggingOut ? <span className="spinner" /> : "SALIR"}
+                    </div>
                 </div>
             }
 

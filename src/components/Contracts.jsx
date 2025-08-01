@@ -13,13 +13,16 @@ const Contracts = () => {
     const [selectAllContracts, setSelectAll] = useState(false);
     const [selectedContracts, setSelectedContracts] = useState([]);
     const navigate = useNavigate();
+    const [loggingOut, setLoggingOut] = useState(false);
     const [loadingCurrentUser, setLoadingCurrentUser] = useState(true);
     const [inputFilteredContracts, setInputFilteredContracts] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
+    //console.log(selectedImage)
     const [selectedPreview, setSelectedPreview] = useState(null); // { type: 'image' | 'pdf' | 'doc', url: string }
     const [selectedPdf, setSelectedPdf] = useState(null);
     const [menuOptions, setMenuOptions] = useState(false);
     const [contracts, setContracts] = useState([]);
+    //console.log(contracts)
     const [isLoadingContracts, setIsLoadingContracts] = useState(true);
     const [isOpenCreateContractModal, setIsOpenCreateContractModal] = useState(false);
     const [isOpenUpdateContractModal, setIsOpenUpdateContractModal] = useState(false);
@@ -29,6 +32,14 @@ const Contracts = () => {
     const [user, setUser] = useState('');
     const [loadingContractId, setLoadingContractId] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date());
+    //console.log(selectedDate)
+
+    /* function formatDateToString(date) {
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    } */
 
     const [pageInfo, setPageInfo] = useState({
         page: 1,
@@ -108,34 +119,8 @@ const Contracts = () => {
         setContractFormData(updatedForm);
     };
 
-    /* const handleBtnLogOut = async () => {
-        const response = await fetch(`${apiUrl}/api/sessions/logout`, {
-            method: 'POST',         
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include', // 👈 Esto es clave
-        })
-        const data = await response.json();
-        if(response.ok) {
-            toast('Gracias por visitar nuestra página', {
-                position: "top-right",
-                autoClose: 1500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                className: "custom-toast",
-            });
-            setTimeout(() => {
-                navigate('/')
-                window.location.reload()
-            }, 2000);
-        }
-    } */
     const handleBtnLogOut = async () => {
+        setLoggingOut(true);
         const response = await fetchWithAuth('/api/sessions/logout', {
             method: 'POST',
         });
@@ -155,21 +140,20 @@ const Contracts = () => {
         }
     };
 
-    const formatToDatetimeLocal = (isoString) => {
-        const date = new Date(isoString);
-        const offset = date.getTimezoneOffset();
-        const localDate = new Date(date.getTime() - offset * 60000);
-        return localDate.toISOString().slice(0, 16); // "YYYY-MM-DDTHH:mm"
-    };
+    function formatToDatetimeLocal(isoDateString) {
+        const date = new Date(isoDateString);
+        date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+        return date.toISOString().slice(0, 16);
+    }
 
     const fetchContracts = async (page = 1, search = "",field = "", selectedDate = null) => {
         try {
-            const response = await fetch(`${apiUrl}/api/contracts/byPage?page=${page}&search=${search}&field=${field}&selectedDate=${selectedDate}`)
+            const response = await fetch(`${apiUrl}/api/contracts/byPage?page=${page}&search=${search}&field=${field}&selectedDate=${formatDateToString(selectedDate)}`)
             const contractsAll = await response.json();
             if(response.ok) {
                 const formattedContracts = contractsAll.data.docs.map(contract => ({
                     ...contract,
-                    transaction_date: formatToDatetimeLocal(contract.transaction_date)
+                    transaction_date: contract.transaction_date
                 }));
                 setContracts(formattedContracts);
                 setTotalContracts(contractsAll.data.totalContracts)
@@ -272,9 +256,13 @@ const Contracts = () => {
             return;
         }
         
+        const date = new Date(contractFormData.transaction_date);
+        const isoDate = date.toISOString(); // Ej: 2025-07-30T23:20:00.000Z
+        
         const formDataToSend = new FormData();
+        
         formDataToSend.append('transaction_number', contractFormData.transaction_number);
-        formDataToSend.append('transaction_date', contractFormData.transaction_date);
+        formDataToSend.append('transaction_date', isoDate);
         formDataToSend.append('first_name', contractFormData.first_name);
         formDataToSend.append('last_name', contractFormData.last_name);
         formDataToSend.append('dni', contractFormData.dni);
@@ -311,7 +299,7 @@ const Contracts = () => {
                     image_dni: null,
                     image_dni_preview: ''
                 });
-                fetchContracts(1, inputFilteredContracts, 'all', formatDateToString(selectedDate))
+                fetchContracts(1, inputFilteredContracts, 'all', selectedDate)
             } else {
                 toast('Error al crear el contrato!', {
                     position: "top-right",
@@ -347,7 +335,7 @@ const Contracts = () => {
         setContracts(updatedContracts);
     };
 
-    const handleContractFileChange = (index, field, file) => {
+    /* const handleContractFileChange = (index, field, file) => {
         const updatedContracts = [...contracts];
         updatedContracts[index][field] = file;
 
@@ -360,7 +348,27 @@ const Contracts = () => {
         }
 
         setContracts(updatedContracts);
+    }; */
+    const handleContractFileChange = (index, field, file) => {
+        const updatedContracts = [...contracts];
+        updatedContracts[index][field] = file;
+
+        if (file) {
+            if (file instanceof File) {
+                if (file.type.startsWith("image/")) {
+                    updatedContracts[index][`${field}_preview`] = URL.createObjectURL(file);
+                } else if (file.type === "application/pdf") {
+                    updatedContracts[index][`${field}_preview`] = file.name;
+                }
+            } else if (typeof file === "string") {
+                 // Si ya viene como string desde el backend, asumimos que es la ruta relativa
+                updatedContracts[index][`${field}_preview`] = `${apiUrl}/${file}`;
+            }
+        }
+
+        setContracts(updatedContracts);
     };
+
 
 
     const handleSaveContract = async (id, updatedContract) => {
@@ -368,21 +376,26 @@ const Contracts = () => {
         const formData = new FormData();
 
         for (const key in updatedContract) {
-            if (key.endsWith('_preview')) continue; // saltar previews
+            if (key.endsWith('_preview')) continue;
 
             const value = updatedContract[key];
 
             if (value instanceof File) {
                 formData.append(key, value);
             } else {
-                formData.append(key, value ?? '');
+                if (key === 'transaction_date' && value) {
+                    const localDate = new Date(value);
+                    formData.append('transaction_date', localDate.toISOString()); // lo manda como UTC (compatible con Mongo)
+                } else {
+                    formData.append(key, value ?? '');
+                }
 
-                // Si es uno de los campos de archivo y no fue reemplazado, mandamos la ruta existente como auxiliar
                 if ((key === 'contract_file' || key === 'image_dni') && value) {
-                    formData.append(`existing_${key}`, value); // Manda la ruta antigua
+                    formData.append(`existing_${key}`, value); // Manda la ruta antigua si no se reemplazó
                 }
             }
         }
+
 
         try {
             const response = await fetch(`${apiUrl}/api/contracts/${id}`, {
@@ -402,7 +415,7 @@ const Contracts = () => {
                     theme: "dark",
                     className: "custom-toast",
                 });
-                fetchContracts(1, inputFilteredContracts, 'all', formatDateToString(selectedDate));
+                fetchContracts(1, inputFilteredContracts, 'all', selectedDate);
             } else {
                 toast(`Error al actualizar contrato!`, {
                     position: "top-right",
@@ -432,12 +445,20 @@ const Contracts = () => {
         }
     };
     
-    const handleBtnDeleteContract = async (contractId) => {
-        const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar el contrato?");
+    const handleBtnDeleteContract = async (contract) => {
+        const date = new Date(contract.transaction_date);
+        const formattedDate = date.toLocaleString('es-AR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        });
+        const confirmDelete = window.confirm(`¿Estás seguro de que deseas eliminar el contrato de ${contract.first_name} ${contract.last_name} con fecha ${formattedDate}?`);
         if (!confirmDelete) return;
-        setLoadingContractId(contractId);
+        setLoadingContractId(contract._id);
         try {
-            const res = await fetch(`${apiUrl}/api/contracts/${contractId}/soft-delete`, {
+            const res = await fetch(`${apiUrl}/api/contracts/${contract._id}/soft-delete`, {
                 method: 'PUT',  // Usamos PUT o PATCH para actualizar, no DELETE
             });
 
@@ -448,7 +469,7 @@ const Contracts = () => {
                     theme: "dark",
                     className: "custom-toast",
                 });
-                fetchContracts(1, inputFilteredContracts, 'all', formatDateToString(selectedDate))
+                fetchContracts(1, inputFilteredContracts, 'all', selectedDate)
                 //setSelectedContracts([])
             } else {
                 toast('No se ha podido borrar el contrato, intente nuevamente', {
@@ -473,27 +494,6 @@ const Contracts = () => {
         }
     };
 
-    /* const fetchCurrentUser = async () => {
-        try {
-            const response = await fetch(`${apiUrl}/api/sessions/current`, {
-                method: 'GET',
-                credentials: 'include', // MUY IMPORTANTE para enviar cookies
-            });
-            const data = await response.json();
-            if(data.error === 'jwt must be provided') { 
-                navigate('/')
-            } else {
-                const user = data.data;
-                if(user) {
-                    setUser(user)
-                }
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        } finally {
-            setLoadingCurrentUser(false);
-        }
-    }; */
     const fetchCurrentUser = async () => {
         try {
             const response = await fetch(`${apiUrl}/api/sessions/current`, {
@@ -522,7 +522,7 @@ const Contracts = () => {
     }
 
     useEffect(() => {
-        fetchContracts(1, inputFilteredContracts, 'all', formatDateToString(selectedDate));
+        fetchContracts(1, inputFilteredContracts, 'all', selectedDate);
         fetchCurrentUser()
         return () => {
             contracts.forEach(contract => {
@@ -535,7 +535,7 @@ const Contracts = () => {
 
     useEffect(() => {
         const delay = setTimeout(() => {
-            fetchContracts(1, inputFilteredContracts, 'all', formatDateToString(selectedDate));
+            fetchContracts(1, inputFilteredContracts, 'all', selectedDate);
         }, 300); // debounce
 
         return () => clearTimeout(delay);
@@ -561,7 +561,7 @@ const Contracts = () => {
             const data = await res.json();
             if (res.ok) {
                 setSelectedContracts([]);
-                fetchContracts(1, inputFilteredContracts, 'all', formatDateToString(selectedDate))
+                fetchContracts(1, inputFilteredContracts, 'all', selectedDate)
                 toast('Contratos eliminados correctamente', {
                     position: "top-right",
                     autoClose: 2000,
@@ -634,7 +634,6 @@ const Contracts = () => {
     const handleBtnUpdateContractModal = (contract) => {
         //console.log(contract)
 
-
         setIsOpenUpdateContractModal(true)
 
     };
@@ -646,7 +645,7 @@ const Contracts = () => {
         setSelectedDate(prevDate);
     };
 
-    const goToNextDay = () => {
+        const goToNextDay = () => {
         setIsLoadingContracts(true);
         const nextDate = new Date(selectedDate);
         nextDate.setDate(nextDate.getDate() + 1);
@@ -654,14 +653,26 @@ const Contracts = () => {
     };
 
     const formatDateToString = (date) => {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Enero = 0
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
+        const d = (date instanceof Date) ? date : new Date(date);
+        if (isNaN(d.getTime())) return "";
+
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0'); // Mes 1-indexed
+        const day = String(d.getDate()).padStart(2, '0');
+
+        return `${year}-${month}-${day}`; // Local YYYY-MM-DD
     };
 
     useEffect(() => {
-        fetchContracts(1, inputFilteredContracts, 'all', formatDateToString(selectedDate))
+        const fetch = async () => {
+            try {
+            await fetchContracts(1, inputFilteredContracts, 'all', selectedDate);
+            } finally {
+            setIsLoadingContracts(false);
+            }
+        };
+
+        fetch();
     }, [selectedDate]);
 
     return (
@@ -684,7 +695,12 @@ const Contracts = () => {
                 </div>
                 :
                 <div className='logoutLinkContainer'>
-                    <div onClick={handleBtnLogOut} className='logoutLinkContainer__labelLogout'>SALIR</div>
+                    <div
+                        onClick={loggingOut ? null : handleBtnLogOut}
+                        className='logoutLinkContainer__labelLogout'
+                    >
+                        {loggingOut ? <span className="spinner" /> : "SALIR"}
+                    </div>
                 </div>
             }
             {
@@ -762,7 +778,15 @@ const Contracts = () => {
                         !isLoadingContracts && !inputFilteredContracts &&
                         <div className="contractsContainer__contractsTableMobile__dateFilter">
                             <button className='contractsContainer__contractsTableMobile__dateFilter__btn' onClick={goToPreviousDay}>Anterior</button>
-                            {/* <span className='contractsContainer__contractsTableMobile__dateFilter__date'>{formatDateToString(selectedDate)}</span> */}
+                            {/* <input
+                                type="date"
+                                className="contractsContainer__contractsTableMobile__dateFilter__date"
+                                value={selectedDate} // ahora es un string: "2025-07-31"
+                                onChange={(e) => {
+                                    setIsLoadingContracts(true);
+                                    setSelectedDate(e.target.value); // guardás el string directamente
+                                }}
+                            /> */}
                             <input
                                 type="date"
                                 className='contractsContainer__contractsTableMobile__dateFilter__date'
@@ -771,7 +795,7 @@ const Contracts = () => {
                                     setIsLoadingContracts(true);
                                     const [year, month, day] = e.target.value.split('-').map(Number);
                                     const localDate = new Date(year, month - 1, day);
-                                    setSelectedDate(localDate);
+                                    setSelectedDate(localDate); // se mantiene en horario local
                                 }}
                             />
                             <button className='contractsContainer__contractsTableMobile__dateFilter__btn' onClick={goToNextDay}>Siguiente</button>
@@ -813,7 +837,7 @@ const Contracts = () => {
                                             <div>{contract.transaction_number}</div>
                                         </div>
                                         <div className="contractsContainer__contractsTableMobile__itemContractContainer__descriptionEllipsis">
-                                            <div>{contract.transaction_date.replace('T', ' ')}</div>
+                                            <div>{formatToDatetimeLocal(contract.transaction_date).replace('T', ' ')}</div>
                                         </div>
                                         <div className="contractsContainer__contractsTableMobile__itemContractContainer__descriptionEllipsis">
                                             <div>{contract.last_name}</div>
@@ -835,7 +859,7 @@ const Contracts = () => {
                                                 </button>
                                             ) : (
                                                 <button
-                                                onClick={() => handleBtnDeleteContract(contract._id)}
+                                                onClick={() => handleBtnDeleteContract(contract)}
                                                 className='contractsContainer__contractsTableMobile__itemContractContainer__btn__prop'
                                                 >
                                                 Borrar
@@ -898,11 +922,34 @@ const Contracts = () => {
                                 className="contractsContainer__contractsTable__createContractContainer__input__propFile"
                                 required
                             />
-                            {contractFormData.contract_file && (
+                            {/* {contractFormData.contract_file && (
                                 <div className='contractsContainer__contractsTable__createContractContainer__input__nameContract'>
                                     <p className="contractsContainer__contractsTable__createContractContainer__input__nameContract__item">{contractFormData.contract_file.name}</p>
                                 </div>
+                            )} */}
+                            {contractFormData.contract_file && (
+                            <div className='contractsContainer__contractsTable__createContractContainer__input__nameContract'>
+                                <p
+                                onClick={() => {
+                                    const file = contractFormData.contract_file;
+                                    const fileType = file.type;
+
+                                    if (fileType.startsWith('image/')) {
+                                    setSelectedPreview({ type: 'image', url: URL.createObjectURL(file) });
+                                    } else if (fileType === 'application/pdf') {
+                                    setSelectedPreview({ type: 'pdf', url: URL.createObjectURL(file) });
+                                    } else {
+                                    setSelectedPreview({ type: 'doc', url: file.name });
+                                    }
+                                }}
+                                className="contractsContainer__contractsTable__createContractContainer__input__nameContract__item"
+                                style={{ cursor: 'pointer' }}
+                                >
+                                {contractFormData.contract_file.name}
+                                </p>
+                            </div>
                             )}
+
                         </div>
                         <div className='contractsContainer__contractsTable__createContractContainer__input'>
                             <label htmlFor="contractFileImageInput" className="contractsContainer__contractsTable__createContractContainer__input__fileInputButton">
@@ -973,7 +1020,15 @@ const Contracts = () => {
                         !isLoadingContracts && !inputFilteredContracts &&
                         <div className="contractsContainer__dateFilter">
                             <button className='contractsContainer__dateFilter__btn' onClick={goToPreviousDay}>Anterior</button>
-                            {/* <span className='contractsContainer__dateFilter__date'>{formatDateToString(selectedDate)}</span> */}
+                            {/* <input
+                                type="date"
+                                className='contractsContainer__dateFilter__date'
+                                value={selectedDate}
+                                onChange={(e) => {
+                                    setIsLoadingContracts(true);
+                                    setSelectedDate(e.target.value); // guardás el string directamente
+                                }}
+                            /> */}
                             <input
                                 type="date"
                                 className='contractsContainer__dateFilter__date'
@@ -982,7 +1037,7 @@ const Contracts = () => {
                                     setIsLoadingContracts(true);
                                     const [year, month, day] = e.target.value.split('-').map(Number);
                                     const localDate = new Date(year, month - 1, day);
-                                    setSelectedDate(localDate);
+                                    setSelectedDate(localDate); // se mantiene en horario local
                                 }}
                             />
                             <button className='contractsContainer__dateFilter__btn' onClick={goToNextDay}>Siguiente</button>
@@ -1015,6 +1070,7 @@ const Contracts = () => {
                             </>
                         : contracts.length > 0 ?
                             contracts.map((contract, index) => {
+                                
                                 return (
                                     <div className="contractsContainer__contractsTable__itemContractContainer" key={contract._id}>
                                         <div className="contractsContainer__contractsTable__itemContractContainer__checkBox">
@@ -1037,7 +1093,7 @@ const Contracts = () => {
                                             <input
                                             className='contractsContainer__contractsTable__itemContractContainer__input__prop'
                                             type="datetime-local"
-                                            value={contract.transaction_date}
+                                            value={formatToDatetimeLocal(contract.transaction_date)}
                                             onChange={(e) => handleContractFieldChange(index, 'transaction_date', e.target.value)}
                                             />
                                         </div>
@@ -1123,14 +1179,30 @@ const Contracts = () => {
                                                 accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                                                 onChange={(e) => handleContractFileChange(index, 'image_dni', e.target.files[0])}
                                             />
-                                            {contract.image_dni ? (
+                                            {/* {contract.image_dni ? (
                                             <p
                                                 style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
                                                 onClick={() => setSelectedImage(contract.image_dni)}
                                             >
                                                 Ver imagen
                                             </p>
-                                            ) :  null}
+                                            ) :  null} */}
+                                            {contract.image_dni ? (
+                                                <p
+                                                    style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
+                                                    onClick={() => {
+                                                    const isFile = contract.image_dni instanceof File;
+                                                    const url = isFile
+                                                        ? URL.createObjectURL(contract.image_dni)
+                                                        : `${apiUrl}/${contract.image_dni}`;
+
+                                                    setSelectedImage(url);
+                                                    }}
+                                                >
+                                                    Ver imagen
+                                                </p>
+                                                ) : null}
+
 
                                         </div>  
 
@@ -1146,7 +1218,7 @@ const Contracts = () => {
                                                 </button>
                                             ) : (
                                                 <button
-                                                onClick={() => handleBtnDeleteContract(contract._id)}
+                                                onClick={() => handleBtnDeleteContract(contract)}
                                                 className='contractsContainer__contractsTable__itemContractContainer__btn__prop'
                                                 >
                                                 Borrar
@@ -1167,7 +1239,7 @@ const Contracts = () => {
                     <div className='contractsContainer__btnsPagesContainer'>
                         <button className='contractsContainer__btnsPagesContainer__btn'
                             disabled={!pageInfo.hasPrevPage}
-                            onClick={() => fetchContracts(pageInfo.prevPage, inputFilteredContracts, 'all', formatDateToString(selectedDate))}
+                            onClick={() => fetchContracts(pageInfo.prevPage, inputFilteredContracts, 'all', selectedDate)}
                             >
                             Anterior
                         </button>
@@ -1176,7 +1248,7 @@ const Contracts = () => {
 
                         <button className='contractsContainer__btnsPagesContainer__btn'
                             disabled={!pageInfo.hasNextPage}
-                            onClick={() => fetchContracts(pageInfo.nextPage, inputFilteredContracts, 'all', formatDateToString(selectedDate))}
+                            onClick={() => fetchContracts(pageInfo.nextPage, inputFilteredContracts, 'all', selectedDate)}
                             >
                             Siguiente
                         </button>
@@ -1276,7 +1348,7 @@ const Contracts = () => {
                             Cerrar
                         </button>
                         <img
-                            src={`${apiUrl}/${selectedImage}`}
+                            src={`${selectedImage}`}
                             alt="Imagen en grande"
                             style={{
                                 maxWidth: '100%',

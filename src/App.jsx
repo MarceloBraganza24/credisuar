@@ -215,6 +215,8 @@ import ChatBot from './components/ChatBot.jsx';
 import { fetchWithAuth } from './components/FetchWithAuth.jsx';
 import { useAuth, AuthProvider } from './context/AuthContext.jsx';
 import { IsLoggedInContext } from './context/IsLoggedContext.jsx';
+import MaintenanceModal from './components/MaintenanceModal.jsx';
+import ErrorBoundary from './components/ErrorBoundary.jsx';
 
 function ChatbotWrapper({ isOpen, setIsOpen }) {
   const location = useLocation();
@@ -231,6 +233,7 @@ function AppContent() {
   const logoutTimeoutRef = useRef(null);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const apiUrl = import.meta.env.VITE_API_URL;
+  const [showMaintenance, setShowMaintenance] = useState(false);
 
   const parseJwt = (token) => {
     try {
@@ -328,6 +331,26 @@ function AppContent() {
     }
   };
 
+  /* useEffect(() => {
+    const checkBackendStatus = async () => {
+      try {
+        const res = await fetch(`${apiUrl}/api/config`);
+        if (!res.ok) throw new Error('Backend down');
+        const data = await res.json();
+        if (data.maintenance) {
+          setShowMaintenance(true);
+        }
+      } catch (err) {
+        console.error('Error al verificar backend:', err);
+        setShowMaintenance(true); // backend caído
+      }
+    };
+
+    checkBackendStatus();
+  }, []); */
+
+  if (showMaintenance) return <MaintenanceModal />;
+
   return (
     <>
       {showSessionModal && (
@@ -365,7 +388,9 @@ function App() {
     <AuthProvider>
       <IsLoggedInContext>
         <BrowserRouter>
-          <AppContent />
+          <ErrorBoundary>
+            <AppContent />
+          </ErrorBoundary>
         </BrowserRouter>
       </IsLoggedInContext>
     </AuthProvider>
