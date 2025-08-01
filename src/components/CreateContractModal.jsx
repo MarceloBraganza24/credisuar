@@ -115,8 +115,14 @@ const CreateContractModal = ({apiUrl,setIsOpenCreateContractModal,selectedDate,f
             return;
         }
 
-        const date = new Date(contractFormData.transaction_date);
-        const isoDate = date.toISOString(); // Ej: 2025-07-30T23:20:00.000Z
+        /* const date = new Date(contractFormData.transaction_date);
+        const isoDate = date.toISOString(); // Ej: 2025-07-30T23:20:00.000Z */
+        const [datePart, timePart] = contractFormData.transaction_date.split('T');
+        const [year, month, day] = datePart.split('-').map(Number);
+        const [hour, minute] = timePart.split(':').map(Number);
+
+        const localDate = new Date(year, month - 1, day, hour, minute);
+        const isoDate = localDate.toISOString();
 
         const formDataToSend = new FormData();
         formDataToSend.append('transaction_number', contractFormData.transaction_number);
@@ -291,11 +297,6 @@ const CreateContractModal = ({apiUrl,setIsOpenCreateContractModal,selectedDate,f
                                 className="createContractModalContainer__createContractModal__gridLabelInput__inputFile__prop"
                                 required
                             />
-                            {/* {contractFormData.contract_file && (
-                                <div className='createContractModalContainer__createContractModal__gridLabelInput__inputFile__nameContract'>
-                                    <p className="createContractModalContainer__createContractModal__gridLabelInput__inputFile__nameContract__item">{contractFormData.contract_file.name}</p>
-                                </div>
-                            )} */}
                             {contractFormData.contract_file && (
                             <div className='createContractModalContainer__createContractModal__gridLabelInput__inputFile__nameContract'>
                                 <p

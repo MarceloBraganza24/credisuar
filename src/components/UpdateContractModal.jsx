@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, fetchContracts, selectedDate }) => {
     const [selectedPreview, setSelectedPreview] = useState(null);
     const [selectedPdf, setSelectedPdf] = useState(null);
-    //console.log(selectedPdf)
     const [selectedImage, setSelectedImage] = useState(null);
     const [contractFormData, setContractFormData] = useState({
         transaction_number: '',
@@ -18,25 +17,11 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
         image_dni: null,
         image_dni_preview: ''
     });
-    console.log(contractFormData)
+    const [initialContractData, setInitialContractData] = useState(null);
+    // console.log(contractFormData)
+    // console.log(contract)
 
     /* useEffect(() => {
-        if (contract) {
-            setContractFormData({
-                transaction_number: contract.transaction_number || '',
-                transaction_date: contract.transaction_date,
-                first_name: contract.first_name || '',
-                last_name: contract.last_name || '',
-                dni: contract.dni || '',
-                phoneNumber: contract.phoneNumber || '',
-                contract_file: null,
-                contract_file_preview: contract.contract_file || '',
-                image_dni: null,
-                image_dni_preview: contract.image_dni || ''
-            });
-        }
-    }, [contract]); */
-    useEffect(() => {
         if (contract) {
             setContractFormData(prev => ({
             transaction_number: contract.transaction_number || '',
@@ -51,8 +36,52 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
             image_dni_preview: prev.image_dni ? prev.image_dni_preview : contract.image_dni || ''
             }));
         }
+    }, [contract]); */
+    useEffect(() => {
+        if (contract) {
+            const initialData = {
+            transaction_number: contract.transaction_number || '',
+            transaction_date: contract.transaction_date || '',
+            first_name: contract.first_name || '',
+            last_name: contract.last_name || '',
+            dni: contract.dni || '',
+            phoneNumber: contract.phoneNumber || '',
+            contract_file_preview: contract.contract_file || '',
+            image_dni_preview: contract.image_dni || ''
+            };
+            setInitialContractData(initialData);
+
+            setContractFormData(prev => ({
+            transaction_number: initialData.transaction_number,
+            transaction_date: initialData.transaction_date,
+            first_name: initialData.first_name,
+            last_name: initialData.last_name,
+            dni: initialData.dni,
+            phoneNumber: initialData.phoneNumber,
+            contract_file: null,
+            contract_file_preview: prev.contract_file ? prev.contract_file_preview : initialData.contract_file_preview,
+            image_dni: null,
+            image_dni_preview: prev.image_dni ? prev.image_dni_preview : initialData.image_dni_preview
+            }));
+        }
     }, [contract]);
 
+    const isFormUnchanged = (formData, initialData) => {
+        if (!initialData) return false; // si no está cargado, consideramos que hay cambios
+
+        return (
+            formData.transaction_number === initialData.transaction_number &&
+            formData.transaction_date === initialData.transaction_date &&
+            formData.first_name === initialData.first_name &&
+            formData.last_name === initialData.last_name &&
+            formData.dni === initialData.dni &&
+            formData.phoneNumber === initialData.phoneNumber &&
+            !formData.contract_file && // si no se seleccionó nuevo archivo
+            formData.contract_file_preview === initialData.contract_file_preview &&
+            !formData.image_dni && // si no se seleccionó nueva imagen
+            formData.image_dni_preview === initialData.image_dni_preview
+        );
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -77,22 +106,6 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
         }
     };
 
-    /* const handleFileChange = (e) => {
-        const { name, files } = e.target;
-        const file = files?.[0];
-        if (!file) return;
-
-        setContractFormData(prev => ({
-            ...prev,
-            [name]: file,
-            ...(name === 'contract_file' && { contract_file_preview: file.name }),
-            ...(name === 'image_dni' && { image_dni_preview: URL.createObjectURL(file) }),
-        }));
-
-        setTimeout(() => {
-            e.target.value = null;
-        }, 100);
-    }; */
     const handleFileChange = (e) => {
         const { name, files } = e.target;
         const file = files?.[0];
@@ -117,9 +130,51 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
 
 
     const handleBtnUpdateContract = async (id, updatedContract) => {
+        if (isFormUnchanged(updatedContract, initialContractData)) {
+            toast('No se detectaron cambios para actualizar.', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                className: "custom-toast",
+            });
+            return;
+        }
 
         const formData = new FormData();
 
+        /* for (const key in updatedContract) {
+            if (key.endsWith('_preview')) continue;
+
+            const value = updatedContract[key];
+
+            if (value instanceof File) {
+                formData.append(key, value);
+            } else {
+                if (key === 'transaction_date' && value) {
+                    // value es "YYYY-MM-DDTHH:mm" sin zona, hay que tratarlo como local
+                    const [datePart, timePart] = value.split('T'); // ["2025-08-01", "12:00"]
+                    const [year, month, day] = datePart.split('-').map(Number);
+                    const [hour, minute] = timePart.split(':').map(Number);
+
+                    // Crear fecha en local time
+                    const localDate = new Date(year, month - 1, day, hour, minute);
+
+                    // Convertir a ISO UTC string
+                    formData.append('transaction_date', localDate.toISOString());
+                } else {
+                    formData.append(key, value ?? '');
+                }
+
+                if ((key === 'contract_file' || key === 'image_dni') && value) {
+                    formData.append(`existing_${key}`, value); // Manda la ruta antigua si no se reemplazó
+                }
+            }
+        } */
         for (const key in updatedContract) {
             if (key.endsWith('_preview')) continue;
 
@@ -129,14 +184,28 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
                 formData.append(key, value);
             } else {
                 if (key === 'transaction_date' && value) {
-                    const localDate = new Date(value);
-                    formData.append('transaction_date', localDate.toISOString()); // lo manda como UTC (compatible con Mongo)
+                    let isoString;
+
+                    // Si el valor viene como Date o como datetime-local (sin zona)
+                    if (!value.includes('Z')) {
+                        // Parseamos como local
+                        const [datePart, timePart] = value.split('T');
+                        const [year, month, day] = datePart.split('-').map(Number);
+                        const [hour, minute] = timePart.split(':').map(Number);
+                        const localDate = new Date(year, month - 1, day, hour, minute);
+                        isoString = localDate.toISOString();
+                    } else {
+                        // Ya es una ISO válida (por ejemplo, viene del contrato original)
+                        isoString = value;
+                    }
+
+                    formData.append('transaction_date', isoString);
                 } else {
                     formData.append(key, value ?? '');
                 }
 
                 if ((key === 'contract_file' || key === 'image_dni') && value) {
-                    formData.append(`existing_${key}`, value); // Manda la ruta antigua si no se reemplazó
+                    formData.append(`existing_${key}`, value);
                 }
             }
         }
@@ -190,20 +259,6 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
         }
     };
 
-    /* function formatToDatetimeLocal(isoDateString) {
-        const date = new Date(isoDateString);
-        date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-        return date.toISOString().slice(0, 16);
-    } */
-    /* function formatToDatetimeLocal(isoDateString) {
-        if (!isoDateString) return '';
-
-        const date = new Date(isoDateString);
-        if (isNaN(date.getTime())) return '';
-
-        date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-        return date.toISOString().slice(0, 16);
-    } */
     function formatToDatetimeLocal(isoDateString) {
         if (!isoDateString) return '';
 
@@ -359,9 +414,6 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
                         </div>
 
                         <div className="updateContractModalContainer__updateContractModal__gridLabelInput__inputFile">
-                            {/* <label htmlFor={`itemContractListFileInput`} className="updateContractModalContainer__updateContractModal__gridLabelInput__inputFile__fileInputButton">
-                                Seleccionar archivo
-                            </label> */}
                             <input
                                 id={`itemContractListFileInput`}
                                 type="file"
@@ -419,29 +471,6 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
                                 accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                                 onChange={handleFileChange}
                             />
-                            {/* {contractFormData.image_dni_preview ? (
-                            <p
-                                className='updateContractModalContainer__updateContractModal__gridLabelInput__inputFile__label'
-                                onClick={() => setSelectedImage(contractFormData.image_dni_preview)}
-                            >
-                                Ver imagen
-                            </p>
-                            ) :  null} */}
-                            {/* {contractFormData.image_dni_preview ? (
-                                <p
-                                    className='updateContractModalContainer__updateContractModal__gridLabelInput__inputFile__label'
-                                    onClick={() => {
-                                    const isFile = contractFormData.image_dni instanceof File;
-                                    const url = isFile
-                                        ? URL.createObjectURL(contractFormData.image_dni)
-                                        : `${contractFormData.image_dni_preview}`;
-
-                                    setSelectedImage(url);
-                                    }}
-                                >
-                                    Ver imagen
-                                </p>
-                            ) : null} */}
                             {contractFormData.image_dni_preview && (
                             <p
                                 className="updateContractModalContainer__updateContractModal__gridLabelInput__inputFile__label"

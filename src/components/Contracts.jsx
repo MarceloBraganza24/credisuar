@@ -22,6 +22,7 @@ const Contracts = () => {
     const [selectedPdf, setSelectedPdf] = useState(null);
     const [menuOptions, setMenuOptions] = useState(false);
     const [contracts, setContracts] = useState([]);
+    const [originalContracts, setOriginalContracts] = useState([]);
     //console.log(contracts)
     const [isLoadingContracts, setIsLoadingContracts] = useState(true);
     const [isOpenCreateContractModal, setIsOpenCreateContractModal] = useState(false);
@@ -33,13 +34,6 @@ const Contracts = () => {
     const [loadingContractId, setLoadingContractId] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date());
     //console.log(selectedDate)
-
-    /* function formatDateToString(date) {
-        const year = date.getFullYear();
-        const month = (date.getMonth() + 1).toString().padStart(2, '0');
-        const day = date.getDate().toString().padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    } */
 
     const [pageInfo, setPageInfo] = useState({
         page: 1,
@@ -146,6 +140,39 @@ const Contracts = () => {
         return date.toISOString().slice(0, 16);
     }
 
+    const isContractChanged = (original, updated) => {
+        // Compara solo campos clave
+        const fieldsToCheck = ['transaction_number', 'transaction_date', 'first_name', 'last_name', 'dni', 'phoneNumber', 'contract_file', 'image_dni'];
+
+        for (const field of fieldsToCheck) {
+            // Aquí considera que contract_file e image_dni pueden ser File o string (ruta)
+            const origVal = original[field];
+            const updVal = updated[field];
+
+            // Si es archivo, podrías comparar solo si son instancias File (significa cambio) o comparar ruta
+            if (field === 'contract_file' || field === 'image_dni') {
+            const origIsFile = origVal instanceof File;
+            const updIsFile = updVal instanceof File;
+
+            if (origIsFile !== updIsFile) return true;
+            if (!origIsFile && !updIsFile && origVal !== updVal) return true;
+            if (origIsFile && updIsFile) {
+                // Puede que quieras comparar nombre o tamaño (simplificado)
+                if (origVal.name !== updVal.name || origVal.size !== updVal.size) return true;
+            }
+            } else {
+            // Para fechas puede que convenga comparar ISO string o timestamps
+            if (field === 'transaction_date') {
+                if (new Date(origVal).getTime() !== new Date(updVal).getTime()) return true;
+            } else {
+                if ((origVal ?? '') !== (updVal ?? '')) return true;
+            }
+            }
+        }
+        return false; // no hubo cambios
+    }
+
+
     const fetchContracts = async (page = 1, search = "",field = "", selectedDate = null) => {
         try {
             const response = await fetch(`${apiUrl}/api/contracts/byPage?page=${page}&search=${search}&field=${field}&selectedDate=${formatDateToString(selectedDate)}`)
@@ -156,6 +183,7 @@ const Contracts = () => {
                     transaction_date: contract.transaction_date
                 }));
                 setContracts(formattedContracts);
+                setOriginalContracts(JSON.parse(JSON.stringify(formattedContracts)));
                 setTotalContracts(contractsAll.data.totalContracts)
                 setTotalPerPageContracts(contractsAll.data.totalDocs)
                 setPageInfo({
@@ -256,8 +284,14 @@ const Contracts = () => {
             return;
         }
         
-        const date = new Date(contractFormData.transaction_date);
-        const isoDate = date.toISOString(); // Ej: 2025-07-30T23:20:00.000Z
+        /* const date = new Date(contractFormData.transaction_date);
+        const isoDate = date.toISOString(); // Ej: 2025-07-30T23:20:00.000Z */
+        const [datePart, timePart] = contractFormData.transaction_date.split('T');
+        const [year, month, day] = datePart.split('-').map(Number);
+        const [hour, minute] = timePart.split(':').map(Number);
+
+        const localDate = new Date(year, month - 1, day, hour, minute);
+        const isoDate = localDate.toISOString();
         
         const formDataToSend = new FormData();
         
@@ -335,20 +369,6 @@ const Contracts = () => {
         setContracts(updatedContracts);
     };
 
-    /* const handleContractFileChange = (index, field, file) => {
-        const updatedContracts = [...contracts];
-        updatedContracts[index][field] = file;
-
-        if (file) {
-            if (file.type.startsWith("image/")) {
-                updatedContracts[index][`${field}_preview`] = URL.createObjectURL(file);
-            } else if (file.type === "application/pdf") {
-                updatedContracts[index][`${field}_preview`] = file.name; // mostramos solo el nombre
-            }
-        }
-
-        setContracts(updatedContracts);
-    }; */
     const handleContractFileChange = (index, field, file) => {
         const updatedContracts = [...contracts];
         updatedContracts[index][field] = file;
@@ -365,13 +385,26 @@ const Contracts = () => {
                 updatedContracts[index][`${field}_preview`] = `${apiUrl}/${file}`;
             }
         }
-
         setContracts(updatedContracts);
     };
 
+    const handleSaveContract = async (id, updatedContract, index) => {
+        const originalContract = originalContracts[index];
 
-
-    const handleSaveContract = async (id, updatedContract) => {
+        if (!isContractChanged(originalContract, updatedContract)) {
+            toast('No se detectaron cambios para actualizar.', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                className: "custom-toast",
+            });
+            return; // Salgo sin hacer PUT
+        }
 
         const formData = new FormData();
 
@@ -384,25 +417,37 @@ const Contracts = () => {
                 formData.append(key, value);
             } else {
                 if (key === 'transaction_date' && value) {
-                    const localDate = new Date(value);
-                    formData.append('transaction_date', localDate.toISOString()); // lo manda como UTC (compatible con Mongo)
+                    let isoString;
+
+                    // Si el valor viene como Date o como datetime-local (sin zona)
+                    if (!value.includes('Z')) {
+                        // Parseamos como local
+                        const [datePart, timePart] = value.split('T');
+                        const [year, month, day] = datePart.split('-').map(Number);
+                        const [hour, minute] = timePart.split(':').map(Number);
+                        const localDate = new Date(year, month - 1, day, hour, minute);
+                        isoString = localDate.toISOString();
+                    } else {
+                        // Ya es una ISO válida (por ejemplo, viene del contrato original)
+                        isoString = value;
+                    }
+
+                    formData.append('transaction_date', isoString);
                 } else {
                     formData.append(key, value ?? '');
                 }
 
                 if ((key === 'contract_file' || key === 'image_dni') && value) {
-                    formData.append(`existing_${key}`, value); // Manda la ruta antigua si no se reemplazó
+                    formData.append(`existing_${key}`, value);
                 }
             }
         }
-
 
         try {
             const response = await fetch(`${apiUrl}/api/contracts/${id}`, {
                 method: 'PUT',
                 body: formData
             });
-
             if (response.ok) {
                 toast(`Contrato actualizado con éxito!`, {
                     position: "top-right",
@@ -778,15 +823,6 @@ const Contracts = () => {
                         !isLoadingContracts && !inputFilteredContracts &&
                         <div className="contractsContainer__contractsTableMobile__dateFilter">
                             <button className='contractsContainer__contractsTableMobile__dateFilter__btn' onClick={goToPreviousDay}>Anterior</button>
-                            {/* <input
-                                type="date"
-                                className="contractsContainer__contractsTableMobile__dateFilter__date"
-                                value={selectedDate} // ahora es un string: "2025-07-31"
-                                onChange={(e) => {
-                                    setIsLoadingContracts(true);
-                                    setSelectedDate(e.target.value); // guardás el string directamente
-                                }}
-                            /> */}
                             <input
                                 type="date"
                                 className='contractsContainer__contractsTableMobile__dateFilter__date'
@@ -922,11 +958,6 @@ const Contracts = () => {
                                 className="contractsContainer__contractsTable__createContractContainer__input__propFile"
                                 required
                             />
-                            {/* {contractFormData.contract_file && (
-                                <div className='contractsContainer__contractsTable__createContractContainer__input__nameContract'>
-                                    <p className="contractsContainer__contractsTable__createContractContainer__input__nameContract__item">{contractFormData.contract_file.name}</p>
-                                </div>
-                            )} */}
                             {contractFormData.contract_file && (
                             <div className='contractsContainer__contractsTable__createContractContainer__input__nameContract'>
                                 <p
@@ -1020,15 +1051,6 @@ const Contracts = () => {
                         !isLoadingContracts && !inputFilteredContracts &&
                         <div className="contractsContainer__dateFilter">
                             <button className='contractsContainer__dateFilter__btn' onClick={goToPreviousDay}>Anterior</button>
-                            {/* <input
-                                type="date"
-                                className='contractsContainer__dateFilter__date'
-                                value={selectedDate}
-                                onChange={(e) => {
-                                    setIsLoadingContracts(true);
-                                    setSelectedDate(e.target.value); // guardás el string directamente
-                                }}
-                            /> */}
                             <input
                                 type="date"
                                 className='contractsContainer__dateFilter__date'
@@ -1179,14 +1201,6 @@ const Contracts = () => {
                                                 accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                                                 onChange={(e) => handleContractFileChange(index, 'image_dni', e.target.files[0])}
                                             />
-                                            {/* {contract.image_dni ? (
-                                            <p
-                                                style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
-                                                onClick={() => setSelectedImage(contract.image_dni)}
-                                            >
-                                                Ver imagen
-                                            </p>
-                                            ) :  null} */}
                                             {contract.image_dni ? (
                                                 <p
                                                     style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
@@ -1208,7 +1222,7 @@ const Contracts = () => {
 
 
                                         <div className="contractsContainer__contractsTable__itemContractContainer__btn">
-                                            <button className='contractsContainer__contractsTable__itemContractContainer__btn__prop' onClick={() => handleSaveContract(contract._id, contract)}>Guardar</button>
+                                            <button className='contractsContainer__contractsTable__itemContractContainer__btn__prop' onClick={() => handleSaveContract(contract._id, contract, index)}>Guardar</button>
                                             {loadingContractId === contract._id ? (
                                                 <button
                                                 disabled
