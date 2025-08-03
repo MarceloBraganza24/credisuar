@@ -419,7 +419,7 @@ const CPanel = () => {
                         <input
                             name="email"
                             type='email'
-                            placeholder="Apellido"
+                            placeholder="Email"
                             value={userformData.email}
                             onChange={handleInputChange}
                             className="cPanelContainer__gridLabelInput__input__prop"

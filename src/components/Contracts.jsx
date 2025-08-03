@@ -34,6 +34,7 @@ const Contracts = () => {
     const [loadingContractId, setLoadingContractId] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date());
     //console.log(selectedDate)
+    const [isSearchMode, setIsSearchMode] = useState(false);
 
     const [pageInfo, setPageInfo] = useState({
         page: 1,
@@ -139,6 +140,14 @@ const Contracts = () => {
         date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
         return date.toISOString().slice(0, 16);
     }
+    /* const formatToDatetimeLocal = (date) => {
+        if (!date) return ""; // o algún fallback
+
+        const d = new Date(date);
+        if (isNaN(d.getTime())) return ""; // Fecha inválida
+
+        return d.toISOString().slice(0, 16);
+    }; */
 
     const isContractChanged = (original, updated) => {
         // Compara solo campos clave
@@ -175,8 +184,13 @@ const Contracts = () => {
 
     const fetchContracts = async (page = 1, search = "",field = "", selectedDate = null) => {
         try {
+            setIsLoadingContracts(true);
+            const isSearching = !!search;
+            setIsSearchMode(isSearching);
+
             const response = await fetch(`${apiUrl}/api/contracts/byPage?page=${page}&search=${search}&field=${field}&selectedDate=${formatDateToString(selectedDate)}`)
             const contractsAll = await response.json();
+            //console.log(contractsAll)
             if(response.ok) {
                 const formattedContracts = contractsAll.data.docs.map(contract => ({
                     ...contract,
@@ -1249,7 +1263,7 @@ const Contracts = () => {
                 </div>
                 {
                     
-                    !isLoadingContracts && contracts.length > 0 &&
+                    !isLoadingContracts && contracts.length > 0 && !isSearchMode &&
                     <div className='contractsContainer__btnsPagesContainer'>
                         <button className='contractsContainer__btnsPagesContainer__btn'
                             disabled={!pageInfo.hasPrevPage}

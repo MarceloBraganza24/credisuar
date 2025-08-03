@@ -42,7 +42,7 @@ const Home = ({ openChatbot }) => {
         },
         {
             pregunta: '¿QUÉ DOCUMENTACIÓN NECESITO?',
-            respuesta: 'Solo necesitás foto del DNI(frente) y CBU o alias de tu cuenta.'
+            respuesta: 'Solo necesitás fotos del DNI y CBU o alias de tu cuenta.'
         },
         {
             pregunta: '¿CÓMO SE REALIZA EL ADELANTO?',

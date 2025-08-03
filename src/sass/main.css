@@ -18,6 +18,14 @@
   z-index: 9999;
 }
 
+.createContractModalContainer {
+  display: none;
+}
+
+.updateContractModalContainer {
+  display: none;
+}
+
 .modal-content {
   background-color: #fff;
   padding: 2rem;
@@ -354,7 +362,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 10vh;
+  margin-top: 8vh;
 }
 .binContainer__title__prop {
   font-size: 60px;
@@ -534,7 +542,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 10vh;
+  margin-top: 8vh;
 }
 .contractsContainer__title__prop {
   font-size: 60px;
@@ -927,7 +935,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 10vh;
+  margin-top: 8vh;
 }
 .cPanelContainer__title__prop {
   font-size: 60px;
@@ -2316,10 +2324,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 6vh;
+    margin-top: 7vh;
   }
   .binContainer__title__prop {
-    font-size: 50px;
+    font-size: 45px;
   }
   .binContainer__labelInputSearch {
     font-size: 25px;
@@ -4273,10 +4281,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 9vh;
+    margin-top: 8vh;
   }
   .cPanelContainer__title__prop {
-    font-size: 30px;
+    font-size: 35px;
   }
   .cPanelContainer__subTitle {
     color: white;
@@ -4731,10 +4739,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 6vh;
+    margin-top: 8vh;
   }
   .binContainer__title__prop {
-    font-size: 50px;
+    font-size: 45px;
   }
   .binContainer__labelInputSearch {
     font-size: 25px;
@@ -5704,7 +5712,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 7vh;
+    margin-top: 8vh;
   }
   .contractsContainer__title__prop {
     font-size: 45px;

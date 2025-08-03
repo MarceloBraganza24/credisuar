@@ -24,6 +24,12 @@
   justify-content: center;
   z-index: 9999;
 }
+.createContractModalContainer {
+    display: none;
+}
+.updateContractModalContainer {
+    display: none;
+}
 
 .modal-content {
   background-color: #fff;
@@ -379,7 +385,7 @@ $site-color: linear-gradient(
     //padding: 0vh 0vh 10vh 0vh;
     &__title {
         @include disfc();
-        margin-top: 10vh;
+        margin-top: 8vh;
         &__prop {
             font-size: 60px;
         }
@@ -552,7 +558,7 @@ $site-color: linear-gradient(
     flex-direction: column;
     &__title {
         @include disfc();
-        margin-top: 10vh;
+        margin-top: 8vh;
         &__prop {
             font-size: 60px;
         }
@@ -942,7 +948,7 @@ $site-color: linear-gradient(
     flex-direction: column;
     &__title {
         @include disfc();
-        margin-top: 10vh;
+        margin-top: 8vh;
         &__prop {
             font-size: 60px;
         }
@@ -2341,9 +2347,9 @@ input[type="file"]::file-selector-button {
     //padding: 0vh 0vh 10vh 0vh;
     &__title {
         @include disfc();
-        margin-top: 6vh;
+        margin-top: 7vh;
         &__prop {
-            font-size: 50px;
+            font-size: 45px;
         }
     }
     &__labelInputSearch {
@@ -4280,9 +4286,9 @@ input[type="file"]::file-selector-button {
     flex-direction: column;
     &__title {
         @include disfc();
-        margin-top: 9vh;
+        margin-top: 8vh;
         &__prop {
-            font-size: 30px;
+            font-size: 35px;
         }
     }
     &__subTitle {
@@ -4742,9 +4748,9 @@ input[type="file"]::file-selector-button {
     //padding: 0vh 0vh 10vh 0vh;
     &__title {
         @include disfc();
-        margin-top: 6vh;
+        margin-top: 8vh;
         &__prop {
-            font-size: 50px;
+            font-size: 45px;
         }
     }
     &__labelInputSearch {
@@ -5660,7 +5666,7 @@ input[type="file"]::file-selector-button {
     flex-direction: column;
     &__title {
         @include disfc();
-        margin-top: 7vh;
+        margin-top: 8vh;
         &__prop {
             font-size: 45px;
         }
