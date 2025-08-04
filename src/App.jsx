@@ -1,201 +1,3 @@
-/* import Home from './components/Home.jsx';
-import { IsLoggedInContext } from './context/IsLoggedContext.jsx';
-import { AuthProvider } from './context/AuthContext.jsx';
-import {useState,useEffect,useRef} from 'react'
-
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
-
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Login from './components/Login.jsx';
-import SignIn from './components/SignIn.jsx';
-import Contracts from './components/Contracts.jsx';
-import ChatBot from './components/ChatBot.jsx';
-import Bin from './components/Bin.jsx';
-import CPanel from './components/CPanel.jsx';
-import SendMailPass from './components/SendMailPass.jsx';
-import ResetPass from './components/ResetPass.jsx';
-
-import { fetchWithAuth } from './components/FetchWithAuth.jsx';
-import {useAuth} from './context/AuthContext';
-
-function App() {
-    const { setToken } = useAuth();
-    const [showSessionModal, setShowSessionModal] = useState(false);
-    const [logoutCountdown, setLogoutCountdown] = useState(30);
-    const countdownIntervalRef = useRef(null);
-    const logoutTimeoutRef = useRef(null);
-    const apiUrl = import.meta.env.VITE_API_URL;
-    
-    const [isChatOpen, setIsChatOpen] = useState(false);
-
-    const parseJwt = (token) => {
-        try {
-            return JSON.parse(atob(token.split('.')[1]));
-        } catch (e) {
-            return null;
-        }
-    };
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-        const token = localStorage.getItem("token");
-        if (!token) return;
-
-        const decoded = parseJwt(token);
-        if (!decoded?.exp) return;
-
-        const now = Date.now();
-        const expirationTime = decoded.exp * 1000;
-        const timeUntilExpire = expirationTime - now;
-
-        if (timeUntilExpire <= 0) {
-            handleLogout(); // token expiró
-        } else if (timeUntilExpire <= 30000 && !showSessionModal) {
-            // quedan menos de 30s y todavía no mostramos modal
-            setShowSessionModal(true);
-            startLogoutCountdown();
-        }
-        }, 1000);
-
-        return () => clearInterval(interval);
-    }, [showSessionModal]);
-
-    const startLogoutCountdown = () => {
-        let seconds = 30;
-        setLogoutCountdown(seconds);
-
-        countdownIntervalRef.current = setInterval(() => {
-            seconds -= 1;
-            setLogoutCountdown(seconds);
-
-            if (seconds <= 0) {
-            clearInterval(countdownIntervalRef.current);
-            }
-        }, 1000);
-
-        logoutTimeoutRef.current = setTimeout(() => {
-            setShowSessionModal(false); // 🔴 cerrar el modal
-            window.location.reload();   // 🔁 recargar la página
-        }, 30000);
-    };
-
-
-    const cancelCountdown = () => {
-        clearTimeout(logoutTimeoutRef.current);
-        clearInterval(countdownIntervalRef.current);
-        setLogoutCountdown(30);
-    };
-
-    function ChatbotWrapper({ isOpen, setIsOpen }) {
-        const location = useLocation();
-        if (location.pathname === "/contracts"
-            || location.pathname === "/login"
-            || location.pathname === "/bin"
-            || location.pathname === "/signIn"
-            || location.pathname === "/resetPass"
-            || location.pathname === "/sendMail"
-            || location.pathname === "/cPanel")
-            return null;
-        return <ChatBot isOpen={isOpen} setIsOpen={setIsOpen} />;
-    }
-
-     const handleExtendSession = async () => {
-        cancelCountdown();
-
-        const res = await fetch(`${apiUrl}/api/sessions/refresh`, {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-        });
-
-        const data = await res.json();
-
-        if (res.ok && data.data?.token) {
-            localStorage.setItem("token", data.data.token);
-            setToken(data.data.token);
-            setShowSessionModal(false);
-        } else {
-            handleLogout();
-        }
-    };
-
-    const handleLogout = async () => {
-        cancelCountdown();
-        const response = await fetchWithAuth('/api/sessions/logout', {
-            method: 'POST',
-        });
-
-        if (response) {
-            toast('Gracias por visitar nuestra página', {
-                position: "top-right",
-                autoClose: 1500,
-                theme: "dark",
-                className: "custom-toast",
-            });
-            localStorage.removeItem("token");
-            setTimeout(() => {
-                setShowSessionModal(false);
-                window.location.href = '/'
-                //window.location.reload();
-            }, 2000);
-        }
-    };
-
-    return (
-
-        <>
-            {showSessionModal && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                    <h2>Tu sesión está por expirar</h2>
-                    <p>¿Querés continuar con la sesión?</p>
-                    <p><strong>Se cerrará automáticamente en {logoutCountdown} segundos</strong></p>
-                    <button onClick={handleExtendSession}>Continuar sesión</button>
-                    <button onClick={handleLogout}>Cerrar sesión</button>
-                    </div>
-                </div>
-            )}
-
-            <BrowserRouter>
-            
-                <AuthProvider>
-                    
-                    <IsLoggedInContext>
-
-                        <ChatbotWrapper isOpen={isChatOpen} setIsOpen={setIsChatOpen} />
-
-                        <Routes>
-
-                            <Route exact path="/" element={<Home openChatbot={() => setIsChatOpen(true)} />} />
-                            <Route exact path="/login" element={<Login/>}/>
-                            <Route exact path="/signIn" element={<SignIn/>}/>
-                            <Route exact path="/contracts" element={<Contracts/>}/>
-                            <Route exact path="/bin" element={<Bin/>}/>
-                            <Route exact path="/cPanel" element={<CPanel/>}/>
-                            <Route exact path="/sendMail" element={<SendMailPass/>}/>
-                            <Route exact path="/resetPass" element={<ResetPass/>}/>
-
-                        </Routes>
-
-                        <ToastContainer />
-                        
-                    </IsLoggedInContext>
-
-                </AuthProvider>
-
-            </BrowserRouter>
-        
-        </>
-    )
-}
-
-export default App
- */
-
-
-// src/App.jsx
 import { useState, useEffect, useRef } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -215,8 +17,6 @@ import ChatBot from './components/ChatBot.jsx';
 import { fetchWithAuth } from './components/FetchWithAuth.jsx';
 import { useAuth, AuthProvider } from './context/AuthContext.jsx';
 import { IsLoggedInContext } from './context/IsLoggedContext.jsx';
-import MaintenanceModal from './components/MaintenanceModal.jsx';
-import ErrorBoundary from './components/ErrorBoundary.jsx';
 
 function ChatbotWrapper({ isOpen, setIsOpen }) {
   const location = useLocation();
@@ -233,7 +33,6 @@ function AppContent() {
   const logoutTimeoutRef = useRef(null);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const apiUrl = import.meta.env.VITE_API_URL;
-  const [showMaintenance, setShowMaintenance] = useState(false);
 
   const parseJwt = (token) => {
     try {
@@ -330,26 +129,6 @@ function AppContent() {
       }, 2000);
     }
   };
-
-  /* useEffect(() => {
-    const checkBackendStatus = async () => {
-      try {
-        const res = await fetch(`${apiUrl}/api/config`);
-        if (!res.ok) throw new Error('Backend down');
-        const data = await res.json();
-        if (data.maintenance) {
-          setShowMaintenance(true);
-        }
-      } catch (err) {
-        console.error('Error al verificar backend:', err);
-        setShowMaintenance(true); // backend caído
-      }
-    };
-
-    checkBackendStatus();
-  }, []); */
-
-  //if (showMaintenance) return <MaintenanceModal />;
 
   return (
     <>

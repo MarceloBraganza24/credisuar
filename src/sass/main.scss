@@ -822,14 +822,11 @@ $site-color: linear-gradient(
                 &__prop {
                     width: 15px;
                     height: 15px;
-                    //border-radius: 0.5vh;
-                    //text-align: center;
                 }
             }
             &__input {
                 width: 100%;
                 @include disfc();
-                //padding: 1vh 0vh;
                 &__prop {
                     width: 90%;
                     height: 30px;
@@ -944,7 +941,6 @@ $site-color: linear-gradient(
     background-position: center;
     background-size: cover;
     display: flex;
-    //padding-bottom: 10vh;
     flex-direction: column;
     &__title {
         @include disfc();
@@ -1117,7 +1113,6 @@ $site-color: linear-gradient(
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
             align-self: center;
-            //padding-top: 2vh;
             &__item {
                 width: 100%;
                 @include disfc();
@@ -1768,7 +1763,6 @@ $site-color: linear-gradient(
             font-family: Impact, sans-serif;
             color: white;
             text-align: justify;
-            //font-weight: bold;
             letter-spacing: 0.1vh;
         }
     }
@@ -1999,7 +1993,6 @@ input[type="file"]::file-selector-button {
         width: 100%;
         display: grid;
         grid-template-columns: 2fr 1fr 2fr;
-        //padding: 2vh 0vh;
         &__prop {
             @include disfc();
             font-size: 18px;
@@ -2126,7 +2119,6 @@ input[type="file"]::file-selector-button {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
             align-self: center;
-            //padding-top: 2vh;
             &__item {
                 width: 100%;
                 @include disfc();
@@ -2150,14 +2142,11 @@ input[type="file"]::file-selector-button {
                 &__prop {
                     width: 15px;
                     height: 15px;
-                    //border-radius: 0.5vh;
-                    //text-align: center;
                 }
             }
             &__input {
                 width: 100%;
                 @include disfc();
-                //padding: 1vh 0vh;
                 &__prop {
                     width: 90%;
                     height: 30px;
@@ -2228,14 +2217,11 @@ input[type="file"]::file-selector-button {
                 &__prop {
                     width: 15px;
                     height: 15px;
-                    //border-radius: 0.5vh;
-                    //text-align: center;
                 }
             }
             &__input {
                 width: 100%;
                 @include disfc();
-                //padding: 1vh 0vh;
                 &__prop {
                     width: 90%;
                     height: 25px;
@@ -2340,10 +2326,8 @@ input[type="file"]::file-selector-button {
     background-size: cover;
     width: 100%;
     height: 100vh;
-    //height: auto;
     display: flex;
     flex-direction: column;
-    //padding: 0vh 0vh 10vh 0vh;
     &__title {
         @include disfc();
         margin-top: 7vh;
@@ -2848,7 +2832,6 @@ input[type="file"]::file-selector-button {
                 padding-bottom: 1vh;
                 &__prop {
                     font-size: 32px;
-                    //font-family: 'Anton', sans-serif;
                 }
             }
             &__forgotPass {
@@ -3061,7 +3044,6 @@ input[type="file"]::file-selector-button {
                 &__label {
                     color: white;
                     padding-left: 2vh;
-                    //display: inline-block;
                     font-weight: bold;
                     font-size: 14px;
                     cursor: pointer;
@@ -3077,7 +3059,6 @@ input[type="file"]::file-selector-button {
                         max-width: 200px; /* o lo que necesites */
                         overflow-x: auto;
                         white-space: nowrap;
-                        //text-overflow: ellipsis; /* opcional si querés cortar con "..." */
                         display: block;
                         cursor: pointer;
                         color: white;
@@ -3338,8 +3319,6 @@ input[type="file"]::file-selector-button {
             padding: 0.5vh 0vh;
             font-size: 16px;
             border-radius: 0.5vh;
-            //background-color: black;
-            //color: white;
             text-decoration: none;
             text-align: center;
             cursor: pointer;
@@ -3493,8 +3472,6 @@ input[type="file"]::file-selector-button {
                 &__prop {
                     width: 10px;
                     height: 10px;
-                    //border-radius: 0.5vh;
-                    //text-align: center;
                 }
             }
             &__descriptionEllipsis {  
@@ -3517,7 +3494,6 @@ input[type="file"]::file-selector-button {
             &__input {
                 width: 100%;
                 @include disfc();
-                //padding: 1vh 0vh;
                 &__prop {
                     width: 90%;
                     height: 30px;
@@ -3562,7 +3538,6 @@ input[type="file"]::file-selector-button {
                 padding: 1vh 0vh;
                 gap: 0.5vh;
                 &__prop {
-                    //width: 70%;
                     background-color: black;
                     color: white;
                     padding: 0.5vh 1vh;
@@ -3655,7 +3630,6 @@ input[type="file"]::file-selector-button {
                         max-width: 200px; /* o lo que necesites */
                         overflow-x: auto;
                         white-space: nowrap;
-                        //text-overflow: ellipsis; /* opcional si querés cortar con "..." */
                         display: block;
                         cursor: pointer;
                         scrollbar-width: thin; /* para Firefox */
@@ -3737,14 +3711,11 @@ input[type="file"]::file-selector-button {
                 &__prop {
                     width: 15px;
                     height: 15px;
-                    //border-radius: 0.5vh;
-                    //text-align: center;
                 }
             }
             &__input {
                 width: 100%;
                 @include disfc();
-                //padding: 1vh 0vh;
                 &__prop {
                     width: 90%;
                     height: 30px;
@@ -4255,7 +4226,6 @@ input[type="file"]::file-selector-button {
             font-family: Impact, sans-serif;
             color: white;
             text-align: justify;
-            //font-weight: bold;
             letter-spacing: 0.1vh;
         }
     }
@@ -4284,7 +4254,6 @@ input[type="file"]::file-selector-button {
     background-position: center;
     background-size: cover;
     display: flex;
-    //padding-bottom: 10vh;
     flex-direction: column;
     &__title {
         @include disfc();
@@ -4405,7 +4374,6 @@ input[type="file"]::file-selector-button {
         width: 100%;
         display: grid;
         grid-template-columns: 2fr 1fr 2fr;
-        //padding: 2vh 0vh;
         &__prop {
             @include disfc();
             font-size: 18px;
@@ -4532,7 +4500,6 @@ input[type="file"]::file-selector-button {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
             align-self: center;
-            //padding-top: 2vh;
             &__item {
                 width: 100%;
                 @include disfc();
@@ -4556,14 +4523,11 @@ input[type="file"]::file-selector-button {
                 &__prop {
                     width: 15px;
                     height: 15px;
-                    //border-radius: 0.5vh;
-                    //text-align: center;
                 }
             }
             &__input {
                 width: 100%;
                 @include disfc();
-                //padding: 1vh 0vh;
                 &__prop {
                     width: 90%;
                     height: 30px;
@@ -4634,14 +4598,11 @@ input[type="file"]::file-selector-button {
                 &__prop {
                     width: 15px;
                     height: 15px;
-                    //border-radius: 0.5vh;
-                    //text-align: center;
                 }
             }
             &__input {
                 width: 100%;
                 @include disfc();
-                //padding: 1vh 0vh;
                 &__prop {
                     width: 90%;
                     height: 25px;
@@ -4746,10 +4707,8 @@ input[type="file"]::file-selector-button {
     background-size: cover;
     width: 100%;
     height: 100vh;
-    //height: auto;
     display: flex;
     flex-direction: column;
-    //padding: 0vh 0vh 10vh 0vh;
     &__title {
         @include disfc();
         margin-top: 8vh;
@@ -5255,7 +5214,6 @@ input[type="file"]::file-selector-button {
                 padding-bottom: 1vh;
                 &__prop {
                     font-size: 35px;
-                    //font-family: 'Anton', sans-serif;
                 }
             }
             &__forgotPass {
@@ -5488,7 +5446,6 @@ input[type="file"]::file-selector-button {
                         max-width: 200px; /* o lo que necesites */
                         overflow-x: auto;
                         white-space: nowrap;
-                        //text-overflow: ellipsis; /* opcional si querés cortar con "..." */
                         display: block;
                         cursor: pointer;
                         padding-left: 2vh;
@@ -5764,8 +5721,6 @@ input[type="file"]::file-selector-button {
             padding: 0.5vh 0vh;
             font-size: 16px;
             border-radius: 0.5vh;
-            //background-color: black;
-            //color: white;
             text-decoration: none;
             text-align: center;
             cursor: pointer;
@@ -5940,7 +5895,6 @@ input[type="file"]::file-selector-button {
             &__input {
                 width: 100%;
                 @include disfc();
-                //padding: 1vh 0vh;
                 &__prop {
                     width: 90%;
                     height: 30px;
@@ -5985,7 +5939,6 @@ input[type="file"]::file-selector-button {
                 padding: 1vh 0vh;
                 gap: 0.5vh;
                 &__prop {
-                    //width: 70%;
                     background-color: black;
                     color: white;
                     padding: 0.5vh 1vh;
@@ -6078,7 +6031,6 @@ input[type="file"]::file-selector-button {
                         max-width: 200px; /* o lo que necesites */
                         overflow-x: auto;
                         white-space: nowrap;
-                        //text-overflow: ellipsis; /* opcional si querés cortar con "..." */
                         display: block;
                         cursor: pointer;
                         scrollbar-width: thin; /* para Firefox */
@@ -6160,14 +6112,11 @@ input[type="file"]::file-selector-button {
                 &__prop {
                     width: 15px;
                     height: 15px;
-                    //border-radius: 0.5vh;
-                    //text-align: center;
                 }
             }
             &__input {
                 width: 100%;
                 @include disfc();
-                //padding: 1vh 0vh;
                 &__prop {
                     width: 90%;
                     height: 30px;
@@ -6678,7 +6627,6 @@ input[type="file"]::file-selector-button {
             font-family: Impact, sans-serif;
             color: white;
             text-align: justify;
-            //font-weight: bold;
             letter-spacing: 0.1vh;
         }
     }
@@ -6699,7 +6647,6 @@ input[type="file"]::file-selector-button {
 
 }
 
-/* Tablet en vertical */
 @media (min-width: 600px) and (max-width: 900px) and (orientation: portrait) {
 .cPanelContainer{
     background-color: black;
@@ -6709,7 +6656,6 @@ input[type="file"]::file-selector-button {
     background-position: center;
     background-size: cover;
     display: flex;
-    //padding-bottom: 10vh;
     flex-direction: column;
     &__title {
         @include disfc();
@@ -6830,7 +6776,6 @@ input[type="file"]::file-selector-button {
         width: 100%;
         display: grid;
         grid-template-columns: 2fr 1fr 2fr;
-        //padding: 2vh 0vh;
         &__prop {
             @include disfc();
             font-size: 18px;
@@ -6957,7 +6902,6 @@ input[type="file"]::file-selector-button {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
             align-self: center;
-            //padding-top: 2vh;
             &__item {
                 width: 100%;
                 @include disfc();
@@ -6981,14 +6925,11 @@ input[type="file"]::file-selector-button {
                 &__prop {
                     width: 15px;
                     height: 15px;
-                    //border-radius: 0.5vh;
-                    //text-align: center;
                 }
             }
             &__input {
                 width: 100%;
                 @include disfc();
-                //padding: 1vh 0vh;
                 &__prop {
                     width: 90%;
                     height: 30px;
@@ -7059,8 +7000,6 @@ input[type="file"]::file-selector-button {
                 &__prop {
                     width: 15px;
                     height: 15px;
-                    //border-radius: 0.5vh;
-                    //text-align: center;
                 }
             }
             &__input {
@@ -7171,10 +7110,8 @@ input[type="file"]::file-selector-button {
     background-size: cover;
     width: 100%;
     height: 100vh;
-    //height: auto;
     display: flex;
     flex-direction: column;
-    //padding: 0vh 0vh 10vh 0vh;
     &__title {
         @include disfc();
         margin-top: 7vh;
@@ -7527,7 +7464,6 @@ input[type="file"]::file-selector-button {
                 &__label {
                     color: white;
                     padding-left: 2vh;
-                    //display: inline-block;
                     font-weight: bold;
                     font-size: 14px;
                     cursor: pointer;
@@ -7543,7 +7479,6 @@ input[type="file"]::file-selector-button {
                         max-width: 250px; /* o lo que necesites */
                         overflow-x: auto;
                         white-space: nowrap;
-                        //text-overflow: ellipsis; /* opcional si querés cortar con "..." */
                         display: block;
                         cursor: pointer;
                         font-size: 18px;
@@ -7558,7 +7493,6 @@ input[type="file"]::file-selector-button {
                     width: 55%;
                     padding-left: 2vh;
                     font-size: 18px;
-                    //@include disfc();
                     
                 }
             }
@@ -7967,8 +7901,6 @@ input[type="file"]::file-selector-button {
                 &__prop {
                     width: 15px;
                     height: 15px;
-                    //border-radius: 0.5vh;
-                    //text-align: center;
                 }
             }
             &__descriptionEllipsis {  
@@ -7991,7 +7923,6 @@ input[type="file"]::file-selector-button {
             &__input {
                 width: 100%;
                 @include disfc();
-                //padding: 1vh 0vh;
                 &__prop {
                     width: 90%;
                     height: 30px;
@@ -8129,7 +8060,6 @@ input[type="file"]::file-selector-button {
                         max-width: 200px; /* o lo que necesites */
                         overflow-x: auto;
                         white-space: nowrap;
-                        //text-overflow: ellipsis; /* opcional si querés cortar con "..." */
                         display: block;
                         cursor: pointer;
                         scrollbar-width: thin; /* para Firefox */
@@ -8211,14 +8141,11 @@ input[type="file"]::file-selector-button {
                 &__prop {
                     width: 15px;
                     height: 15px;
-                    //border-radius: 0.5vh;
-                    //text-align: center;
                 }
             }
             &__input {
                 width: 100%;
                 @include disfc();
-                //padding: 1vh 0vh;
                 &__prop {
                     width: 90%;
                     height: 30px;
@@ -8565,7 +8492,6 @@ input[type="file"]::file-selector-button {
                 padding-bottom: 1vh;
                 &__prop {
                     font-size: 40px;
-                    //font-family: 'Anton', sans-serif;
                 }
             }
             &__forgotPass {
@@ -9132,7 +9058,6 @@ input[type="file"]::file-selector-button {
     
 }
 
-/* Tablet en horizontal */
 @media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape) {
 .contractsContainer{
     background-color: black;
@@ -9389,8 +9314,6 @@ input[type="file"]::file-selector-button {
                 &__prop {
                     width: 15px;
                     height: 15px;
-                    //border-radius: 0.5vh;
-                    //text-align: center;
                 }
             }
             &__descriptionEllipsis {  
@@ -9413,7 +9336,6 @@ input[type="file"]::file-selector-button {
             &__input {
                 width: 100%;
                 @include disfc();
-                //padding: 1vh 0vh;
                 &__prop {
                     width: 90%;
                     height: 30px;
@@ -9551,7 +9473,6 @@ input[type="file"]::file-selector-button {
                         max-width: 200px; /* o lo que necesites */
                         overflow-x: auto;
                         white-space: nowrap;
-                        //text-overflow: ellipsis; /* opcional si querés cortar con "..." */
                         display: block;
                         cursor: pointer;
                         scrollbar-width: thin; /* para Firefox */
@@ -9633,14 +9554,11 @@ input[type="file"]::file-selector-button {
                 &__prop {
                     width: 15px;
                     height: 15px;
-                    //border-radius: 0.5vh;
-                    //text-align: center;
                 }
             }
             &__input {
                 width: 100%;
                 @include disfc();
-                //padding: 1vh 0vh;
                 &__prop {
                     width: 90%;
                     height: 30px;
@@ -9857,7 +9775,6 @@ input[type="file"]::file-selector-button {
         width: 100%;
         display: grid;
         grid-template-columns: 2fr 1fr 2fr;
-        //padding: 2vh 0vh;
         &__prop {
             @include disfc();
             font-size: 18px;
@@ -9984,7 +9901,6 @@ input[type="file"]::file-selector-button {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
             align-self: center;
-            //padding-top: 2vh;
             &__item {
                 width: 100%;
                 @include disfc();
@@ -10008,14 +9924,11 @@ input[type="file"]::file-selector-button {
                 &__prop {
                     width: 15px;
                     height: 15px;
-                    //border-radius: 0.5vh;
-                    //text-align: center;
                 }
             }
             &__input {
                 width: 100%;
                 @include disfc();
-                //padding: 1vh 0vh;
                 &__prop {
                     width: 90%;
                     height: 30px;
@@ -10086,14 +9999,11 @@ input[type="file"]::file-selector-button {
                 &__prop {
                     width: 15px;
                     height: 15px;
-                    //border-radius: 0.5vh;
-                    //text-align: center;
                 }
             }
             &__input {
                 width: 100%;
                 @include disfc();
-                //padding: 1vh 0vh;
                 &__prop {
                     width: 90%;
                     height: 25px;
@@ -10198,10 +10108,8 @@ input[type="file"]::file-selector-button {
     background-size: cover;
     width: 100%;
     height: 100vh;
-    //height: auto;
     display: flex;
     flex-direction: column;
-    //padding: 0vh 0vh 10vh 0vh;
     &__title {
         @include disfc();
         margin-top: 6vh;
@@ -10548,7 +10456,6 @@ input[type="file"]::file-selector-button {
                 &__label {
                     color: white;
                     padding-left: 2vh;
-                    //display: inline-block;
                     font-weight: bold;
                     font-size: 14px;
                     cursor: pointer;
@@ -10564,7 +10471,6 @@ input[type="file"]::file-selector-button {
                         max-width: 200px; /* o lo que necesites */
                         overflow-x: auto;
                         white-space: nowrap;
-                        //text-overflow: ellipsis; /* opcional si querés cortar con "..." */
                         display: block;
                         cursor: pointer;
                         color: white;
@@ -10960,7 +10866,6 @@ input[type="file"]::file-selector-button {
                 padding-bottom: 1vh;
                 &__prop {
                     font-size: 35px;
-                    //font-family: 'Anton', sans-serif;
                 }
             }
             &__forgotPass {
@@ -11505,7 +11410,6 @@ input[type="file"]::file-selector-button {
             font-family: Impact, sans-serif;
             color: white;
             text-align: justify;
-            //font-weight: bold;
             letter-spacing: 0.1vh;
         }
     }
@@ -11527,7 +11431,348 @@ input[type="file"]::file-selector-button {
 }
 
 @media (min-width: 1024px) and (max-width: 1439px) {
-
+.binContainer {
+    background-color: black;
+    background-image: url('/src/assets/fondo_home.webp');
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    &__title {
+        @include disfc();
+        margin-top: 8vh;
+        &__prop {
+            font-size: 60px;
+        }
+    }
+    &__labelInputSearch {
+        font-size: 30px;
+        text-align: center;
+        color: white;
+    }
+    &__inputSearchContract {
+        width: 100%;
+        @include disfc();
+        padding: 1vh 0vh;
+        &__prop {
+            width: 40%;
+            height: 30px;
+            font-size: 20px;
+            text-align: center;
+        }
+    }
+    &__subTitle {
+        width: 100%;
+        display: flex;
+        padding: 15vh 0vh 2vh 0vh;
+        &__prop {
+            font-size: 35px;
+            color: white;
+            padding-left: 6vh;
+        }
+    }
+    &__quantityContracts {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 2fr 1fr 2fr;
+        padding: 0vh 0vh 2vh 0vh;
+        &__prop {
+            font-size: 18px;
+            color: white;
+            text-align: center;
+        }
+        &__massDeleteBtnContainer {
+            @include disfc();
+            gap: 1vh;
+            color: white;
+        }
+    }
+    &__massDeleteBtnContainer {
+        display: flex;
+        gap: 4vh;
+        padding: 0vh 0vh 2vh 6vh;
+        &__btn {
+            padding: 0.5vh 1vh;
+            border-radius: 0.5vh;
+            text-align: center;
+            cursor: pointer;
+        }
+    }
+    &__headerTableMobileContainer {
+        display: none;
+    }
+    &__headerTableContainer {
+        width: 100%;
+        @include disfc();
+        align-self: center;
+        border-top-left-radius: 0.5vh;
+        border-top-right-radius: 0.5vh;
+        &__headerTable {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            align-items: center;
+            color: white;
+            padding: 2vh 0vh 0vh 0vh;
+            &__item {
+                font-size: 14px;
+                font-weight: bold;
+                text-align: center;
+                align-self: center;
+                border-right: 0.3vh solid black;
+            }
+        }
+    }
+    &__contractsTable {
+        background-color: black;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        margin-bottom: 4vh;
+        border-bottom-left-radius: 0.5vh;
+        border-bottom-right-radius: 0.5vh;
+        padding: 1vh 0vh 2vh 0vh;
+        &__isLoadingLabel {
+            @include disfc();
+            color: white;
+            padding: 1vh 0vh;
+            font-size: 20px;
+        }
+        &__itemContainerMobile {
+            display: none;
+        }
+        &__itemContainer {
+            background-color: whitesmoke;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            border-bottom: 0.3vh solid #d6d5d5;
+            align-self: center;
+            margin-top: 1vh;
+            padding: 1vh 0vh;
+            border-radius: 1vh;
+            &__item {
+                width: 100%;
+                @include disfc();
+                &__img {
+                    width: 60px;
+                    height: 50px;
+                }
+                &__label {
+                    text-align: center;
+                    font-size: 14px;
+                }
+                &__labelLong {
+                    text-align: center;
+                    font-size: 14px;
+                }
+                &__description {
+                    text-align: center;
+                    font-size: 14px;
+                }
+            }
+            &__btnsContainer {
+                width: 100%;
+                @include disfc();
+                flex-direction: column;
+                gap: 1vh;
+                &__btn {
+                    width: 80%;
+                    background-color: black;
+                    @include disfc();
+                    color: white;
+                    padding: 0.5vh 2vh;
+                    font-size: 9px;
+                    border-radius: 0.5vh;
+                    cursor: pointer;
+                    &:hover {
+                        background: linear-gradient(
+                        to bottom,
+                        #b8860b 0%,
+                        #ffd700 20%,
+                        #fff8dc 40%,
+                        #ffd700 60%,
+                        #b8860b 80%,
+                        #ffd700 100%
+                        );
+                        color: black;
+                    }
+                }
+            }
+        }
+    }
+}
+.loginContainer {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    &__formContainer {
+        background-color: black;
+        width: 100%;
+        @include disfc();
+        &__form {
+            backdrop-filter: blur(6px); // desenfoque de fondo
+            -webkit-backdrop-filter: blur(6px); // compatibilidad Safari
+            background-color: whitesmoke;
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            gap: 2vh;
+            margin-left: 10vh;
+            padding: 6vh 4vh;
+            border-radius: 2vh;
+            box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.4); // sombra más intensa
+            &__title {
+                width: 100%;
+                @include disfc();
+                padding-bottom: 2vh;
+                &__prop {
+                    font-size: 35px;
+                    text-align: center;
+                }
+            }
+            &__forgotPass {
+                color: black;
+                font-size: 14px;
+            }
+            &__input {
+                width: 100%;
+                display: flex;
+                &__prop {
+                    background-color: white;
+                    width: 100%;
+                    height: 20px;
+                    border-radius: 1vh;
+                    font-size: 16px;
+                    padding: 1vh;
+                    color: black;
+                    border: 0.3vh solid black;
+                }
+            }
+            &__inputContainer {
+                width: 100%;
+                display: grid;
+                gap: 0.5vh;
+                grid-template-columns: 1fr 8fr 1fr;
+                &__input {
+                    @include disfc();
+                    grid-column: 2/3;
+                    &__prop {
+                        background-color: white;
+                        width: 100%;
+                        height: 20px;
+                        border-radius: 1vh;
+                        font-size: 16px;
+                        padding: 1vh;
+                        color: black;
+                        grid-column: 2/3;
+                        border: 0.3vh solid black;
+                    }
+                }
+            }
+            &__inputPassContainer {
+                width: 100%;
+                display: grid;
+                gap: 0.5vh;
+                grid-template-columns: 1fr 8fr 1fr;
+                &__inputPass {
+                    @include disfc();
+                    grid-column: 2/3;
+                    &__prop {
+                        background-color: white;
+                        width: 100%;
+                        height: 20px;
+                        border-radius: 1vh;
+                        font-size: 16px;
+                        padding: 1vh;
+                        color: black;
+                        border: 0.3vh solid black;
+                    }
+                }
+                &__inputPassEye {
+                    @include disfc();
+                    grid-column: 3/4;
+                    &__propEye {
+                        width: 30px;
+                        background-color: black;
+                        border-radius: 50%;
+                        font-size: 16px;
+                        cursor: pointer;
+                    }
+                }
+            }
+            &__btn {
+                width: 100%;
+                @include disfc();
+                padding-top: 0vh;
+                flex-direction: column;
+                gap: 1vh;
+                &__prop {
+                    width: 60%;
+                    padding: 1vh 0vh;
+                    font-size: 18px;
+                    border-radius: 0.5vh;
+                    @include disfc();
+                    background-color: black;
+                    color: white;
+                    text-decoration: none;
+                    text-align: center;
+                    cursor: pointer;
+                    border: 0.3vh solid black;
+                    font-weight: 600;
+                    &:hover {
+                        background: linear-gradient(
+                        to bottom,
+                        #b8860b 0%,
+                        #ffd700 20%,
+                        #fff8dc 40%,
+                        #ffd700 60%,
+                        #b8860b 80%,
+                        #ffd700 100%
+                        );
+                        color: black;
+                    }
+                }
+            }
+        }
+    }
+    &__logoContainer {
+        background-color: black;
+        width: 100%;
+        @include disfc();
+        flex-direction: column;
+        gap: 5vh;
+        &__title {
+            width: 100%;
+            @include disfc();
+            &__prop {
+                font-size: 35px;
+                color: white;
+            }
+        }
+        &__logo {
+            width: 100%;
+            @include disfc();
+            &__prop {
+                width: 25%;
+            }
+        }
+        &__phrase {
+            width: 100%;
+            @include disfc();
+            &__prop {
+                width: 50%;
+                font-size: 25px;
+                text-align: justify;
+                color: white;   
+            }
+        }
+    }
+}
 .homeContainer{
     background-image: url('/src/assets/fondo_home.webp');
     background-position: center;
@@ -11795,7 +12040,6 @@ input[type="file"]::file-selector-button {
             font-family: Impact, sans-serif;
             color: white;
             text-align: justify;
-            //font-weight: bold;
             letter-spacing: 0.1vh;
         }
     }
@@ -11997,7 +12241,6 @@ input[type="file"]::file-selector-button {
                         overflow-x: auto;
                         white-space: nowrap;
                         font-size: 12px;
-                        //text-overflow: ellipsis; /* opcional si querés cortar con "..." */
                         display: block;
                         cursor: pointer;
                         scrollbar-width: thin; /* para Firefox */
@@ -12015,6 +12258,7 @@ input[type="file"]::file-selector-button {
                     width: 80%;
                     background-color: black;
                     color: white;
+                    @include disfc();
                     padding: 0.5vh 0vh;
                     border-radius: 0.5vh;
                     font-size: 14px;
@@ -12053,9 +12297,9 @@ input[type="file"]::file-selector-button {
             font-size: 20px;
         }
         &__header {
-            width: 95%;
+            width: 100%;
             display: grid;
-            grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 0.5fr 1fr 1.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
             align-self: center;
             padding-top: 2vh;
             &__item {
@@ -12068,12 +12312,12 @@ input[type="file"]::file-selector-button {
         }
         &__itemContractContainer {
             background-color: whitesmoke;
-            width: 95%;
+            width: 100%;
             display: grid;
-            grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 0.5fr 1fr 1.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
             align-self: center;
             margin-top: 1vh;
-            border-radius: 1vh;
+            border-radius: 0vh;
             &__checkBox {
                 width: 100%;
                 @include disfc();
@@ -12086,8 +12330,9 @@ input[type="file"]::file-selector-button {
                 width: 100%;
                 @include disfc();
                 &__prop {
-                    width: 50%;
-                    height: 30px;
+                    width: 90%;
+                    height: 25px;
+                    font-size: 12px;
                     border-radius: 0.5vh;
                     text-align: center;
                 }
@@ -12097,6 +12342,17 @@ input[type="file"]::file-selector-button {
                     border-radius: 0.5vh;
                     text-align: center;
                     color: black;   
+                }
+            }
+            &__inputDatetime {
+                width: 100%;
+                @include disfc();
+                &__prop {
+                    width: 80%;
+                    height: 25px;
+                    font-size: 12px;
+                    border-radius: 0.5vh;
+                    text-align: center;
                 }
             }
             &__inputFile {
@@ -12114,7 +12370,7 @@ input[type="file"]::file-selector-button {
                 &__fileInputButton {
                     display: inline-block;
                     font-weight: bold;
-                    font-size: 14px;
+                    font-size: 10px;
                     cursor: pointer;
                     user-select: none;
                 }

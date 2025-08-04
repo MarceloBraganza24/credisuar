@@ -139,24 +139,6 @@ const ResetPass = () => {
 
     const [resetPassModalLocal, handleResetPassModalLocal] = useState(false);
 
-    const handleBtnOpenResetPassModal = () => {
-        if(!password) {
-            toast('Debes ingresar una contraseña!', {
-                position: "top-right",
-                autoClose: 1500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                className: "custom-toast",
-            });
-        } else {
-            handleResetPassModalLocal(true);
-        }
-    }
-    
     const isStrongPassword = (password) => {
         const minLength = /.{8,}/;
         const hasLowercase = /[a-z]/;
@@ -259,9 +241,7 @@ const ResetPass = () => {
             }
         } catch (error) {
             console.error('Error al restaurar el producto:', error);
-        }/* finally {
-            setLoadingBtnResetPass(false);
-        } */
+        }
 
     }
 

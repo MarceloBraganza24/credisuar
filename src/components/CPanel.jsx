@@ -44,27 +44,6 @@ const CPanel = () => {
         });
     };
 
-    /* const fetchCurrentUser = async () => {
-        try {
-            const response = await fetch(`${apiUrl}/api/sessions/current`, {
-                method: 'GET',
-                credentials: 'include', // MUY IMPORTANTE para enviar cookies
-            });
-            const data = await response.json();
-            if(data.error === 'jwt must be provided') { 
-                navigate('/')
-            } else {
-                const user = data.data;
-                if(user) {
-                    setUser(user)
-                }
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        } finally {
-            setLoadingCurrentUser(false);
-        }
-    }; */
     const fetchCurrentUser = async () => {
         try {
             const response = await fetch(`${apiUrl}/api/sessions/current`, {

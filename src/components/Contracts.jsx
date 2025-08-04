@@ -20,13 +20,11 @@ const Contracts = () => {
     const [loadingCurrentUser, setLoadingCurrentUser] = useState(true);
     const [inputFilteredContracts, setInputFilteredContracts] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
-    //console.log(selectedImage)
     const [selectedPreview, setSelectedPreview] = useState(null); // { type: 'image' | 'pdf' | 'doc', url: string }
     const [selectedPdf, setSelectedPdf] = useState(null);
     const [menuOptions, setMenuOptions] = useState(false);
     const [contracts, setContracts] = useState([]);
     const [originalContracts, setOriginalContracts] = useState([]);
-    //console.log(contracts)
     const [isLoadingContracts, setIsLoadingContracts] = useState(true);
     const [isOpenCreateContractModal, setIsOpenCreateContractModal] = useState(false);
     const [isOpenUpdateContractModal, setIsOpenUpdateContractModal] = useState(false);
@@ -36,7 +34,6 @@ const Contracts = () => {
     const [user, setUser] = useState('');
     const [loadingContractId, setLoadingContractId] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date());
-    //console.log(selectedDate)
     const [isSearchMode, setIsSearchMode] = useState(false);
 
     const [pageInfo, setPageInfo] = useState({
@@ -143,14 +140,6 @@ const Contracts = () => {
         date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
         return date.toISOString().slice(0, 16);
     }
-    /* const formatToDatetimeLocal = (date) => {
-        if (!date) return ""; // o algún fallback
-
-        const d = new Date(date);
-        if (isNaN(d.getTime())) return ""; // Fecha inválida
-
-        return d.toISOString().slice(0, 16);
-    }; */
 
     const isContractChanged = (original, updated) => {
         // Compara solo campos clave
@@ -1064,7 +1053,7 @@ const Contracts = () => {
                             disabled={btnCreateContractLoading}
                             >
                             {btnCreateContractLoading ? (
-                                <Spinner/>// Podés reemplazar esto con tu spinner real o ícono
+                                <Spinner/>
                             ) : (
                                 "Crear Contrato"
                             )}
@@ -1178,9 +1167,9 @@ const Contracts = () => {
                                                 onChange={(e) => handleContractFieldChange(index, 'transaction_number', e.target.value)}
                                             />
                                         </div>
-                                        <div className="contractsContainer__contractsTable__itemContractContainer__input">
+                                        <div className="contractsContainer__contractsTable__itemContractContainer__inputDatetime">
                                             <input
-                                            className='contractsContainer__contractsTable__itemContractContainer__input__prop'
+                                            className='contractsContainer__contractsTable__itemContractContainer__inputDatetime__prop'
                                             type="datetime-local"
                                             value={formatToDatetimeLocal(contract.transaction_date)}
                                             onChange={(e) => handleContractFieldChange(index, 'transaction_date', e.target.value)}
@@ -1232,7 +1221,7 @@ const Contracts = () => {
                                             {contract.contract_file && (
                                                 <>
                                                 <p
-                                                style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
+                                                style={{ fontSize:'14px' ,color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
                                                 onClick={() => {
                                                     const isFile = contract.contract_file instanceof File;
                                                     const url = isFile
@@ -1270,7 +1259,7 @@ const Contracts = () => {
                                             />
                                             {contract.image_dni ? (
                                                 <p
-                                                    style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
+                                                    style={{ fontSize:'14px' ,color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
                                                     onClick={() => {
                                                     const isFile = contract.image_dni instanceof File;
                                                     const url = isFile

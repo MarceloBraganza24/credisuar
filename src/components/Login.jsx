@@ -5,12 +5,10 @@ import Spinner from './Spinner';
 import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
-    const apiUrl = import.meta.env.VITE_API_URL;
     const { login } = useAuth();
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const [passwordVisible, setPasswordVisible] = useState(false);
-    const [storeSettings, setStoreSettings] = useState({});
     const [isLoadingLogin, setIsLoadingLogin] = useState(true);
     const [credentials, setCredentials] = useState({
         email: '',
@@ -22,75 +20,6 @@ const Login = () => {
         setCredentials({ ...credentials, [name]: value });
     };
 
-    const validateForm = () => {
-        const { email, password } = credentials;
-    
-        if (!email.trim() || !password.trim()) {
-            toast('Debes completar todos los campos!', {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                className: "custom-toast",
-            });          
-            return false;
-        }
-    
-        return true;
-    };
-
-    /* const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!validateForm()) return;
-    
-        try {
-            const response = await fetch(`${apiUrl}/api/sessions/login`, {
-                method: 'POST',         
-                credentials: 'include', // 👈 necesario para recibir cookies
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: credentials.email,
-                    password: credentials.password,
-                })
-            })
-            const data = await response.json();
-            if (response.ok) {
-                navigate("/");
-                toast('Bienvenido, has iniciado sesion con éxito!', {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                    className: "custom-toast",
-                });
-            }
-            if(data.error === 'incorrect credentials') {
-                toast('Alguno de los datos ingresados es incorrecto. Inténtalo nuevamente!', {
-                    position: "top-right",
-                    autoClose: 2500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                    className: "custom-toast",
-                });
-            }
-        } catch (error) {
-          console.error('Error:', error);
-        }
-    }; */
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -181,14 +110,13 @@ const Login = () => {
                         </div>
 
                         <div className='loginContainer__formContainer__form__btn'>
-                            {/* <button onClick={handleSubmit} className='loginContainer__formContainer__form__btn__prop'>Iniciar sesión</button> */}
                             <button
                             onClick={handleSubmit}
                             className='loginContainer__formContainer__form__btn__prop'
                             disabled={loading}
                             >
                             {loading ? (
-                                <Spinner/>// Podés reemplazar esto con tu spinner real o ícono
+                                <Spinner/>
                             ) : (
                                 "Iniciar sesión"
                             )}
@@ -216,10 +144,6 @@ const Login = () => {
                         alt="logo_tienda"
                         />
                     </div>  
-
-                    {/* <div className='loginContainer__logoContainer__phrase'>
-                        <div className='loginContainer__logoContainer__phrase__prop'>"Ingresa a tu cuenta y disfruta de una experiencia única con nuestros productos financieros especialmente para ti"</div>
-                    </div> */}
 
                 </div>  
 

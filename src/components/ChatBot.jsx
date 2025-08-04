@@ -199,7 +199,6 @@ ${seleccion}`;
                         onChange={handleInputChange}
                     />
                     <button
-                        //style={{backgroundColor:'black'}}
                         onClick={() => {
                         if (formData.nombre && formData.monto && formData.cuotas) {
                             setCurrentStep("start");

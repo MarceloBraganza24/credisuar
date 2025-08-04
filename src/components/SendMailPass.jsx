@@ -7,40 +7,7 @@ const SendMailPass = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
-    const [storeName, setStoreName] = useState('');
-    const [showSpinner, setShowSpinner] = useState(false);
     const [loadingBtnRecieveLink, setLoadingBtnRecieveLink] = useState(false);
-
-    /* useEffect(() => {
-        fetchStoreName();
-    }, []); */
-
-    /* const fetchStoreName = async () => {
-        try {
-            const response = await fetch('http://localhost:8081/api/settings');
-            const data = await response.json();
-            if (response.ok) {
-                setStoreName(data.storeName)
-            } else {
-                toast('Error al cargar configuraciones', {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "dark",
-                    className: "custom-toast",
-                });
-            }
-
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setIsLoadingStoreSettings(false)
-        }
-    }; */
 
     const handleInputEmail = (e) => {
         const texto = e.target.value;
@@ -138,7 +105,6 @@ const SendMailPass = () => {
                             </div>
                         </div> 
                         <div className='sendMailContainer__credentials__form__btn'>
-                            {/* <button className='sendMailContainer__credentials__form__btn__prop' onClick={handleBtnRecieveLink}>Recibir link</button> */}
                             {loadingBtnRecieveLink ? (
                                 <button
                                 disabled
@@ -155,20 +121,12 @@ const SendMailPass = () => {
                                 </button>
                             )}
                         </div>
-                        {/* <div className='sendMailContainer__credentials__form__btn'>
-                            <Link to={"/signIn"} className='sendMailContainer__credentials__form__btn__prop'>
-                                Registrarse                            
-                            </Link>     
-                        </div> */}
                         <div className='sendMailContainer__credentials__form__btn'>
                             <Link to={"/login"} className='sendMailContainer__credentials__form__btn__prop'>
                                 Iniciar sesión                            
                             </Link>     
                         </div> 
                     </div>
-                    {/* <div className='sendMailContainer__credentials__form__btn'>
-                        {showSpinner&&<Spinner/>}
-                    </div>   */}
                 </div>
             </div>
         </>

@@ -3,7 +3,6 @@ import { toast } from 'react-toastify';
 import Spinner from './Spinner';
 
 const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, fetchContracts, selectedDate }) => {
-    const [selectedPreview, setSelectedPreview] = useState(null);
     const [selectedPdf, setSelectedPdf] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [btnUpdateContractLoading, setBtnUpdateContractLoading] = useState(false);
@@ -446,7 +445,7 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
                         disabled={btnUpdateContractLoading}
                         >
                         {btnUpdateContractLoading ? (
-                            <Spinner/>// Podés reemplazar esto con tu spinner real o ícono
+                            <Spinner/>
                         ) : (
                             "Actualizar contrato"
                         )}
@@ -505,7 +504,6 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
                             maxWidth: '90%',
                             maxHeight: '90%',
                         }}
-                        //onClick={(e) => e.stopPropagation()}
                     >
                         {/* Botón de cerrar */}
                         <button

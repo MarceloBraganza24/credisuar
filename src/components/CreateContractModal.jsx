@@ -5,7 +5,6 @@ import Spinner from './Spinner';
 const CreateContractModal = ({apiUrl,setIsOpenCreateContractModal,selectedDate,fetchContracts}) => {
     const [selectedPreview, setSelectedPreview] = useState(null); 
     const [btnCreateContractLoading, setBtnCreateContractLoading] = useState(false);
-    
     const [contractFormData, setContractFormData] = useState({
         transaction_number: '',
         transaction_date: '',
@@ -18,7 +17,6 @@ const CreateContractModal = ({apiUrl,setIsOpenCreateContractModal,selectedDate,f
         image_dni: null,
         image_dni_preview: ''
     });
-    //console.log(contractFormData)
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -57,13 +55,9 @@ const CreateContractModal = ({apiUrl,setIsOpenCreateContractModal,selectedDate,f
             return updated;
         });
         
-        /* setTimeout(() => {
-        e.target.value = null;
-        }, 100); */
     };
 
     const handleBtnSubmitContract = async () => {
-        // Validación de campos vacíos
         if (
             !contractFormData.transaction_number.trim() ||
             !contractFormData.transaction_date ||
@@ -117,8 +111,6 @@ const CreateContractModal = ({apiUrl,setIsOpenCreateContractModal,selectedDate,f
             return;
         }
 
-        /* const date = new Date(contractFormData.transaction_date);
-        const isoDate = date.toISOString(); // Ej: 2025-07-30T23:20:00.000Z */
         const [datePart, timePart] = contractFormData.transaction_date.split('T');
         const [year, month, day] = datePart.split('-').map(Number);
         const [hour, minute] = timePart.split(':').map(Number);

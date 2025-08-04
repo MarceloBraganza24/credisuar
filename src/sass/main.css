@@ -6737,7 +6737,6 @@
     z-index: 1;
   }
 }
-/* Tablet en vertical */
 @media (min-width: 600px) and (max-width: 900px) and (orientation: portrait) {
   .cPanelContainer {
     background-color: black;
@@ -9192,7 +9191,6 @@
     z-index: 1;
   }
 }
-/* Tablet en horizontal */
 @media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape) {
   .contractsContainer {
     background-color: black;
@@ -11608,6 +11606,370 @@
   }
 }
 @media (min-width: 1024px) and (max-width: 1439px) {
+  .binContainer {
+    background-color: black;
+    background-image: url("/src/assets/fondo_home.webp");
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .binContainer__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8vh;
+  }
+  .binContainer__title__prop {
+    font-size: 60px;
+  }
+  .binContainer__labelInputSearch {
+    font-size: 30px;
+    text-align: center;
+    color: white;
+  }
+  .binContainer__inputSearchContract {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1vh 0vh;
+  }
+  .binContainer__inputSearchContract__prop {
+    width: 40%;
+    height: 30px;
+    font-size: 20px;
+    text-align: center;
+  }
+  .binContainer__subTitle {
+    width: 100%;
+    display: flex;
+    padding: 15vh 0vh 2vh 0vh;
+  }
+  .binContainer__subTitle__prop {
+    font-size: 35px;
+    color: white;
+    padding-left: 6vh;
+  }
+  .binContainer__quantityContracts {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr;
+    padding: 0vh 0vh 2vh 0vh;
+  }
+  .binContainer__quantityContracts__prop {
+    font-size: 18px;
+    color: white;
+    text-align: center;
+  }
+  .binContainer__quantityContracts__massDeleteBtnContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1vh;
+    color: white;
+  }
+  .binContainer__massDeleteBtnContainer {
+    display: flex;
+    gap: 4vh;
+    padding: 0vh 0vh 2vh 6vh;
+  }
+  .binContainer__massDeleteBtnContainer__btn {
+    padding: 0.5vh 1vh;
+    border-radius: 0.5vh;
+    text-align: center;
+    cursor: pointer;
+  }
+  .binContainer__headerTableMobileContainer {
+    display: none;
+  }
+  .binContainer__headerTableContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    border-top-left-radius: 0.5vh;
+    border-top-right-radius: 0.5vh;
+  }
+  .binContainer__headerTableContainer__headerTable {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    color: white;
+    padding: 2vh 0vh 0vh 0vh;
+  }
+  .binContainer__headerTableContainer__headerTable__item {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    align-self: center;
+    border-right: 0.3vh solid black;
+  }
+  .binContainer__contractsTable {
+    background-color: black;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    margin-bottom: 4vh;
+    border-bottom-left-radius: 0.5vh;
+    border-bottom-right-radius: 0.5vh;
+    padding: 1vh 0vh 2vh 0vh;
+  }
+  .binContainer__contractsTable__isLoadingLabel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 1vh 0vh;
+    font-size: 20px;
+  }
+  .binContainer__contractsTable__itemContainerMobile {
+    display: none;
+  }
+  .binContainer__contractsTable__itemContainer {
+    background-color: whitesmoke;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    border-bottom: 0.3vh solid #d6d5d5;
+    align-self: center;
+    margin-top: 1vh;
+    padding: 1vh 0vh;
+    border-radius: 1vh;
+  }
+  .binContainer__contractsTable__itemContainer__item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .binContainer__contractsTable__itemContainer__item__img {
+    width: 60px;
+    height: 50px;
+  }
+  .binContainer__contractsTable__itemContainer__item__label {
+    text-align: center;
+    font-size: 14px;
+  }
+  .binContainer__contractsTable__itemContainer__item__labelLong {
+    text-align: center;
+    font-size: 14px;
+  }
+  .binContainer__contractsTable__itemContainer__item__description {
+    text-align: center;
+    font-size: 14px;
+  }
+  .binContainer__contractsTable__itemContainer__btnsContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1vh;
+  }
+  .binContainer__contractsTable__itemContainer__btnsContainer__btn {
+    width: 80%;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 0.5vh 2vh;
+    font-size: 9px;
+    border-radius: 0.5vh;
+    cursor: pointer;
+  }
+  .binContainer__contractsTable__itemContainer__btnsContainer__btn:hover {
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+  }
+  .loginContainer {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+  }
+  .loginContainer__formContainer {
+    background-color: black;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .loginContainer__formContainer__form {
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    background-color: whitesmoke;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    margin-left: 10vh;
+    padding: 6vh 4vh;
+    border-radius: 2vh;
+    box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.4);
+  }
+  .loginContainer__formContainer__form__title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 2vh;
+  }
+  .loginContainer__formContainer__form__title__prop {
+    font-size: 35px;
+    text-align: center;
+  }
+  .loginContainer__formContainer__form__forgotPass {
+    color: black;
+    font-size: 14px;
+  }
+  .loginContainer__formContainer__form__input {
+    width: 100%;
+    display: flex;
+  }
+  .loginContainer__formContainer__form__input__prop {
+    background-color: white;
+    width: 100%;
+    height: 20px;
+    border-radius: 1vh;
+    font-size: 16px;
+    padding: 1vh;
+    color: black;
+    border: 0.3vh solid black;
+  }
+  .loginContainer__formContainer__form__inputContainer {
+    width: 100%;
+    display: grid;
+    gap: 0.5vh;
+    grid-template-columns: 1fr 8fr 1fr;
+  }
+  .loginContainer__formContainer__form__inputContainer__input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-column: 2/3;
+  }
+  .loginContainer__formContainer__form__inputContainer__input__prop {
+    background-color: white;
+    width: 100%;
+    height: 20px;
+    border-radius: 1vh;
+    font-size: 16px;
+    padding: 1vh;
+    color: black;
+    grid-column: 2/3;
+    border: 0.3vh solid black;
+  }
+  .loginContainer__formContainer__form__inputPassContainer {
+    width: 100%;
+    display: grid;
+    gap: 0.5vh;
+    grid-template-columns: 1fr 8fr 1fr;
+  }
+  .loginContainer__formContainer__form__inputPassContainer__inputPass {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-column: 2/3;
+  }
+  .loginContainer__formContainer__form__inputPassContainer__inputPass__prop {
+    background-color: white;
+    width: 100%;
+    height: 20px;
+    border-radius: 1vh;
+    font-size: 16px;
+    padding: 1vh;
+    color: black;
+    border: 0.3vh solid black;
+  }
+  .loginContainer__formContainer__form__inputPassContainer__inputPassEye {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-column: 3/4;
+  }
+  .loginContainer__formContainer__form__inputPassContainer__inputPassEye__propEye {
+    width: 30px;
+    background-color: black;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .loginContainer__formContainer__form__btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0vh;
+    flex-direction: column;
+    gap: 1vh;
+  }
+  .loginContainer__formContainer__form__btn__prop {
+    width: 60%;
+    padding: 1vh 0vh;
+    font-size: 18px;
+    border-radius: 0.5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    border: 0.3vh solid black;
+    font-weight: 600;
+  }
+  .loginContainer__formContainer__form__btn__prop:hover {
+    background: linear-gradient(to bottom, #b8860b 0%, #ffd700 20%, #fff8dc 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    color: black;
+  }
+  .loginContainer__logoContainer {
+    background-color: black;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5vh;
+  }
+  .loginContainer__logoContainer__title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .loginContainer__logoContainer__title__prop {
+    font-size: 35px;
+    color: white;
+  }
+  .loginContainer__logoContainer__logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .loginContainer__logoContainer__logo__prop {
+    width: 25%;
+  }
+  .loginContainer__logoContainer__phrase {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .loginContainer__logoContainer__phrase__prop {
+    width: 50%;
+    font-size: 25px;
+    text-align: justify;
+    color: white;
+  }
   .homeContainer {
     background-image: url("/src/assets/fondo_home.webp");
     background-position: center;
@@ -12098,6 +12460,9 @@
     width: 80%;
     background-color: black;
     color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 0.5vh 0vh;
     border-radius: 0.5vh;
     font-size: 14px;
@@ -12128,9 +12493,9 @@
     font-size: 20px;
   }
   .contractsContainer__contractsTable__header {
-    width: 95%;
+    width: 100%;
     display: grid;
-    grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 0.5fr 1fr 1.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     align-self: center;
     padding-top: 2vh;
   }
@@ -12145,12 +12510,12 @@
   }
   .contractsContainer__contractsTable__itemContractContainer {
     background-color: whitesmoke;
-    width: 95%;
+    width: 100%;
     display: grid;
-    grid-template-columns: 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 0.5fr 1fr 1.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     align-self: center;
     margin-top: 1vh;
-    border-radius: 1vh;
+    border-radius: 0vh;
   }
   .contractsContainer__contractsTable__itemContractContainer__checkBox {
     width: 100%;
@@ -12169,8 +12534,9 @@
     align-items: center;
   }
   .contractsContainer__contractsTable__itemContractContainer__input__prop {
-    width: 50%;
-    height: 30px;
+    width: 90%;
+    height: 25px;
+    font-size: 12px;
     border-radius: 0.5vh;
     text-align: center;
   }
@@ -12180,6 +12546,19 @@
     border-radius: 0.5vh;
     text-align: center;
     color: black;
+  }
+  .contractsContainer__contractsTable__itemContractContainer__inputDatetime {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .contractsContainer__contractsTable__itemContractContainer__inputDatetime__prop {
+    width: 80%;
+    height: 25px;
+    font-size: 12px;
+    border-radius: 0.5vh;
+    text-align: center;
   }
   .contractsContainer__contractsTable__itemContractContainer__inputFile {
     width: 100%;
@@ -12199,7 +12578,7 @@
   .contractsContainer__contractsTable__itemContractContainer__inputFile__fileInputButton {
     display: inline-block;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 10px;
     cursor: pointer;
     -webkit-user-select: none;
        -moz-user-select: none;

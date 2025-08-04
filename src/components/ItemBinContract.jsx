@@ -41,7 +41,6 @@ const ItemBinContract = ({apiUrl,contract,fetchDeletedContracts,selectedContract
         minute: '2-digit',
         });
         const confirmDelete = window.confirm(`¿Estás seguro de que deseas eliminar permanentemente el contrato de ${contract.first_name} ${contract.last_name} con fecha ${formattedDate}? Esta acción no se puede deshacer.`);
-        //const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar este contrato? Esta acción no se puede deshacer.");
 
         if (!confirmDelete) return;
         setLoading(true);
@@ -183,7 +182,7 @@ const ItemBinContract = ({apiUrl,contract,fetchDeletedContracts,selectedContract
                     />
                     {contract.contract_file && (
                     <p
-                        style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
+                        style={{ fontSize:'14px' ,color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
                         onClick={() => {
                         const isFile = contract.contract_file instanceof File;
                         const url = isFile
@@ -207,15 +206,14 @@ const ItemBinContract = ({apiUrl,contract,fetchDeletedContracts,selectedContract
                     />
                     {contract.dni_image_preview ? (
                     <p
-                        style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
+                        style={{ fontSize:'14px' ,color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
                         onClick={() => setSelectedImage(contract.dni_image_preview)}
                     >
                         Ver imagen
                     </p>
                     ) : contract.image_dni ? (
                     <p
-                        style={{ color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
-                        //onClick={() => setSelectedImage(`http://localhost:8081/${contract.dni_image}`)}
+                        style={{ fontSize:'14px' ,color: 'black', textDecoration: 'underline', cursor: 'pointer' }}
                         onClick={() => setSelectedImage(contract.image_dni)}
                     >
                         Ver imagen
