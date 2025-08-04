@@ -1,8 +1,10 @@
 import {useEffect, useState} from 'react'
 import { toast } from 'react-toastify';
+import Spinner from './Spinner';
 
 const CreateContractModal = ({apiUrl,setIsOpenCreateContractModal,selectedDate,fetchContracts}) => {
     const [selectedPreview, setSelectedPreview] = useState(null); 
+    const [btnCreateContractLoading, setBtnCreateContractLoading] = useState(false);
     
     const [contractFormData, setContractFormData] = useState({
         transaction_number: '',
@@ -135,6 +137,7 @@ const CreateContractModal = ({apiUrl,setIsOpenCreateContractModal,selectedDate,f
         formDataToSend.append('image_dni', contractFormData.image_dni);
 
         try {
+            setBtnCreateContractLoading(true)
             const response = await fetch(`${apiUrl}/api/contracts`, {
                 method: 'POST',
                 body: formDataToSend,
@@ -164,6 +167,7 @@ const CreateContractModal = ({apiUrl,setIsOpenCreateContractModal,selectedDate,f
                     image_dni_preview: ''
                 });
                 fetchContracts(1, "", 'all', selectedDate)
+                setBtnCreateContractLoading(false)
             } else {
                 toast('Error al crear el contrato!', {
                     position: "top-right",
@@ -176,6 +180,7 @@ const CreateContractModal = ({apiUrl,setIsOpenCreateContractModal,selectedDate,f
                     theme: "dark",
                     className: "custom-toast",
                 });
+                setBtnCreateContractLoading(false)
             }
         } catch (error) {
             console.error('Error al enviar los datos:', error);
@@ -358,7 +363,17 @@ const CreateContractModal = ({apiUrl,setIsOpenCreateContractModal,selectedDate,f
                     </div>
 
                     <div className='createContractModalContainer__createContractModal__btnCreateContract'>
-                        <button onClick={handleBtnSubmitContract} className='createContractModalContainer__createContractModal__btnCreateContract__prop'>Crear contrato</button>
+                        <button
+                        onClick={handleBtnSubmitContract}
+                        className='createContractModalContainer__createContractModal__btnCreateContract__prop'
+                        disabled={btnCreateContractLoading}
+                        >
+                        {btnCreateContractLoading ? (
+                            <Spinner/>// Podés reemplazar esto con tu spinner real o ícono
+                        ) : (
+                            "Crear Contrato"
+                        )}
+                        </button>
                     </div> 
 
                 </div>

@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import Spinner from './Spinner';
 
 const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, fetchContracts, selectedDate }) => {
     const [selectedPreview, setSelectedPreview] = useState(null);
     const [selectedPdf, setSelectedPdf] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
+    const [btnUpdateContractLoading, setBtnUpdateContractLoading] = useState(false);
     const [contractFormData, setContractFormData] = useState({
         transaction_number: '',
         transaction_date: '',
@@ -18,25 +20,7 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
         image_dni_preview: ''
     });
     const [initialContractData, setInitialContractData] = useState(null);
-    // console.log(contractFormData)
-    // console.log(contract)
 
-    /* useEffect(() => {
-        if (contract) {
-            setContractFormData(prev => ({
-            transaction_number: contract.transaction_number || '',
-            transaction_date: contract.transaction_date,
-            first_name: contract.first_name || '',
-            last_name: contract.last_name || '',
-            dni: contract.dni || '',
-            phoneNumber: contract.phoneNumber || '',
-            contract_file: null,
-            contract_file_preview: prev.contract_file ? prev.contract_file_preview : contract.contract_file || '',
-            image_dni: null,
-            image_dni_preview: prev.image_dni ? prev.image_dni_preview : contract.image_dni || ''
-            }));
-        }
-    }, [contract]); */
     useEffect(() => {
         if (contract) {
             const initialData = {
@@ -147,34 +131,6 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
 
         const formData = new FormData();
 
-        /* for (const key in updatedContract) {
-            if (key.endsWith('_preview')) continue;
-
-            const value = updatedContract[key];
-
-            if (value instanceof File) {
-                formData.append(key, value);
-            } else {
-                if (key === 'transaction_date' && value) {
-                    // value es "YYYY-MM-DDTHH:mm" sin zona, hay que tratarlo como local
-                    const [datePart, timePart] = value.split('T'); // ["2025-08-01", "12:00"]
-                    const [year, month, day] = datePart.split('-').map(Number);
-                    const [hour, minute] = timePart.split(':').map(Number);
-
-                    // Crear fecha en local time
-                    const localDate = new Date(year, month - 1, day, hour, minute);
-
-                    // Convertir a ISO UTC string
-                    formData.append('transaction_date', localDate.toISOString());
-                } else {
-                    formData.append(key, value ?? '');
-                }
-
-                if ((key === 'contract_file' || key === 'image_dni') && value) {
-                    formData.append(`existing_${key}`, value); // Manda la ruta antigua si no se reemplazó
-                }
-            }
-        } */
         for (const key in updatedContract) {
             if (key.endsWith('_preview')) continue;
 
@@ -211,6 +167,7 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
         }
 
         try {
+            setBtnUpdateContractLoading(true)
             const response = await fetch(`${apiUrl}/api/contracts/${id}`, {
                 method: 'PUT',
                 body: formData
@@ -230,6 +187,7 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
                 });
                 fetchContracts(1, "", 'all', selectedDate)
                 setIsOpenUpdateContractModal(false)
+                setBtnUpdateContractLoading(false)
             } else {
                 toast(`Error al actualizar contrato!`, {
                     position: "top-right",
@@ -242,6 +200,7 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
                     theme: "dark",
                     className: "custom-toast",
                 });
+                setBtnUpdateContractLoading(false)
             }
         } catch (error) {
             console.error(error);
@@ -329,7 +288,6 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
                         <div className="updateContractModalContainer__updateContractModal__gridLabelInput__input">
                             <input
                                 name="transaction_date"
-                                //value={contractFormData.transaction_date}
                                 value={formatToDatetimeLocal(contractFormData.transaction_date)}
                                 type="datetime-local"
                                 className="updateContractModalContainer__updateContractModal__gridLabelInput__inputFile__prop"
@@ -460,9 +418,6 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
                         </div>
 
                         <div className="updateContractModalContainer__updateContractModal__gridLabelInput__inputFile">
-                            {/* <label htmlFor={`itemContractListImageFileInput`} className="updateContractModalContainer__updateContractModal__gridLabelInput__inputFile__fileInputButton">
-                                Seleccionar imagen
-                            </label> */}
                             <input
                                 id={`itemContractListImageFileInput`}
                                 className='updateContractModalContainer__updateContractModal__gridLabelInput__inputFile__propFile'
@@ -485,7 +440,17 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
                     </div>
 
                     <div className='updateContractModalContainer__updateContractModal__btnUpdateContract'>
-                        <button onClick={() => handleBtnUpdateContract(contract._id, contractFormData)} className='updateContractModalContainer__updateContractModal__btnUpdateContract__prop'>Actualizar contrato</button>
+                        <button
+                        onClick={() => handleBtnUpdateContract(contract._id, contractFormData)}
+                        className='updateContractModalContainer__updateContractModal__btnUpdateContract__prop'
+                        disabled={btnUpdateContractLoading}
+                        >
+                        {btnUpdateContractLoading ? (
+                            <Spinner/>// Podés reemplazar esto con tu spinner real o ícono
+                        ) : (
+                            "Actualizar contrato"
+                        )}
+                        </button>
                     </div>
                 </div>
 
@@ -558,15 +523,6 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
                         >
                             Cerrar
                         </button>
-                        {/* <img
-                            src={`${apiUrl}/${selectedImage}`}
-                            alt="Imagen en grande"
-                            style={{
-                                maxWidth: '100%',
-                                maxHeight: '80vh',
-                                borderRadius: '10px',
-                            }}
-                        /> */}
                         <img
                         src={
                             selectedImage.startsWith('blob:') || selectedImage.startsWith('http')

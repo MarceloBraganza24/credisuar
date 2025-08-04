@@ -14,6 +14,8 @@ const Bin = () => {
     const [user, setUser] = useState('');
     const [isLoadingContracts, setIsLoadingContracts] = useState(true);
     const [loadingCurrentUser, setLoadingCurrentUser] = useState(true);
+    const [loadingBtnPermanentDelete, setLoadingBtnPermanentDelete] = useState(false);
+    const [loadingBtnRestore, setLoadingBtnRestore] = useState(false);
     const [contracts, setContracts] = useState([]);
     const [loggingOut, setLoggingOut] = useState(false);
     const [totalContracts, setTotalContracts] = useState("");
@@ -120,10 +122,25 @@ const Bin = () => {
     }, []);
 
     const handleMassDeleteContracts = async () => {
+        if(selectedContracts.length == 0) {
+            toast('Debes seleccionar algun contrato', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                className: "custom-toast",
+            });
+            return;
+        }
         const confirm = window.confirm('¿Estás seguro que querés eliminar los contratos seleccionados permanentemente?');
         if (!confirm) return;
 
         try {
+            setLoadingBtnPermanentDelete(true)
             const res = await fetch(`${apiUrl}/api/contracts/mass-delete-permanent`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
@@ -145,6 +162,7 @@ const Bin = () => {
                     theme: "dark",
                     className: "custom-toast",
                 });
+                setLoadingBtnPermanentDelete(false)
             } 
         } catch (error) {
             console.error(error);
@@ -159,14 +177,30 @@ const Bin = () => {
                 theme: "dark",
                 className: "custom-toast",
             });
+            setLoadingBtnPermanentDelete(false)
         }
     };
 
     const handleMassRestoreContracts = async () => {
+        if(selectedContracts.length == 0) {
+            toast('Debes seleccionar algun contrato', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                className: "custom-toast",
+            });
+            return;
+        }
         const confirm = window.confirm('¿Estás seguro que querés restaurar los contratos seleccionados?');
         if (!confirm) return;
 
         try {
+            setLoadingBtnRestore(true)
             const res = await fetch(`${apiUrl}/api/contracts/mass-restore`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -188,6 +222,7 @@ const Bin = () => {
                     theme: "dark",
                     className: "custom-toast",
                 });
+                setLoadingBtnRestore(false)
             } 
         } catch (error) {
             console.error(error);
@@ -202,6 +237,7 @@ const Bin = () => {
                 theme: "dark",
                 className: "custom-toast",
             });
+            setLoadingBtnRestore(false)
         }
     };
 
@@ -333,18 +369,36 @@ const Bin = () => {
                     contracts.length > 0 &&
                     <>
                         <div className='binContainer__massDeleteBtnContainer'>
-                            <button
-                            onClick={handleMassDeleteContracts}
-                            className='binContainer__massDeleteBtnContainer__btn'
-                            >
-                            Eliminar permamentemente ({selectedContracts.length})
-                            </button>
-                            <button
-                            onClick={handleMassRestoreContracts}
-                            className='binContainer__massDeleteBtnContainer__btn'
-                            >
-                            Restaurar ({selectedContracts.length})
-                            </button>
+                            {loadingBtnPermanentDelete ? (
+                                <button
+                                disabled
+                                className='binContainer__massDeleteBtnContainer__btn'
+                                >
+                                <Spinner/>
+                                </button>
+                            ) : (
+                                <button
+                                onClick={handleMassDeleteContracts}
+                                className='binContainer__massDeleteBtnContainer__btn'
+                                >
+                                Eliminar permamentemente ({selectedContracts.length})
+                                </button>
+                            )}
+                            {loadingBtnRestore ? (
+                                <button
+                                disabled
+                                className='binContainer__massDeleteBtnContainer__btn'
+                                >
+                                <Spinner/>
+                                </button>
+                            ) : (
+                                <button
+                                onClick={handleMassRestoreContracts}
+                                className='binContainer__massDeleteBtnContainer__btn'
+                                >
+                                Restaurar ({selectedContracts.length})
+                                </button>
+                            )}
                         </div>
 
                         <div className='binContainer__quantityContracts'>

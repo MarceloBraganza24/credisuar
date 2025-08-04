@@ -10,6 +10,9 @@ import { fetchWithAuth } from './FetchWithAuth.jsx';
 const Contracts = () => {
     const { token } = useAuth(); // Usás el token desde el contexto
     const apiUrl = import.meta.env.VITE_API_URL;
+    const [btnCreateContractLoading, setBtnCreateContractLoading] = useState(false);
+    const [btnUpdateContractLoading, setBtnUpdateContractLoading] = useState(null);
+    const [btnDeleteAllSelectLoading, setBtnDeleteAllSelectLoading] = useState(false);
     const [selectAllContracts, setSelectAll] = useState(false);
     const [selectedContracts, setSelectedContracts] = useState([]);
     const navigate = useNavigate();
@@ -298,8 +301,6 @@ const Contracts = () => {
             return;
         }
         
-        /* const date = new Date(contractFormData.transaction_date);
-        const isoDate = date.toISOString(); // Ej: 2025-07-30T23:20:00.000Z */
         const [datePart, timePart] = contractFormData.transaction_date.split('T');
         const [year, month, day] = datePart.split('-').map(Number);
         const [hour, minute] = timePart.split(':').map(Number);
@@ -319,6 +320,7 @@ const Contracts = () => {
         formDataToSend.append('image_dni', contractFormData.image_dni);
 
         try {
+            setBtnCreateContractLoading(true)
             const response = await fetch(`${apiUrl}/api/contracts`, {
                 method: 'POST',
                 body: formDataToSend,
@@ -348,6 +350,7 @@ const Contracts = () => {
                     image_dni_preview: ''
                 });
                 fetchContracts(1, inputFilteredContracts, 'all', selectedDate)
+                setBtnCreateContractLoading(false)
             } else {
                 toast('Error al crear el contrato!', {
                     position: "top-right",
@@ -360,6 +363,7 @@ const Contracts = () => {
                     theme: "dark",
                     className: "custom-toast",
                 });
+                setBtnCreateContractLoading(false)
             }
         } catch (error) {
             console.error('Error al enviar los datos:', error);
@@ -458,6 +462,7 @@ const Contracts = () => {
         }
 
         try {
+            setBtnUpdateContractLoading(id)
             const response = await fetch(`${apiUrl}/api/contracts/${id}`, {
                 method: 'PUT',
                 body: formData
@@ -475,6 +480,7 @@ const Contracts = () => {
                     className: "custom-toast",
                 });
                 fetchContracts(1, inputFilteredContracts, 'all', selectedDate);
+                setBtnUpdateContractLoading(null)
             } else {
                 toast(`Error al actualizar contrato!`, {
                     position: "top-right",
@@ -487,6 +493,7 @@ const Contracts = () => {
                     theme: "dark",
                     className: "custom-toast",
                 });
+                setBtnUpdateContractLoading(null)
             }
         } catch (error) {
             console.error(error);
@@ -607,10 +614,25 @@ const Contracts = () => {
     }
 
     const handleMassDeleteContracts = async () => {
+        if(selectedContracts.length == 0) {
+            toast('Debes seleccionar algun contrato', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                className: "custom-toast",
+            });
+            return;
+        }
         const confirm = window.confirm('¿Estás seguro que querés eliminar los contratos seleccionados?');
         if (!confirm) return;
 
         try {
+            setBtnDeleteAllSelectLoading(true)
             const res = await fetch(`${apiUrl}/api/contracts/mass-delete`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
@@ -632,6 +654,7 @@ const Contracts = () => {
                     theme: "dark",
                     className: "custom-toast",
                 });
+                setBtnDeleteAllSelectLoading(false)
             } 
         } catch (error) {
             console.error(error);
@@ -646,6 +669,7 @@ const Contracts = () => {
                 theme: "dark",
                 className: "custom-toast",
             });
+            setBtnDeleteAllSelectLoading(false)
         }
     };
 
@@ -818,14 +842,25 @@ const Contracts = () => {
                             />
                             <span>Seleccionar todos</span>
                             {selectedContracts.length > 0 ? (
+
                             <div className='contractsContainer__contractsTableMobile__quantityContracts__massDeleteBtnContainer'>
-                                <button
-                                onClick={handleMassDeleteContracts}
-                                className='contractsContainer__contractsTableMobile__quantityContracts__massDeleteBtnContainer__btn'
-                                >
-                                Eliminar seleccionados ({selectedContracts.length})
-                                </button>
+                                {btnDeleteAllSelectLoading ? (
+                                    <button
+                                    disabled
+                                    className='contractsContainer__contractsTableMobile__quantityContracts__massDeleteBtnContainer__btn'
+                                    >
+                                    <Spinner/>
+                                    </button>
+                                    ) : (
+                                    <button
+                                    onClick={handleMassDeleteContracts}
+                                    className='contractsContainer__contractsTableMobile__quantityContracts__massDeleteBtnContainer__btn'
+                                    >
+                                    Eliminar seleccionados ({selectedContracts.length})
+                                    </button>
+                                )}
                             </div>
+
                             )
                             :
                             <><div></div></>
@@ -903,7 +938,7 @@ const Contracts = () => {
                                             {loadingContractId === contract._id ? (
                                                 <button
                                                 disabled
-                                                className='cPanelProductsContainer__productsTable__itemContainer__btnsContainer__btn'
+                                                className='contractsContainer__contractsTableMobile__itemContractContainer__btn__prop'
                                                 >
                                                 <Spinner/>
                                                 </button>
@@ -1023,9 +1058,18 @@ const Contracts = () => {
                             )}
                         </div>
                         <div className='contractsContainer__contractsTable__createContractContainer__btn'>
-                            <button className='contractsContainer__contractsTable__createContractContainer__btn__prop' onClick={handleBtnSubmitContract}>Crear Contrato</button>
+                            <button
+                            onClick={handleBtnSubmitContract}
+                            className='contractsContainer__contractsTable__createContractContainer__btn__prop'
+                            disabled={btnCreateContractLoading}
+                            >
+                            {btnCreateContractLoading ? (
+                                <Spinner/>// Podés reemplazar esto con tu spinner real o ícono
+                            ) : (
+                                "Crear Contrato"
+                            )}
+                            </button>
                         </div>
-
                     </div>
 
                     <div className='contractsContainer__contractsTable__subTitleTable'>Buscar contratos</div>
@@ -1045,14 +1089,23 @@ const Contracts = () => {
                             />
                             <span>Seleccionar todos</span>
                             {selectedContracts.length > 0 ? (
-                            <div className='contractsContainer__quantityContracts__massDeleteBtnContainer'>
-                                <button
-                                onClick={handleMassDeleteContracts}
-                                className='contractsContainer__quantityContracts__massDeleteBtnContainer__btn'
-                                >
-                                Eliminar seleccionados ({selectedContracts.length})
-                                </button>
-                            </div>
+                                <div className='contractsContainer__quantityContracts__massDeleteBtnContainer'>
+                                    {btnDeleteAllSelectLoading ? (
+                                        <button
+                                        disabled
+                                        className='contractsContainer__quantityContracts__massDeleteBtnContainer__btn'
+                                        >
+                                        <Spinner/>
+                                        </button>
+                                        ) : (
+                                        <button
+                                        onClick={handleMassDeleteContracts}
+                                        className='contractsContainer__quantityContracts__massDeleteBtnContainer__btn'
+                                        >
+                                        Eliminar seleccionados ({selectedContracts.length})
+                                        </button>
+                                    )}
+                                </div>
                             )
                             :
                             <><div></div></>
@@ -1236,11 +1289,25 @@ const Contracts = () => {
 
 
                                         <div className="contractsContainer__contractsTable__itemContractContainer__btn">
-                                            <button className='contractsContainer__contractsTable__itemContractContainer__btn__prop' onClick={() => handleSaveContract(contract._id, contract, index)}>Guardar</button>
+                                            {btnUpdateContractLoading === contract._id ? (
+                                                <button
+                                                disabled
+                                                className='contractsContainer__contractsTable__itemContractContainer__btn__prop'
+                                                >
+                                                <Spinner/>
+                                                </button>
+                                            ) : (
+                                                <button
+                                                onClick={() => handleSaveContract(contract._id, contract, index)}
+                                                className='contractsContainer__contractsTable__itemContractContainer__btn__prop'
+                                                >
+                                                Guardar
+                                                </button>
+                                            )}
                                             {loadingContractId === contract._id ? (
                                                 <button
                                                 disabled
-                                                className='cPanelProductsContainer__productsTable__itemContainer__btnsContainer__btn'
+                                                className='contractsContainer__contractsTable__itemContractContainer__btn__prop'
                                                 >
                                                 <Spinner/>
                                                 </button>

@@ -349,7 +349,7 @@ function AppContent() {
     checkBackendStatus();
   }, []); */
 
-  if (showMaintenance) return <MaintenanceModal />;
+  //if (showMaintenance) return <MaintenanceModal />;
 
   return (
     <>
@@ -388,9 +388,7 @@ function App() {
     <AuthProvider>
       <IsLoggedInContext>
         <BrowserRouter>
-          <ErrorBoundary>
             <AppContent />
-          </ErrorBoundary>
         </BrowserRouter>
       </IsLoggedInContext>
     </AuthProvider>

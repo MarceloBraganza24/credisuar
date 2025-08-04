@@ -11,7 +11,9 @@ const CPanel = () => {
     const [menuOptions, setMenuOptions] = useState(false);
     const [user, setUser] = useState('');
     const [loadingUserId, setLoadingUserId] = useState(null);
+    const [loadingBtnUpdateUser, setLoadingBtnUpdateUser] = useState(null);
     const [isLoadingUsers, setIsLoadingUsers] = useState(false);
+    const [loadingBtnCreateUser, setLoadingBtnCreateUser] = useState(false);
     const [adminUsers, setAdminUsers] = useState([]);
     const [loggingOut, setLoggingOut] = useState(false);
     const [adminsEdited, setAdminsEdited] = useState([]);
@@ -138,6 +140,7 @@ const CPanel = () => {
         }
 
         try {
+            setLoadingBtnCreateUser(true)
             const response = await fetch(`${apiUrl}/api/sessions/signIn`, {
                 method: 'POST',  
                 headers: {
@@ -151,6 +154,7 @@ const CPanel = () => {
                     password: userformData.password,
                 })
             });
+            const data = await response.json();
             if (response.ok) {
                 toast('Usuario creado exitosamente!', {
                     position: "top-right",
@@ -171,6 +175,21 @@ const CPanel = () => {
                     role: '',
                 });
                 fetchAdminUsers()
+                setLoadingBtnCreateUser(false)
+            } else if(data.error === 'There is already a user with that email') {
+                toast('Ya existe un usuario con ese email!', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    className: "custom-toast",
+                });
+                setLoadingBtnCreateUser(false)
+                
             } else {
                 toast('Error al crear el usuario!', {
                     position: "top-right",
@@ -183,6 +202,7 @@ const CPanel = () => {
                     theme: "dark",
                     className: "custom-toast",
                 });
+                setLoadingBtnCreateUser(false)
             }
         } catch (error) {
             console.error('Error al enviar los datos:', error);
@@ -203,6 +223,7 @@ const CPanel = () => {
     const handleSaveUser = async (index) => {
         const adminToSave = adminUsers[index];
         try {
+            setLoadingBtnUpdateUser(adminToSave._id)
             const response = await fetch(`${apiUrl}/api/users/${adminToSave._id}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
@@ -213,9 +234,8 @@ const CPanel = () => {
                     role: adminToSave.role,
                 }),
             });
+            const data = await response.json();
             if (response.ok) {
-                const updatedAdmin = await response.json();
-
                 toast('Has guardado los cambios', {
                     position: "top-right",
                     autoClose: 2000,
@@ -228,7 +248,7 @@ const CPanel = () => {
                     className: "custom-toast",
                 });
                 fetchAdminUsers()
-
+                setLoadingBtnUpdateUser(null)
             } else {
                 toast('Error al guardar cambios', {
                     position: "top-right",
@@ -241,6 +261,7 @@ const CPanel = () => {
                     theme: "dark",
                     className: "custom-toast",
                 });
+                setLoadingBtnUpdateUser(null)
             }
         } catch (error) {
             toast('Error en la conexión', {
@@ -469,7 +490,21 @@ const CPanel = () => {
                 </div>
 
                 <div className='cPanelContainer__gridLabelInput__btn'>
-                    <button className='cPanelContainer__gridLabelInput__btn__prop' onClick={handleBtnSubmitUser}>Crear usuario</button>
+                    {loadingBtnCreateUser ? (
+                        <button
+                        disabled
+                        className='cPanelContainer__gridLabelInput__btn__prop'
+                        >
+                        <Spinner/>
+                        </button>
+                    ) : (
+                        <button
+                        onClick={handleBtnSubmitUser}
+                        className='cPanelContainer__gridLabelInput__btn__prop'
+                        >
+                        Crear usuario
+                        </button>
+                    )}
                 </div>
 
                 <div className='cPanelContainer__separator'>
@@ -513,7 +548,21 @@ const CPanel = () => {
                             </select>
                         </div>
                         <div className='cPanelContainer__contractsTable__createContractContainer__btn'>
-                            <button className='cPanelContainer__contractsTable__createContractContainer__btn__prop' onClick={handleBtnSubmitUser}>Crear usuario</button>
+                            {loadingBtnCreateUser ? (
+                                <button
+                                disabled
+                                className='cPanelContainer__contractsTable__createContractContainer__btn__prop'
+                                >
+                                <Spinner/>
+                                </button>
+                            ) : (
+                                <button
+                                onClick={handleBtnSubmitUser}
+                                className='cPanelContainer__contractsTable__createContractContainer__btn__prop'
+                                >
+                                Crear usuario
+                                </button>
+                            )}
                         </div>
 
                     </div>
@@ -576,11 +625,25 @@ const CPanel = () => {
 
 
                                     <div className="cPanelContainer__contractsTable__itemContractContainer__btn">
-                                        <button className='cPanelContainer__contractsTable__itemContractContainer__btn__prop' onClick={() => handleSaveUser(index)}>Actualizar</button>
+                                        {loadingBtnUpdateUser === user._id ? (
+                                            <button
+                                            disabled
+                                            className='cPanelContainer__contractsTable__itemContractContainer__btn__prop'
+                                            >
+                                            <Spinner/>
+                                            </button>
+                                        ) : (
+                                            <button
+                                            onClick={() => handleSaveUser(index)}
+                                            className='cPanelContainer__contractsTable__itemContractContainer__btn__prop'
+                                            >
+                                            Actualizar
+                                            </button>
+                                        )}
                                         {loadingUserId === user._id ? (
                                             <button
                                             disabled
-                                            className='cPanelProductsContainer__productsTable__itemContainer__btnsContainer__btn'
+                                            className='cPanelContainer__contractsTable__itemContractContainer__btn__prop'
                                             >
                                             <Spinner/>
                                             </button>
@@ -625,11 +688,25 @@ const CPanel = () => {
                                     </div>
 
                                     <div className="cPanelContainer__contractsTable__itemContractContainerMobile__btn">
-                                        <button className='cPanelContainer__contractsTable__itemContractContainerMobile__btn__prop' onClick={() => handleSaveUser(index)}>Actualizar</button>
+                                        {loadingBtnUpdateUser === user._id ? (
+                                            <button
+                                            disabled
+                                            className='cPanelContainer__contractsTable__itemContractContainerMobile__btn__prop'
+                                            >
+                                            <Spinner/>
+                                            </button>
+                                        ) : (
+                                            <button
+                                            onClick={() => handleSaveUser(index)}
+                                            className='cPanelContainer__contractsTable__itemContractContainerMobile__btn__prop'
+                                            >
+                                            Actualizar
+                                            </button>
+                                        )}
                                         {loadingUserId === user._id ? (
                                             <button
                                             disabled
-                                            className='cPanelProductsContainer__productsTable__itemContainer__btnsContainer__btn'
+                                            className='cPanelContainer__contractsTable__itemContractContainerMobile__btn__prop'
                                             >
                                             <Spinner/>
                                             </button>
