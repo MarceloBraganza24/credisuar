@@ -278,10 +278,10 @@ const Contracts = () => {
         }
 
         // Validar imagen del DNI (solo .jpg, .jpeg, .png)
-        const validImageTypes = ['image/jpeg', 'image/png'];
+        const validImageTypes = ['image/jpeg', 'image/png', 'application/pdf', 'application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
 
         if (!validImageTypes.includes(contractFormData.image_dni.type)) {
-            toast('La imagen del DNI debe ser JPG, JPEG o PNG.', {
+            toast('La imagen del DNI debe ser JPG, JPEG o PNG, PDF, DOC o DOCX.', {
                 position: "top-right",
                 autoClose: 3000,
                 theme: "dark",
@@ -314,6 +314,8 @@ const Contracts = () => {
                 method: 'POST',
                 body: formDataToSend,
             });
+            const data = await response.json();
+            //console.log(data)
             if (response.ok) {
                 toast('Contrato creado exitosamente!', {
                     position: "top-right",
@@ -339,6 +341,32 @@ const Contracts = () => {
                     image_dni_preview: ''
                 });
                 fetchContracts(1, inputFilteredContracts, 'all', selectedDate)
+                setBtnCreateContractLoading(false)
+            } else if(data.error == 'La imagen del DNI es demasiado grande. Máximo permitido: 10MB.') {
+                toast('La imagen del DNI es demasiado grande. Máximo permitido: 10MB.', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    className: "custom-toast",
+                });
+                setBtnCreateContractLoading(false)
+            } else if(data.error == 'El archivo de contrato es demasiado grande. Máximo permitido: 10MB.') {
+                toast('El archivo de contrato es demasiado grande. Máximo permitido: 10MB.', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    className: "custom-toast",
+                });
                 setBtnCreateContractLoading(false)
             } else {
                 toast('Error al crear el contrato!', {
@@ -367,6 +395,7 @@ const Contracts = () => {
                 theme: "dark",
                 className: "custom-toast",
             });
+            setBtnCreateContractLoading(false)
         }
     };
 
@@ -456,6 +485,8 @@ const Contracts = () => {
                 method: 'PUT',
                 body: formData
             });
+            const data = await response.json();
+            //console.log(data)
             if (response.ok) {
                 toast(`Contrato actualizado con éxito!`, {
                     position: "top-right",
@@ -469,6 +500,58 @@ const Contracts = () => {
                     className: "custom-toast",
                 });
                 fetchContracts(1, inputFilteredContracts, 'all', selectedDate);
+                setBtnUpdateContractLoading(null)
+            } else if(data.error == 'El archivo de contrato es demasiado grande. Máximo permitido: 10MB.') {
+                toast('El archivo de contrato es demasiado grande. Máximo permitido: 10MB.', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    className: "custom-toast",
+                });
+                setBtnUpdateContractLoading(null)
+            } else if(data.error == 'La imagen del DNI es demasiado grande. Máximo permitido: 10MB.') {
+                toast('La imagen del DNI es demasiado grande. Máximo permitido: 10MB.', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    className: "custom-toast",
+                });
+                setBtnUpdateContractLoading(null)
+            } else if(data.error == 'La imagen del DNI actual es demasiado grande. Máximo permitido: 10MB.') {
+                toast('La imagen del DNI actual es demasiado grande. Máximo permitido: 10MB.', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    className: "custom-toast",
+                });
+                setBtnUpdateContractLoading(null)
+            } else if(data.error == 'El archivo de contrato actual es demasiado grande. Máximo permitido: 10MB.') {
+                toast('El archivo de contrato actual es demasiado grande. Máximo permitido: 10MB.', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    className: "custom-toast",
+                });
                 setBtnUpdateContractLoading(null)
             } else {
                 toast(`Error al actualizar contrato!`, {
@@ -497,6 +580,7 @@ const Contracts = () => {
                 theme: "dark",
                 className: "custom-toast",
             });
+            setBtnUpdateContractLoading(null)
         }
     };
     
@@ -1004,11 +1088,11 @@ const Contracts = () => {
                                     const fileType = file.type;
 
                                     if (fileType.startsWith('image/')) {
-                                    setSelectedPreview({ type: 'image', url: URL.createObjectURL(file) });
+                                        setSelectedPreview({ type: 'image', url: URL.createObjectURL(file) });
                                     } else if (fileType === 'application/pdf') {
-                                    setSelectedPreview({ type: 'pdf', url: URL.createObjectURL(file) });
+                                        setSelectedPreview({ type: 'pdf', url: URL.createObjectURL(file) });
                                     } else {
-                                    setSelectedPreview({ type: 'doc', url: file.name });
+                                        setSelectedPreview({ type: 'doc', url: file.name });
                                     }
                                 }}
                                 className="contractsContainer__contractsTable__createContractContainer__input__nameContract__item"
@@ -1037,7 +1121,7 @@ const Contracts = () => {
                                         } else if (fileType === 'application/pdf') {
                                             setSelectedPreview({ type: 'pdf', url: URL.createObjectURL(file) });
                                         } else {
-                                            setSelectedPreview({ type: 'doc', url: file.name });
+                                            setSelectedPreview({ type: 'docx', url: file.name });
                                         }
                                     }}
                                     className="contractsContainer__contractsTable__createContractContainer__input__nameContract__item">

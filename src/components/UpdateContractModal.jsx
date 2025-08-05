@@ -171,7 +171,7 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
                 method: 'PUT',
                 body: formData
             });
-
+            const data = await response.json();
             if (response.ok) {
                 toast(`Contrato actualizado con éxito!`, {
                     position: "top-right",
@@ -186,6 +186,58 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
                 });
                 fetchContracts(1, "", 'all', selectedDate)
                 setIsOpenUpdateContractModal(false)
+                setBtnUpdateContractLoading(false)
+            } else if(data.error == 'El archivo de contrato es demasiado grande. Máximo permitido: 10MB.') {
+                toast('El archivo de contrato es demasiado grande. Máximo permitido: 10MB.', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    className: "custom-toast",
+                });
+                setBtnUpdateContractLoading(false)
+            } else if(data.error == 'La imagen del DNI es demasiado grande. Máximo permitido: 10MB.') {
+                toast('La imagen del DNI es demasiado grande. Máximo permitido: 10MB.', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    className: "custom-toast",
+                });
+                setBtnUpdateContractLoading(false)
+            } else if(data.error == 'La imagen del DNI actual es demasiado grande. Máximo permitido: 10MB.') {
+                toast('La imagen del DNI actual es demasiado grande. Máximo permitido: 10MB.', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    className: "custom-toast",
+                });
+                setBtnUpdateContractLoading(false)
+            } else if(data.error == 'El archivo de contrato actual es demasiado grande. Máximo permitido: 10MB.') {
+                toast('El archivo de contrato actual es demasiado grande. Máximo permitido: 10MB.', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    className: "custom-toast",
+                });
                 setBtnUpdateContractLoading(false)
             } else {
                 toast(`Error al actualizar contrato!`, {
@@ -214,6 +266,7 @@ const UpdateContractModal = ({ apiUrl, setIsOpenUpdateContractModal, contract, f
                 theme: "dark",
                 className: "custom-toast",
             });
+            setBtnUpdateContractLoading(false)
         }
     };
 

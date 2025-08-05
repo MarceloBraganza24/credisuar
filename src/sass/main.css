@@ -845,6 +845,19 @@
   text-align: center;
   color: black;
 }
+.contractsContainer__contractsTable__itemContractContainer__inputDatetime {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.contractsContainer__contractsTable__itemContractContainer__inputDatetime__prop {
+  width: 90%;
+  height: 30px;
+  font-size: 12px;
+  border-radius: 0.5vh;
+  text-align: center;
+}
 .contractsContainer__contractsTable__itemContractContainer__inputFile {
   width: 100%;
   display: flex;

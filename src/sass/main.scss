@@ -841,6 +841,17 @@ $site-color: linear-gradient(
                     color: black;   
                 }
             }
+            &__inputDatetime {
+                width: 100%;
+                @include disfc();
+                &__prop {
+                    width: 90%;
+                    height: 30px;
+                    font-size: 12px;
+                    border-radius: 0.5vh;
+                    text-align: center;
+                }
+            }
             &__inputFile {
                 width: 100%;
                 @include disfc();
