@@ -55,7 +55,7 @@ const SendMailPass = () => {
                 });
             } else {
                 if (data.error === 'user not found') {
-                    toast('El email ingresado no está registrado todavía', {
+                    toast('El email ingresado no está registrado', {
                         position: "top-right",
                         autoClose: 2500,
                         hideProgressBar: false,

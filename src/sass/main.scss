@@ -145,6 +145,7 @@ $site-color: linear-gradient(
     position: fixed;
     bottom: 7vh;
     right: 6vh;
+    transition: transform 0.3s ease-in-out;
     &__labelLogin {
         width: 100%;
         background-color: yellow;
@@ -167,7 +168,6 @@ $site-color: linear-gradient(
         text-align: center;
         font-family: 'Anton', sans-serif;
     }
-    transition: transform 0.3s ease-in-out;
     &:hover {
         transform: scale(1.1);
     }
@@ -176,6 +176,7 @@ $site-color: linear-gradient(
     position: fixed;
     bottom: 7vh;
     right: 8vh;
+    transition: transform 0.3s ease-in-out;
     &__labelLogout {
         width: 100%;
         background-color: yellow;
@@ -199,7 +200,6 @@ $site-color: linear-gradient(
         text-align: center;
         font-family: 'Anton', sans-serif;
     }
-    transition: transform 0.3s ease-in-out;
     &:hover {
         transform: scale(1.1);
     }
@@ -1348,6 +1348,7 @@ $site-color: linear-gradient(
                 padding: 1vh 4vh;
                 cursor: pointer;
                 font-weight: bold;
+                transition: transform 0.3s ease-in-out;
                 background: linear-gradient(
                     to bottom,
                     #b8860b 0%,
@@ -1361,7 +1362,6 @@ $site-color: linear-gradient(
                     text-align: center;
                     font-family: 'Anton', sans-serif;
                 }
-                transition: transform 0.3s ease-in-out;
                 &:hover {
                     transform: scale(1.05);
                     cursor: pointer;
@@ -2698,9 +2698,9 @@ input[type="file"]::file-selector-button {
     position: fixed;
     &__linkExpiredContaienr {
         background-color: rgba(183, 183, 183, 0.85); // blanco translúcido
-        width: 55%;
+        width: 50%;
         height: auto;
-        padding: 5vh 4vh;
+        padding: 5vh 6vh;
         border-radius: 5vh;
         &__phrase {
             width: 100%;
@@ -2708,18 +2708,18 @@ input[type="file"]::file-selector-button {
             @include disfc();
             padding-top: 2vh;
             &__title {
-                font-size: 60px;
+                font-size: 40px;
                 letter-spacing: 1vh;
             }
             &__ask {
-                font-size: 25px;
+                font-size: 20px;
                 text-align: center;
             }
         }
         &__label {
             @include disfc();
             &__prop {
-                font-size: 25px;
+                font-size: 22px;
                 padding: 1vh 0vh;
             }
         }
@@ -2728,6 +2728,7 @@ input[type="file"]::file-selector-button {
             @include disfc();
             padding: 1vh 0vh;
             color: black;
+            font-weight: bold;
         }
 
     }
@@ -2735,7 +2736,7 @@ input[type="file"]::file-selector-button {
         background-color: rgba(183, 183, 183, 0.85); // blanco translúcido
         width: 60%;
         height: auto;
-        padding: 6vh 4vh;
+        padding: 4vh 4vh;
         border-radius: 5vh;
         &__phrase {
             width: 100%;
@@ -2743,11 +2744,11 @@ input[type="file"]::file-selector-button {
             @include disfc();
             padding-top: 2vh;
             &__title {
-                font-size: 60px;
+                font-size: 40px;
                 letter-spacing: 1vh;
             }
             &__ask {
-                font-size: 25px;
+                font-size: 20px;
                 text-align: center;
             }
         }
@@ -2798,12 +2799,13 @@ input[type="file"]::file-selector-button {
                 text-decoration: none;
                 padding-top: 2vh;
                 &__prop {
-                    width: 80%;
-                    height: 30px;
-                    font-size: 16px;
+                    width: 70%;
+                    height: 25px;
+                    font-size: 14px;
                     @include disfc();
                     background-color: black;
                     color: white;
+                    border: 0.3vh solid black;
                     border-radius: 0.5vh;
                     cursor: pointer;
                 }
@@ -3868,6 +3870,7 @@ input[type="file"]::file-selector-button {
     position: fixed;
     bottom: 3vh;
     right: 2vh;
+    transition: transform 0.3s ease-in-out;
     &__labelLogin {
         width: 100%;
         background-color: yellow;
@@ -3890,7 +3893,6 @@ input[type="file"]::file-selector-button {
         text-align: center;
         font-family: 'Anton', sans-serif;
     }
-    transition: transform 0.3s ease-in-out;
     &:hover {
         transform: scale(1.1);
     }
@@ -3899,6 +3901,7 @@ input[type="file"]::file-selector-button {
     position: fixed;
     bottom: 2vh;
     right: 6vh;
+    transition: transform 0.3s ease-in-out;
     &__labelLogout {
         width: 100%;
         background-color: yellow;
@@ -3922,7 +3925,6 @@ input[type="file"]::file-selector-button {
         text-align: center;
         font-family: 'Anton', sans-serif;
     }
-    transition: transform 0.3s ease-in-out;
     &:hover {
         transform: scale(1.1);
     }
@@ -4022,6 +4024,7 @@ input[type="file"]::file-selector-button {
                 cursor: pointer;
                 font-weight: bold;
                 border-color: black;
+                transition: transform 0.3s ease-in-out;
                 background: linear-gradient(
                     to bottom,
                     #b8860b 0%,
@@ -4035,7 +4038,6 @@ input[type="file"]::file-selector-button {
                     text-align: center;
                     font-family: 'Anton', sans-serif;
                 }
-                transition: transform 0.3s ease-in-out;
                 &:hover {
                     transform: scale(1.05);
                     cursor: pointer;
@@ -5080,9 +5082,9 @@ input[type="file"]::file-selector-button {
     position: fixed;
     &__linkExpiredContaienr {
         background-color: rgba(183, 183, 183, 0.85); // blanco translúcido
-        width: 55%;
+        width: 50%;
         height: auto;
-        padding: 5vh 4vh;
+        padding: 5vh 6vh;
         border-radius: 5vh;
         &__phrase {
             width: 100%;
@@ -5090,18 +5092,18 @@ input[type="file"]::file-selector-button {
             @include disfc();
             padding-top: 2vh;
             &__title {
-                font-size: 60px;
+                font-size: 40px;
                 letter-spacing: 1vh;
             }
             &__ask {
-                font-size: 25px;
+                font-size: 20px;
                 text-align: center;
             }
         }
         &__label {
             @include disfc();
             &__prop {
-                font-size: 25px;
+                font-size: 22px;
                 padding: 1vh 0vh;
             }
         }
@@ -5110,6 +5112,7 @@ input[type="file"]::file-selector-button {
             @include disfc();
             padding: 1vh 0vh;
             color: black;
+            font-weight: bold;
         }
 
     }
@@ -5117,7 +5120,7 @@ input[type="file"]::file-selector-button {
         background-color: rgba(183, 183, 183, 0.85); // blanco translúcido
         width: 60%;
         height: auto;
-        padding: 6vh 4vh;
+        padding: 4vh 4vh;
         border-radius: 5vh;
         &__phrase {
             width: 100%;
@@ -5125,11 +5128,11 @@ input[type="file"]::file-selector-button {
             @include disfc();
             padding-top: 2vh;
             &__title {
-                font-size: 60px;
+                font-size: 40px;
                 letter-spacing: 1vh;
             }
             &__ask {
-                font-size: 25px;
+                font-size: 20px;
                 text-align: center;
             }
         }
@@ -5180,11 +5183,12 @@ input[type="file"]::file-selector-button {
                 text-decoration: none;
                 padding-top: 2vh;
                 &__prop {
-                    width: 80%;
-                    height: 30px;
-                    font-size: 16px;
+                    width: 70%;
+                    height: 25px;
+                    font-size: 14px;
                     @include disfc();
                     background-color: black;
+                    border: 0.3vh solid black;
                     color: white;
                     border-radius: 0.5vh;
                     cursor: pointer;
@@ -6269,6 +6273,7 @@ input[type="file"]::file-selector-button {
     position: fixed;
     bottom: 3vh;
     right: 2vh;
+    transition: transform 0.3s ease-in-out;
     &__labelLogin {
         width: 100%;
         background-color: yellow;
@@ -6291,7 +6296,6 @@ input[type="file"]::file-selector-button {
         text-align: center;
         font-family: 'Anton', sans-serif;
     }
-    transition: transform 0.3s ease-in-out;
     &:hover {
         transform: scale(1.1);
     }
@@ -6300,6 +6304,7 @@ input[type="file"]::file-selector-button {
     position: fixed;
     bottom: 2vh;
     right: 6vh;
+    transition: transform 0.3s ease-in-out;
     &__labelLogout {
         width: 100%;
         background-color: yellow;
@@ -6323,7 +6328,6 @@ input[type="file"]::file-selector-button {
         text-align: center;
         font-family: 'Anton', sans-serif;
     }
-    transition: transform 0.3s ease-in-out;
     &:hover {
         transform: scale(1.1);
     }
@@ -6423,6 +6427,7 @@ input[type="file"]::file-selector-button {
                 cursor: pointer;
                 font-weight: bold;
                 border-color: black;
+                transition: transform 0.3s ease-in-out;
                 background: linear-gradient(
                     to bottom,
                     #b8860b 0%,
@@ -6436,7 +6441,6 @@ input[type="file"]::file-selector-button {
                     text-align: center;
                     font-family: 'Anton', sans-serif;
                 }
-                transition: transform 0.3s ease-in-out;
                 &:hover {
                     transform: scale(1.05);
                     cursor: pointer;
@@ -8358,7 +8362,7 @@ input[type="file"]::file-selector-button {
     position: fixed;
     &__linkExpiredContaienr {
         background-color: rgba(183, 183, 183, 0.85); // blanco translúcido
-        width: 35%;
+        width: 60%;
         height: auto;
         padding: 5vh 4vh;
         border-radius: 5vh;
@@ -8384,12 +8388,12 @@ input[type="file"]::file-selector-button {
             }
         }
         &__link {
-            font-size: 20px;
+            font-size: 22px;
             @include disfc();
             padding: 1vh 0vh;
             color: black;
+            font-weight: bold;
         }
-
     }
     &__credentials {
         background-color: rgba(183, 183, 183, 0.85); // blanco translúcido
@@ -8464,6 +8468,7 @@ input[type="file"]::file-selector-button {
                     @include disfc();
                     border-radius: 0.5vh;
                     background-color: black;
+                    border: 0.3vh solid black;
                     color: white;
                     cursor: pointer;
                 }
@@ -8680,6 +8685,7 @@ input[type="file"]::file-selector-button {
     position: fixed;
     bottom: 3vh;
     right: 2vh;
+    transition: transform 0.3s ease-in-out;
     &__labelLogin {
         width: 100%;
         background-color: yellow;
@@ -8702,7 +8708,6 @@ input[type="file"]::file-selector-button {
         text-align: center;
         font-family: 'Anton', sans-serif;
     }
-    transition: transform 0.3s ease-in-out;
     &:hover {
         transform: scale(1.1);
     }
@@ -8711,6 +8716,7 @@ input[type="file"]::file-selector-button {
     position: fixed;
     bottom: 2vh;
     right: 6vh;
+    transition: transform 0.3s ease-in-out;
     &__labelLogout {
         width: 100%;
         background-color: yellow;
@@ -8734,7 +8740,6 @@ input[type="file"]::file-selector-button {
         text-align: center;
         font-family: 'Anton', sans-serif;
     }
-    transition: transform 0.3s ease-in-out;
     &:hover {
         transform: scale(1.1);
     }
@@ -8832,7 +8837,9 @@ input[type="file"]::file-selector-button {
                 font-size: 35px;
                 padding: 1.5vh 4vh;
                 cursor: pointer;
+                transition: transform 0.3s ease-in-out;
                 font-weight: bold;
+                border-color: black;
                 background: linear-gradient(
                     to bottom,
                     #b8860b 0%,
@@ -8846,8 +8853,6 @@ input[type="file"]::file-selector-button {
                     text-align: center;
                     font-family: 'Anton', sans-serif;
                 }
-                border-color: black;
-                transition: transform 0.3s ease-in-out;
                 &:hover {
                     transform: scale(1.05);
                     cursor: pointer;
@@ -10730,7 +10735,7 @@ input[type="file"]::file-selector-button {
     position: fixed;
     &__linkExpiredContaienr {
         background-color: rgba(183, 183, 183, 0.85); // blanco translúcido
-        width: 35%;
+        width: 50%;
         height: auto;
         padding: 5vh 4vh;
         border-radius: 5vh;
@@ -10756,10 +10761,11 @@ input[type="file"]::file-selector-button {
             }
         }
         &__link {
-            font-size: 20px;
+            font-size: 22px;
             @include disfc();
             padding: 1vh 0vh;
             color: black;
+            font-weight: bold;
         }
 
     }
@@ -10837,6 +10843,7 @@ input[type="file"]::file-selector-button {
                     background-color: black;
                     color: white;
                     border-radius: 0.5vh;
+                    border: 0.3vh solid black;
                     cursor: pointer;
                 }
             }
@@ -11054,6 +11061,7 @@ input[type="file"]::file-selector-button {
     position: fixed;
     bottom: 3vh;
     right: 2vh;
+    transition: transform 0.3s ease-in-out;
     &__labelLogin {
         width: 100%;
         background-color: yellow;
@@ -11076,7 +11084,6 @@ input[type="file"]::file-selector-button {
         text-align: center;
         font-family: 'Anton', sans-serif;
     }
-    transition: transform 0.3s ease-in-out;
     &:hover {
         transform: scale(1.1);
     }
@@ -11085,6 +11092,7 @@ input[type="file"]::file-selector-button {
     position: fixed;
     bottom: 2vh;
     right: 6vh;
+    transition: transform 0.3s ease-in-out;
     &__labelLogout {
         width: 100%;
         background-color: yellow;
@@ -11108,7 +11116,6 @@ input[type="file"]::file-selector-button {
         text-align: center;
         font-family: 'Anton', sans-serif;
     }
-    transition: transform 0.3s ease-in-out;
     &:hover {
         transform: scale(1.1);
     }
@@ -11207,6 +11214,7 @@ input[type="file"]::file-selector-button {
                 padding: 1.5vh 4vh;
                 cursor: pointer;
                 font-weight: bold;
+                transition: transform 0.3s ease-in-out;
                 background: linear-gradient(
                     to bottom,
                     #b8860b 0%,
@@ -11220,7 +11228,6 @@ input[type="file"]::file-selector-button {
                     text-align: center;
                     font-family: 'Anton', sans-serif;
                 }
-                transition: transform 0.3s ease-in-out;
                 &:hover {
                     transform: scale(1.05);
                     cursor: pointer;
@@ -11833,6 +11840,7 @@ input[type="file"]::file-selector-button {
                 padding: 1vh 4vh;
                 cursor: pointer;
                 font-weight: bold;
+                transition: transform 0.3s ease-in-out;
                 background: linear-gradient(
                     to bottom,
                     #b8860b 0%,
@@ -11846,7 +11854,6 @@ input[type="file"]::file-selector-button {
                     text-align: center;
                     font-family: 'Anton', sans-serif;
                 }
-                transition: transform 0.3s ease-in-out;
                 &:hover {
                     transform: scale(1.05);
                     cursor: pointer;

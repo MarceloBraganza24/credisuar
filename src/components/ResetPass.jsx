@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import { Link,useLocation,useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import Spinner from './Spinner';
 
 const ResetPass = () => {
+    const [token, setToken] = useState(null);
+    console.log(token)
+    const navigate = useNavigate();
+    const location = useLocation();
     const apiUrl = import.meta.env.VITE_API_URL;
     const [password, setPassword] = useState('');
     const [passwordValidation, setPasswordValidation] = useState({
@@ -18,6 +22,17 @@ const ResetPass = () => {
     const [loadingBtnResetPass, setLoadingBtnResetPass] = useState(false);
     const [passwordVisible, setPasswordVisible] = useState(false);
 
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const tokenFromUrl = params.get('token');
+        if (tokenFromUrl) {
+            setToken(tokenFromUrl);
+        } else {
+            //navigate('/');
+            // Redireccionar o mostrar error si no hay token
+        }
+    }, [location]);
+
     const handlePasswordChange = (e) => {
         const value = e.target.value;
         setPassword(value);
@@ -31,34 +46,20 @@ const ResetPass = () => {
         });
     };
 
-    const fetchEmailUsercookie = async () => {
-        try {
-            const response = await fetch(`${apiUrl}/api/sessions/emailUsercookie`, {
-                method: 'GET',
-                credentials: 'include', // 🔥 necesario para que la cookie se envíe
-            });
-            const data = await response.json();
-            setEmailUsercookie(data.data); // 👈 guardamos el token para validación opcional
-        } catch (error) {
-            console.error("Error al obtener el usuario:", error);
-        } 
-    };
-
-    useEffect(() => {
-        fetchEmailUsercookie();
-    }, []);
-
     const ConfirmationResetPassModal = ({handleResetPassModalLocal}) => {
 
         const resetPass = async () => {
 
             setShowSpinner(true);
-            const response = await fetch(`${apiUrl}/api/users/reset-pass?password=${password}`, {
+            const response = await fetch(`${apiUrl}/api/users/reset-pass`, {
                 method: 'POST',         
-                credentials: 'include', // 🔥 necesario para que la cookie llegue al backend
                 headers: {
                     'Content-Type': 'application/json',
-                }
+                },
+                body: JSON.stringify({
+                    password: password,
+                    token: token, // viene de la URL
+                }),
             })
             const data = await response.json();
             if(response.ok) {
@@ -187,12 +188,15 @@ const ResetPass = () => {
         }
         try {
             setLoadingBtnResetPass(true);
-            const response = await fetch(`${apiUrl}/api/users/reset-pass?password=${password}`, {
+            const response = await fetch(`${apiUrl}/api/users/reset-pass`, {
                 method: 'POST',         
-                credentials: 'include', // 🔥 necesario para que la cookie llegue al backend
                 headers: {
                     'Content-Type': 'application/json',
-                }
+                },
+                body: JSON.stringify({
+                    password: password,
+                    token: token, // viene de la URL
+                }),
             })
             const data = await response.json();
             if(response.ok) {
@@ -238,9 +242,12 @@ const ResetPass = () => {
                     theme: "dark",
                     className: "custom-toast",
                 });
+                setLoadingBtnResetPass(false);
             }
         } catch (error) {
             console.error('Error al restaurar el producto:', error);
+        } finally {
+            setLoadingBtnResetPass(false);
         }
 
     }
@@ -254,7 +261,7 @@ const ResetPass = () => {
     return (
         <>
             {
-                emailUsercookie?
+                !token?
                 <>
                     <div className='resetPassContainer'>
                         <div className='resetPassContainer__credentials'>
