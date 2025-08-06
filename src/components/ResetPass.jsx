@@ -292,7 +292,7 @@ const ResetPass = () => {
                                         password &&
                                         <>
                                             <div className='resetPassContainer__credentials__form__label-input__passwordValidation'>
-                                                <p style={{ color: passwordValidation.length ? 'green' : 'red' }}>
+                                                <p style={{ width:'100%',color: passwordValidation.length ? 'green' : 'red' }}>
                                                     • Al menos 8 caracteres
                                                 </p>
                                                 <p style={{ color: passwordValidation.lowercase ? 'green' : 'red' }}>
